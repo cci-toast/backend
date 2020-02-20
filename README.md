@@ -1,6 +1,9 @@
-# backend
-Repo for hosting the Django app
-
-How to run server:
-* Use `cd` and `ls` (Mac) or `dir` (Windows) commands to move to the folder that has `manage.py`.
-* Run the command `python manage.py runserver`.  This should start the development server.  
+# Toast Backend
+## Set up
+- `git clone` this repo 
+- [Install docker](https://docs.docker.com/docker-for-mac/install/)
+- Check the version by `docker --version`
+- `cd` into `/backend`
+- Build the docker image by `docker-compose up --build`
+- The Django app will be hosted on `http://0.0.0.0:8000/`
+- Append `api/clients/` to the url to hit the sample endpoint
