@@ -1,14 +1,13 @@
+dist: trusty
 language: python
-python: 
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "3.7"
-  - "3.8"
-#command to install dependencies
-#install:
-  #- pip install -r requirements.txt
-#command to run tests
+python:
+- '3.6'
+addons:
+  sonarcloud:
+    organization: "cci-toast"
+    token:
+      secure: "vqgDvapLEWLlG6h11IGjRHb44M+IudKuSl5/eTagHg9ahle/8d4nGMoaiPj+3WDXP4lEXWUXM7uwv4ufAQdZPZxMZGF+IKO8fcWi3KzM3Rdrfzz0soBJqkknVpGJ8YCzHhXc+SCizVC6Ag2poPEXBVrk85Mr6Sxwf4hDYlkr1nyAw9ZAp3acJWzF8VzSxrVzs3dbnHQIp5lcS2s/yjWJY39Y13LD3RiM0OS33hCEeNpiM9H9zVWOpJIqzJd2H5sC1HM2uodpPhgHOnuKG7aPTedx/UFWYbyYyVpK3p2s+gSROz9Pm/Gz13J8m9/7USv1P+eTBs44/9g1pp50dkm9uPsJxlRFXoOP0QmWI2iWOKQLxZ2o9cKWLXBnutytni0H581G0XyD3m+JK1lrw5L7179UQg1Rjmtamx4IB6B/vZsj9P3KZ3ymbqch9YX+r2SAPPP8szD/9s5vhhYXMh1NoBdy3jdAhqHfDZxp09fEaXtUeM9ZY9/P0HoPcdWt/3MhLJ4z7lW3jiELC/D+QTpfJT4/vTzszkcUsHsMprBlMLBeha6ZySBVS96ErX24bjp472f+rVKbPA2XtkHz0sbM2P9xty2ycSV14+qofe490N+4/4uiGHRFmE+imJxIl92/Ip2QGAKeVJHT26p1iVNFUUfVVCkNfA1qMRhoPoVGZls=" # encrypted value of your token
+
 script:
-  - toast/toaster/tests.py
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - sonar-scanner
