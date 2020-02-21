@@ -6,13 +6,15 @@ FROM python:3.7-alpine
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-
-# Set work directory
-WORKDIR /code
+ENV DJANGO_SECRET_KEY zh2w7w&rzn^0mnsfpv+^=&!d6)16!#rc#@)h^jc8n_0hx^z+b%
 
 # Install psycopg2 dependencies
-RUN apk update
-RUN apk add postgresql-dev gcc python3-dev musl-dev
+RUN apk update && \
+    apk add  --virtual build-deps gcc python3-dev musl-dev && \
+    apk add postgresql-dev
+
+RUN mkdir /code
+WORKDIR /code
 
 # Install dependencies
 COPY Pipfile Pipfile.lock /code/
