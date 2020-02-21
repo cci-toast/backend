@@ -11,3 +11,13 @@ addons:
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   - sonar-scanner
+  - py.test  --cov-report term --cov=.
+  - coverage xml
+
+after_script:
+  - codecov
+
+# safelist
+branches:
+  only:
+    - master

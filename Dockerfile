@@ -23,6 +23,8 @@ RUN pip install pipenv && pipenv install --system
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 RUN pip install djangorestframework django-cors-headers
+RUN pip install pytest-cov pytest
+RUN pip install codecov
 
 # Copy project
 COPY . /code/
