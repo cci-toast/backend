@@ -249,13 +249,13 @@ def clients_detail(request, client_pk):
 expense API
 '''
 def post_expense(request, client_pk):
-    try:
-        client = Client.objects.get(pk=client_pk)
-    except Client.DoesNotExist:
+    if not Client.objects.filter(pk=client_pk).exists():
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+    # assign client to expense before attempting to save it
+    request.data['client'] = client_pk
+
     serializer = ExpenseSerializer(data=request.data)
-    serializer.instance.client = client
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
@@ -263,7 +263,51 @@ def post_expense(request, client_pk):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+def get_expense(request, client_pk):
+    try:
+        expense = Expense.objects.get(client=client_pk)
+    except Expense.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ExpenseSerializer(expense)
+    return Response(serializer.data)
+
+
+def patch_expense(request, client_pk):
+    try:
+        expense = Expense.objects.get(client=client_pk)
+    except Expense.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ExpenseSerializer(expense, data=request.data, partial=True, context={'request': request})
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def delete_expense(request, client_pk):
+    try:
+        expense = Expense.objects.get(client=client_pk)
+    except Expense.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    expense.delete()
+
+    serializer = ExpenseSerializer(expense)
+    return Response(serializer.data)
+
+
 @api_view(['POST', 'GET', 'PATCH', 'DELETE'])
 def expenses_detail(request, client_pk):
     if request.method == 'POST':
         return post_expense(request, client_pk)
+
+    if request.method == 'GET':
+        return get_expense(request, client_pk)
+
+    if request.method == 'PATCH':
+        return patch_expense(request, client_pk)
+
+    if request.method == 'DELETE':
+        return delete_expense(request, client_pk)
