@@ -11,19 +11,9 @@ class Advisor(models.Model):
         max_length=240)
     email = models.EmailField(
         "Email")
-    phone_number = models.PositiveIntegerField(
-        "Phone Number")
-    address = models.CharField(
-        "Address",
-        max_length=240)
-    city = models.CharField(
-        "City",
-        max_length=240)
-    zipcode = models.PositiveIntegerField(
-        "Zip code")
-    state = models.CharField(
-        "State",
-        max_length=240)
+    phone_number = models.CharField(
+        "Phone Number",
+        max_length=20)
 
     def __str__(self):
         attrs = vars(self)
@@ -43,8 +33,9 @@ class Client(models.Model):
         default=date.today)
     email = models.EmailField(
         "Email")
-    zipcode = models.PositiveIntegerField(
-        "Zip code")
+    zipcode = models.CharField(
+        "Zip code",
+        max_length=10)
     job_title = models.CharField(
         "Job Title", 
         max_length=100)
@@ -151,9 +142,6 @@ class Partner(models.Model):
     dob = models.DateField(
         "DOB", 
         default=date.today)
-    job_title = models.CharField(
-        "Job Title", 
-        max_length=100)
     gross_income = models.DecimalField(
         "Gross Income",
         max_digits=8,
@@ -265,4 +253,3 @@ class Plan(models.Model):
     def __str__(self):
         attrs = vars(self)
         return '\n'.join('%s: %s' % item for item in attrs.items())
-
