@@ -20,11 +20,11 @@ from clients import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    re_path(r'^api/advisors/$', views.advisors_list),
+    re_path(r'^api/advisors$', views.advisors_list),
     re_path(r'^api/advisors/(?P<advisor_pk>[0-9]+)$', views.advisors_detail),
     re_path(r'^api/advisors/(?P<advisor_pk>[0-9]+)/clients$', views.advisors_clients),
 
-    re_path(r'^api/clients/$', views.clients_list),
+    re_path(r'^api/clients$', views.clients_list),
     re_path(r'^api/clients/(?P<client_pk>[0-9]+)$', views.clients_detail),
 
     re_path(r'^api/clients/(?P<client_pk>[0-9]+)/expenses$', views.expenses_detail),
