@@ -154,8 +154,7 @@ def delete_advisors_clients(request, advisor_pk):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     # remove client from the advisor management
-    client.advisor = None
-    client.save()
+    advisor.client_set.remove(client)
     serializer = ClientSerializer(client)
     return Response(serializer.data)
 

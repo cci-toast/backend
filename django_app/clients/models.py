@@ -21,7 +21,7 @@ class Advisor(models.Model):
 
 
 class Client(models.Model):
-    advisor = models.ForeignKey(to=Advisor, on_delete=models.SET_NULL, null=True, related_name="clients")
+    advisor = models.ForeignKey(to=Advisor, on_delete=models.SET_NULL, null=True)
     first_name = models.CharField(
         "First Name", 
         max_length=240)
