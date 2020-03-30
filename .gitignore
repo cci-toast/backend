@@ -1,12 +1,15 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+/__pycache__/
 *.py[cod]
 *$py.class
 
 .idea/
+.vscode/
 
 # Environments
-.env
+.env.dev
+.env.prod
+.env.prod.db
 .venv
 env/
 venv/
