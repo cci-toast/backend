@@ -21,6 +21,7 @@ venv.bak/
 *.log
 local_settings.py
 db.sqlite3
+postgres-data
 
 # Installer logs
 pip-log.txt

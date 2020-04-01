@@ -17,11 +17,11 @@ services:
     image: postgres:12.0-alpine
     restart: always
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data/
+      - ./postgres-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=toastapp
       - POSTGRES_PASSWORD=toastapp
       - POSTGRES_DB=toastapp_dev
 
 volumes:
-  postgres_data:
+  postgres-data:
