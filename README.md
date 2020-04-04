@@ -8,3 +8,4 @@
 - Create an `.env.dev` file to store the environment variables which can be copied over from the codeshare url (Check Slack) 
 - Build the docker image by `docker-compose up --build`
 - The Django app will be hosted on `http://0.0.0.0:8000/`
+- Open the `Rules as a Service` collection on Postman to test the end points 
