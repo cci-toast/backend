@@ -15,19 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from clients import views
+from clients.views import AdvisorList, AdvisorDetail, \
+    ClientList, ClientDetail, \
+    ClientAdvisorList, \
+    ExpenseDetail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    re_path(r'^api/advisors$', views.advisors_list),
-    re_path(r'^api/advisors/(?P<advisor_pk>[0-9]+)$', views.advisors_detail),
-    re_path(r'^api/advisors/(?P<advisor_pk>[0-9]+)/clients$', views.advisors_clients),
+    re_path(r'^api/advisors$', AdvisorList.as_view()),
+    re_path(r'^api/advisors/(?P<advisor_pk>[0-9]+)$', AdvisorDetail.as_view()),
+    re_path(r'^api/advisors/(?P<advisor_pk>[0-9]+)/clients$', ClientAdvisorList.as_view()),
 
-    re_path(r'^api/clients$', views.clients_list),
-    re_path(r'^api/clients/(?P<client_pk>[0-9]+)$', views.clients_detail),
+    re_path(r'^api/clients$', ClientList.as_view()),
+    re_path(r'^api/clients/(?P<client_pk>[0-9]+)$', ClientDetail.as_view()),
 
-    re_path(r'^api/clients/(?P<client_pk>[0-9]+)/expenses$', views.expenses_detail),
-
-    re_path(r'^$', views.index, name='index')
+    re_path(r'^api/clients/(?P<client_pk>[0-9]+)/expenses$', ExpenseDetail.as_view()),
 ]
