@@ -6,6 +6,14 @@ from rest_framework import serializers
 from clients.models import *
 
 
+class IDSerializer(serializers.Serializer):
+    id = serializers.UUIDField(required=True, format='hex_verbose')
+
+
+class ClientIDSerializer(serializers.Serializer):
+    client = serializers.UUIDField(required=True, format='hex_verbose')
+
+
 class AdvisorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advisor
