@@ -16,6 +16,11 @@ We use different instances of Postgres during the different stages in the workfl
 
 #### Handling data migrations
 
-Always run `docker-compose web run python manage.py makemigrations` **before deploying** to Heroku 
+In case you have changes to migrate:
+```
+$docker-compose web run python manage.py makemigrations
 
+$docker-compose web run python manage.py migrate
 
+$docker-compose up --build
+```
