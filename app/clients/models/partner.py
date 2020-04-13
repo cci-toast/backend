@@ -21,13 +21,8 @@ class Partner(models.Model):
     birth_year = models.IntegerField(
         "Birth Year",
         default=date.today().year)
-    gross_income = models.DecimalField(
-        "Gross Income",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
-    additional_income = models.DecimalField(
-        "Additional Income",
+    personal_annual_net_income = models.DecimalField(
+        "Personal Annual Net Income",
         max_digits=8,
         decimal_places=2,
         default=0.0)

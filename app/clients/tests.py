@@ -11,8 +11,8 @@ class CommonSetup:
     client_email = "harrypotter@gmail.com" 
     client_city = "Philadelphia"
     client_state = "PA"
-    client_gross_income = Decimal("1000.00")
-    client_after_taxes_income = Decimal("900.40")
+    client_personal_annual_net_income = Decimal("1000.00")
+    client_additional_income = Decimal("900.40")
 
     advisor_first_name = "John"
     advisor_last_name = "Smith"
@@ -30,8 +30,8 @@ class CommonSetup:
             email=CommonSetup.client_email,
             city=CommonSetup.client_city,
             state=CommonSetup.client_state,
-            gross_income=CommonSetup.client_gross_income,
-            after_taxes_income=CommonSetup.client_after_taxes_income,
+            personal_annual_net_income=CommonSetup.client_personal_annual_net_income,
+            additional_income=CommonSetup.client_additional_income,
             advisor=None)
 
         return client
@@ -88,8 +88,8 @@ class ClientTest(TestCase):
         self.assertEqual(potter_client.email, CommonSetup.client_email)
         self.assertEqual(potter_client.city, CommonSetup.client_city)
         self.assertEqual(potter_client.state, CommonSetup.client_state)
-        self.assertEqual(potter_client.gross_income, CommonSetup.client_gross_income)
-        self.assertEqual(potter_client.after_taxes_income, CommonSetup.client_after_taxes_income)
+        self.assertEqual(potter_client.personal_annual_net_income, CommonSetup.client_personal_annual_net_income)
+        self.assertEqual(potter_client.additional_income, CommonSetup.client_additional_income)
 
         john_advisor = Advisor.objects.get(email=CommonSetup.advisor_email)
         client_set = john_advisor.client_set.all()
@@ -232,8 +232,7 @@ class PartnerTest(TestCase):
             first_name="Putin",
             last_name="Maradona",
             birth_year=1991,
-            gross_income=Decimal("12200.50"),
-            additional_income=Decimal("2000.00"))
+            personal_annual_net_income=Decimal("12200.50"))
 
 
     def test_create_partner(self):
@@ -241,8 +240,7 @@ class PartnerTest(TestCase):
         self.assertEqual(partner.first_name, "Putin")
         self.assertEqual(partner.last_name, "Maradona")
         self.assertEqual(partner.birth_year, 1991)
-        self.assertEqual(partner.gross_income, Decimal("12200.50"))
-        self.assertEqual(partner.additional_income, Decimal("2000.00"))
+        self.assertEqual(partner.personal_annual_net_income, Decimal("12200.50"))
 
         client = Client.objects.get(email=CommonSetup.client_email)
         self.assertEqual(partner.client, client)
@@ -317,7 +315,17 @@ class PlanTest(TestCase):
         self.assertEqual(plan.emergency_savings_factor_lower, Decimal("2.00"))
         self.assertEqual(plan.emergency_savings_range_upper, Decimal("4000.00"))
         self.assertEqual(plan.emergency_savings_range_lower, Decimal("2000.00"))
-
+        self.assertEqual(plan.retirement_factor, Decimal("0.0"))
+        self.assertEqual(plan.retirement_value, Decimal("0.0"))
+        self.assertEqual(plan.budget_savings_factor, Decimal("0.0"))
+        self.assertEqual(plan.budget_savings_value, Decimal("0.0"))
+        self.assertEqual(plan.budget_fixed_expenses_factor, Decimal("0.0"))
+        self.assertEqual(plan.budget_fixed_expenses_value, Decimal("0.0"))
+        self.assertEqual(plan.budget_spending_factor, Decimal("0.0"))
+        self.assertEqual(plan.budget_spending_value, Decimal("0.0"))
+        self.assertEqual(plan.debt_repayment_factor, Decimal("0.0"))
+        self.assertEqual(plan.debt_repayment_value, Decimal("0.0"))
+        self.assertEqual(plan.household_annual_net_income, Decimal("0.0"))
 
     def test_delete_plan(self):
         plan = Plan.objects.filter(client__email=CommonSetup.client_email)[0]

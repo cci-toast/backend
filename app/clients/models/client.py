@@ -36,13 +36,13 @@ class Client(models.Model):
         "State",
         max_length=100,
         default="PA")
-    gross_income = models.DecimalField(
-        "Gross Income",
+    personal_annual_net_income = models.DecimalField(
+        "Personal Annual Net Income",
         max_digits=8,
         decimal_places=2,
         default=0.0)
-    after_taxes_income = models.DecimalField(
-        "After Taxes Income",
+    additional_income = models.DecimalField(
+        "Additional Income",
         max_digits=8,
         decimal_places=2,
         default=0.0)

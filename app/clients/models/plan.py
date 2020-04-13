@@ -82,6 +82,11 @@ class Plan(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0.0)
+    household_annual_net_income = models.DecimalField(
+        "Household Annual Net Income",
+        max_digits=8,
+        decimal_places=2,
+        default=0.0)
 
     def __str__(self):
         attrs = vars(self)
