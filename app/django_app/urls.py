@@ -15,20 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from clients.views import AdvisorList, AdvisorDetail, \
-    ClientList, ClientDetail, \
-    ClientAdvisorList, \
-    ExpenseDetail
+from clients.views import AdvisorView, AdvisorClientView, \
+    ClientView, \
+    ExpenseView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    re_path(r'^api/advisors$', AdvisorList.as_view()),
-    re_path(r'^api/advisors/(?P<advisor_pk>[0-9]+)$', AdvisorDetail.as_view()),
-    re_path(r'^api/advisors/(?P<advisor_pk>[0-9]+)/clients$', ClientAdvisorList.as_view()),
+    path('api/advisors', AdvisorView.as_view()),
+    path('api/advisors/clients', AdvisorClientView.as_view()),
 
-    re_path(r'^api/clients$', ClientList.as_view()),
-    re_path(r'^api/clients/(?P<client_pk>[0-9]+)$', ClientDetail.as_view()),
+    path('api/clients', ClientView.as_view()),
 
-    re_path(r'^api/clients/(?P<client_pk>[0-9]+)/expenses$', ExpenseDetail.as_view()),
+    path('api/expenses', ExpenseView.as_view()),
 ]

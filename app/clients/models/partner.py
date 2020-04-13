@@ -1,10 +1,17 @@
+import uuid
 from django.db import models
 from datetime import date
 from .client import Client
 
 
 class Partner(models.Model):
-    client = models.ForeignKey(to=Client, on_delete=models.CASCADE)
+    id = models.UUIDField(
+        primary_key=True, 
+        default=uuid.uuid4, 
+        editable=False)
+    client = models.ForeignKey(
+        to=Client, 
+        on_delete=models.CASCADE)
     first_name = models.CharField(
         "First Name", 
         max_length=240)
