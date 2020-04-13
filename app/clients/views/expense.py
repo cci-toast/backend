@@ -1,6 +1,5 @@
-import json
-
 from django.http import Http404
+from django.core import validators
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -10,27 +9,32 @@ from clients.models import Expense, Client
 from clients.serializers import ExpenseSerializer
 
 
-class ExpenseDetail(APIView):
-    def get_object(self, client_pk):
+class ExpenseView(APIView):
+    def get_expense_by_client(self, client_id):
         try:
-            return Expense.objects.get(client=client_pk)
-        except Expense.DoesNotExist:
+            return Expense.objects.get(client=client_id)
+        except (validators.ValidationError, Expense.DoesNotExist):
             raise Http404
 
 
-    def get(self, request, client_pk):
-        expense = self.get_object(client_pk)
+    def get_expense_by_id(self, expense_id):
+        try:
+            return Expense.objects.get(id=expense_id)
+        except (validators.ValidationError, Expense.DoesNotExist):
+            raise Http404
+
+
+    def get(self, request):
+        client_id = request.data.get('client', None) 
+        if client_id is None:
+            return Response(u'field "client" required in the url', status=status.HTTP_400_BAD_REQUEST)
+        
+        expense = self.get_expense_by_client(client_id)
         serializer = ExpenseSerializer(expense)
         return Response(serializer.data)
 
 
-    def post(self, request, client_pk):
-        if not Client.objects.filter(pk=client_pk).exists():
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        # assign client to expense before attempting to save it
-        request.data['client'] = client_pk
-
+    def post(self, request):
         serializer = ExpenseSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -39,8 +43,12 @@ class ExpenseDetail(APIView):
         return Response(serializer.data)
 
 
-    def patch(self, request, client_pk):
-        expense = self.get_object(client_pk)
+    def patch(self, request):
+        expense_id = request.data.get('id', None) 
+        if expense_id is None:
+            return Response(u'field "id" required in the url', status=status.HTTP_400_BAD_REQUEST)
+
+        expense = self.get_expense_by_id(expense_id)
         serializer = ExpenseSerializer(expense, data=request.data, partial=True, context={'request': request})
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -49,8 +57,12 @@ class ExpenseDetail(APIView):
         return Response(serializer.data)
 
 
-    def delete(self, request, client_pk):
-        expense = self.get_object(client_pk)
+    def delete(self, request):
+        expense_id = request.data.get('id', None) 
+        if expense_id is None:
+            return Response(u'field "id" required in the url', status=status.HTTP_400_BAD_REQUEST)
+
+        expense = self.get_expense_by_id(expense_id)
         expense.delete()
 
         serializer = ExpenseSerializer(expense)

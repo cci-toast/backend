@@ -1,10 +1,18 @@
+import uuid
 from django.db import models
 from datetime import date
 from .advisor import Advisor
 
 
 class Client(models.Model):
-    advisor = models.ForeignKey(to=Advisor, on_delete=models.SET_NULL, null=True)
+    id = models.UUIDField(
+        primary_key=True, 
+        default=uuid.uuid4, 
+        editable=False)
+    advisor = models.ForeignKey(
+        to=Advisor, 
+        on_delete=models.SET_NULL, 
+        null=True)
     first_name = models.CharField(
         "First Name", 
         max_length=240)

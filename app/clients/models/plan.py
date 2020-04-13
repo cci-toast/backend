@@ -1,10 +1,17 @@
+import uuid
 from django.db import models
 from datetime import date
 from .client import Client
 
 
 class Plan(models.Model):
-    client = models.OneToOneField(to=Client, on_delete=models.CASCADE)
+    id = models.UUIDField(
+        primary_key=True, 
+        default=uuid.uuid4, 
+        editable=False)
+    client = models.OneToOneField(
+        to=Client, 
+        on_delete=models.CASCADE)
     emergency_savings_factor_upper = models.DecimalField(
         "Emergency Savings Factor Upper",
         max_digits=8,

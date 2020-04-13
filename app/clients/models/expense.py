@@ -1,8 +1,15 @@
+import uuid
 from django.db import models
 from .client import Client
 
 class Expense(models.Model):
-    client = models.OneToOneField(to=Client, on_delete=models.CASCADE)
+    id = models.UUIDField(
+        primary_key=True, 
+        default=uuid.uuid4, 
+        editable=False)
+    client = models.OneToOneField(
+        to=Client, 
+        on_delete=models.CASCADE)
     bills_housing = models.DecimalField(
         "Bills Housing", 
         max_digits=8, 

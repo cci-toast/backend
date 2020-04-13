@@ -1,10 +1,17 @@
+import uuid
 from django.db import models
 from datetime import date
 from .client import Client
 
 
 class Goal(models.Model):
-    client = models.ForeignKey(to=Client, on_delete=models.CASCADE)
+    id = models.UUIDField(
+        primary_key=True, 
+        default=uuid.uuid4, 
+        editable=False)
+    client = models.ForeignKey(
+        to=Client, 
+        on_delete=models.CASCADE)
     goal_type = models.CharField(
         "Goal Type",
         max_length=240)

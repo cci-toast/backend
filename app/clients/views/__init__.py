@@ -1,4 +1,3 @@
-from .advisor import AdvisorList, AdvisorDetail
-from .client import ClientList, ClientDetail
-from .advisor_client import ClientAdvisorList
-from .expense import ExpenseDetail
+from .advisor import AdvisorClientView, AdvisorView
+from .client import ClientView
+from .expense import ExpenseView
