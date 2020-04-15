@@ -1,3 +1,3 @@
-from .advisor import AdvisorClientView, AdvisorView
-from .client_depend import ClientDependView
+from .advisor import AdvisorView
 from .client import ClientView
+from .generics import ModelView, ClientDependModelView

@@ -43,12 +43,12 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
-    class ExcludeClient(serializers.ModelSerializer):
+    class ResponseSerializer(serializers.ModelSerializer):
         class Meta:
             model = Expense
             exclude = ['client']
 
-    response_serializer = ExcludeClient
+    response_serializer = ResponseSerializer
 
     class Meta:
         model = Expense
@@ -56,12 +56,12 @@ class ExpenseSerializer(serializers.ModelSerializer):
 
 
 class ChildrenSerializer(serializers.ModelSerializer):
-    class ExcludeClient(serializers.ModelSerializer):
+    class ResponseSerializer(serializers.ModelSerializer):
         class Meta:
             model = Children
             exclude = ['client']
 
-    response_serializer = ExcludeClient
+    response_serializer = ResponseSerializer
 
     class Meta:
         model = Children
@@ -69,12 +69,12 @@ class ChildrenSerializer(serializers.ModelSerializer):
 
 
 class PartnerSerializer(serializers.ModelSerializer):
-    class ExcludeClient(serializers.ModelSerializer):
+    class ResponseSerializer(serializers.ModelSerializer):
         class Meta:
             model = Partner
             exclude = ['client']
 
-    response_serializer = ExcludeClient
+    response_serializer = ResponseSerializer
 
     class Meta:
         model = Partner
@@ -82,12 +82,12 @@ class PartnerSerializer(serializers.ModelSerializer):
 
 
 class GoalSerializer(serializers.ModelSerializer):
-    class ExcludeClient(serializers.ModelSerializer):
+    class ResponseSerializer(serializers.ModelSerializer):
         class Meta:
             model = Goal
             exclude = ['client']
 
-    response_serializer = ExcludeClient
+    response_serializer = ResponseSerializer
 
     class Meta:
         model = Goal
@@ -95,12 +95,12 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class PlanSerializer(serializers.ModelSerializer):
-    class ExcludeClient(serializers.ModelSerializer):
+    class ResponseSerializer(serializers.ModelSerializer):
         class Meta:
             model = Plan
             exclude = ['client']
 
-    response_serializer = ExcludeClient
+    response_serializer = ResponseSerializer
 
     class Meta:
         model = Plan
@@ -108,12 +108,12 @@ class PlanSerializer(serializers.ModelSerializer):
 
 
 class DebtSerializer(serializers.ModelSerializer):
-    class ExcludeClient(serializers.ModelSerializer):
+    class ResponseSerializer(serializers.ModelSerializer):
         class Meta:
             model = Debt
             exclude = ['client']
 
-    response_serializer = ExcludeClient
+    response_serializer = ResponseSerializer
 
     class Meta:
         model = Debt
