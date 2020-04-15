@@ -1,5 +1,4 @@
 from django.http import Http404
-from django.core import validators
 
 from rest_framework.views import APIView
 from rest_framework.response import Response

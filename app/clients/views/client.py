@@ -18,7 +18,7 @@ class ClientView(APIView):
 
 
     def get(self, request):
-        client_id = request.data.get('id', None) 
+        client_id = request.data.get('id', None)
         if client_id is None:
             # get list of clients if no id provided
             data = Client.objects.all()
@@ -26,7 +26,7 @@ class ClientView(APIView):
             return Response(serializer.data)
         else:
             # retrieve info of a client
-            id_serializer = IDSerializer(data=request.data) 
+            id_serializer = IDSerializer(data=request.data)
             if not id_serializer.is_valid():
                 return Response(id_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

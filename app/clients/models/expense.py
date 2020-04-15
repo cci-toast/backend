@@ -7,13 +7,13 @@ class Expense(models.Model):
         primary_key=True, 
         default=uuid.uuid4, 
         editable=False)
-    client = models.OneToOneField(
-        to=Client, 
+    client = models.ForeignKey(
+        to=Client,
         on_delete=models.CASCADE)
     bills_housing = models.DecimalField(
-        "Bills Housing", 
-        max_digits=8, 
-        decimal_places=2, 
+        "Bills Housing",
+        max_digits=8,
+        decimal_places=2,
         default=0.0)
     bills_utilities = models.DecimalField(
         "Bills Utilities", 
