@@ -8,7 +8,7 @@ class ModelView(generics.GenericAPIView):
     model_class = None
 
     def get_queryset(self):
-        queryset = self.queryset
+        queryset = self.queryset.all()
         for field in self.model_class._meta.get_fields():
             field_val = self.request.data.get(field.name, None)
             if field_val is not None:
