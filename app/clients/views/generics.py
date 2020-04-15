@@ -8,7 +8,7 @@ class ModelView(generics.GenericAPIView):
     model_class = None
 
     def get_queryset(self):
-        queryset = self.queryset
+        queryset = self.queryset.all()
         for field in self.model_class._meta.get_fields():
             field_val = self.request.data.get(field.name, None)
             if field_val is not None:
@@ -16,13 +16,11 @@ class ModelView(generics.GenericAPIView):
 
         return queryset
 
-
     def get_object(self):
-        id_serializer = IDSerializer(queryset=self.get_queryset(), data=self.request.data)
+        id_serializer = IDSerializer(queryset=self.queryset.all(), data=self.request.data)
         id_serializer.is_valid(raise_exception=True)
         object_id = id_serializer.data['id']
-        return self.get_queryset().get(id=object_id)
-
+        return self.queryset.all().get(id=object_id)
 
     def get(self, request):
         serializer_class = self.get_serializer_class()
@@ -38,7 +36,6 @@ class ModelView(generics.GenericAPIView):
 
         return Response(serializer.data)
 
-
     def post(self, request):
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=request.data)
@@ -47,7 +44,6 @@ class ModelView(generics.GenericAPIView):
 
         serializer.save()
         return Response(serializer.data)
-
 
     def patch(self, request):
         serializer_class = self.get_serializer_class()
@@ -62,14 +58,12 @@ class ModelView(generics.GenericAPIView):
         serializer.save()
         return Response(serializer.data)
 
-
     def delete(self, request):
         serializer_class = self.get_serializer_class()
         advisor = self.get_object()
         advisor.delete()
         serializer = serializer_class(advisor)
         return Response(serializer.data)
-
 
 
 class ClientDependModelView(generics.GenericAPIView):
@@ -79,13 +73,11 @@ class ClientDependModelView(generics.GenericAPIView):
         client_id = client_id_serializer.validated_data['client']
         return self.queryset.filter(client=client_id)
 
-
     def get_object(self):
         id_serializer = IDSerializer(queryset=self.get_queryset(), data=self.request.data)
         id_serializer.is_valid(raise_exception=True)
         object_id = id_serializer.data['id']
         return self.get_queryset().get(id=object_id)
-
 
     def get(self, request):
         object_id = request.data.get("id", None)
@@ -104,7 +96,6 @@ class ClientDependModelView(generics.GenericAPIView):
 
         return Response(serializer.data)
 
-
     def post(self, request):
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=request.data)
@@ -118,7 +109,6 @@ class ClientDependModelView(generics.GenericAPIView):
         response_serializer = response_serializer_class(serializer.instance)
 
         return Response(response_serializer.data)
-
 
     def patch(self, request):
         client_object = self.get_object()
@@ -137,7 +127,6 @@ class ClientDependModelView(generics.GenericAPIView):
         response_serializer = response_serializer_class(serializer.instance)
 
         return Response(response_serializer.data)
-
 
     def delete(self, request):
         client_object = self.get_object()
