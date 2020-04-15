@@ -5,3 +5,4 @@ from .partner import Partner
 from .goal import Goal
 from .children import Children
 from .plan import Plan
+from .debt import Debt
