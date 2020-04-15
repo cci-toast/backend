@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from clients.models import Advisor, Client, \
-    Partner, Expense, Children, Goal, Plan, Debt
-from clients.serializers import AdvisorSerializer, ClientSerializer, \
-    PartnerSerializer, ExpenseSerializer, ChildrenSerializer, GoalSerializer, PlanSerializer, DebtSerializer
+from clients.models import Partner, Expense, Children, Goal, Plan, Debt
+from clients.serializers import PartnerSerializer, \
+    ExpenseSerializer, ChildrenSerializer, GoalSerializer, PlanSerializer, DebtSerializer
 from clients.views import AdvisorView, ClientView, ClientDependModelView
 
 
