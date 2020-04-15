@@ -92,13 +92,13 @@ class ClientDependModelView(generics.GenericAPIView):
         serializer_class = self.get_serializer_class()
         response_serializer_class = serializer_class.response_serializer
         if object_id is None:
-            # get list of partners of a client if no id provided
+            # get list of objects of a client if no id provided
             data = self.get_queryset()
             serializer = response_serializer_class(data,
                                                    many=True,
                                                    context={'request': request})
         else:
-            # get the detail of a partner with the id
+            # get the detail of a object with the id
             client_object = self.get_object()
             serializer = response_serializer_class(client_object)
 
