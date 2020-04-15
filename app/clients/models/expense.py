@@ -4,6 +4,13 @@ from .client import Client
 
 
 class Expense(models.Model):
+    RENT = 'Rent'
+    MORTGAGE = 'Mortgage'
+    HOUSE_CHOICES = [
+        (RENT, 'Rent'),
+        (MORTGAGE, 'Mortgage')
+    ]
+
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -11,6 +18,10 @@ class Expense(models.Model):
     client = models.OneToOneField(
         to=Client,
         on_delete=models.CASCADE)
+    housing_type = models.CharField(
+        max_length=10,
+        choices=HOUSE_CHOICES,
+        default=RENT)
     bills_housing = models.DecimalField(
         "Bills Housing",
         max_digits=8,
@@ -21,18 +32,8 @@ class Expense(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0.0)
-    bills_loan_or_debt = models.DecimalField(
-        "Bills Loan or Debt",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
     bills_insurance = models.DecimalField(
         "Bills Insurance",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
-    bills_other = models.DecimalField(
-        "Bills Other",
         max_digits=8,
         decimal_places=2,
         default=0.0)
@@ -53,6 +54,11 @@ class Expense(models.Model):
         default=0.0)
     expense_subscriptions = models.DecimalField(
         "Expense Subscription",
+        max_digits=8,
+        decimal_places=2,
+        default=0.0)
+    expense_other = models.DecimalField(
+        "Expense Other",
         max_digits=8,
         decimal_places=2,
         default=0.0)
