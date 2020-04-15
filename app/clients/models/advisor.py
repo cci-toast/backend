@@ -4,14 +4,14 @@ from django.db import models
 
 class Advisor(models.Model):
     id = models.UUIDField(
-        primary_key=True, 
-        default=uuid.uuid4, 
+        primary_key=True,
+        default=uuid.uuid4,
         editable=False)
     first_name = models.CharField(
-        "First Name", 
+        "First Name",
         max_length=240)
     last_name = models.CharField(
-        "Last Name", 
+        "Last Name",
         max_length=240)
     email = models.EmailField(
         "Email")

@@ -7,7 +7,7 @@ from .models import Advisor, Client, Expense, Children, Partner, Goal, Plan
 class CommonSetup:
     client_first_name = "Harry"
     client_last_name = "Potter"
-    client_birth_year = 1993 
+    client_birth_year = 1993
     client_email = "harrypotter@gmail.com" 
     client_city = "Philadelphia"
     client_state = "PA"
@@ -124,30 +124,29 @@ class ExpenseTest(TestCase):
             client=client,
             bills_housing=Decimal("4000.00"),
             bills_utilities=Decimal("2000.00"),
-            bills_loan_or_debt=Decimal("2000.00"),
             bills_insurance=Decimal("1000.00"),
-            bills_other=Decimal("500.00"),
             expense_shopping=Decimal("100.00"),
             expense_leisure=Decimal("50.20"), 
             expense_transportation=Decimal("10.00"),
-            expense_subscriptions=Decimal("2.00"))
+            expense_subscriptions=Decimal("2.00"),
+            expense_other=Decimal("500.00"))
 
 
     def test_create_expense(self):
         expense = Expense.objects.get(client__email=CommonSetup.client_email)
+        self.assertEqual(expense.housing_type, expense.RENT)
         self.assertEqual(expense.bills_housing, Decimal("4000.00"))
         self.assertEqual(expense.bills_utilities, Decimal("2000.00"))
-        self.assertEqual(expense.bills_loan_or_debt, Decimal("2000.00"))
         self.assertEqual(expense.bills_insurance, Decimal("1000.00"))
-        self.assertEqual(expense.bills_other, Decimal("500.00"))
         self.assertEqual(expense.expense_shopping, Decimal("100.00"))
         self.assertEqual(expense.expense_leisure, Decimal("50.20"))
         self.assertEqual(expense.expense_transportation, Decimal("10.00"))
         self.assertEqual(expense.expense_subscriptions, Decimal("2.00"))
+        self.assertEqual(expense.expense_other, Decimal("500.00"))
 
         client = Client.objects.get(email=CommonSetup.client_email)
         self.assertEqual(expense.client, client)
-        
+
 
     def test_delete_expense(self):
         expense = Expense.objects.get(client__email=CommonSetup.client_email)

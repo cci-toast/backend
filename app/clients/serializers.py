@@ -7,7 +7,6 @@ from clients.models import Advisor, Client, Expense, Children, Partner, Goal, Pl
 class IDSerializer(serializers.Serializer):
     id = serializers.UUIDField(required=True, format='hex_verbose')
 
-
     def __init__(self, queryset, **kwargs):
         super().__init__(**kwargs)
         self.queryset = queryset
