@@ -9,7 +9,7 @@ Toast will also have a user interface to showcase the functionality and features
 The following reference architecture represents the abstract architecture of the domain in the form of a diagram. 
 It breaks down Toast as a software system into its constituent subsystems and highlights the relationship between these subsystems.
 
-![alt text](./docs/diagrams/arch.png "System Architecture")
+![](./diagrams/arch.png)
 
 ### Sub-systems
 1) Frontend: React serves the user interface screens to the end user. The static resources needed are handled by the React static server. React also handles routing between different pages for client input and displays plan output. 
