@@ -3,6 +3,8 @@
 *.py[cod]
 *$py.class
 
+/app/staticfiles/
+
 *.DS_Store
 *.idea/
 *.vscode/

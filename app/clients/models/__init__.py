@@ -6,3 +6,4 @@ from .goal import Goal
 from .children import Children
 from .plan import Plan
 from .debt import Debt
+from .action_item import ActionItem
