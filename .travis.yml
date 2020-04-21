@@ -5,8 +5,13 @@ python:
 
 services:
   - docker
-
-before_script: pip install docker-compose
-
+install:
+  - pip install -r requirements.txt
 script:
-  - docker-compose run app sh -c "python manage.py test && flake8"
+  - docker-compose -f docker-compose.prod.yml run web python manage.py test
+deploy:
+  provider: script
+  script: bash docker_push.sh
+  skip_cleanup: true
+  on:
+    branch: master
