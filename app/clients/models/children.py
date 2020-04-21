@@ -15,9 +15,6 @@ class Children(models.Model):
     first_name = models.CharField(
         "First Name", 
         max_length=240)
-    last_name = models.CharField(
-        "Last Name", 
-        max_length=240)
     birth_year = models.IntegerField(
         "Birth Year",
         default=date.today().year)

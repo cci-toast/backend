@@ -12,6 +12,26 @@ class Plan(models.Model):
     client = models.OneToOneField(
         to=Client, 
         on_delete=models.CASCADE)
+    protection_factor_upper = models.DecimalField(
+        "Protection Factor Upper",
+        max_digits=8,
+        decimal_places=2,
+        default=0.0)
+    protection_factor_lower = models.DecimalField(
+        "Protection Factor Lower",
+        max_digits=8,
+        decimal_places=2,
+        default=0.0)
+    protection_range_upper = models.DecimalField(
+        "Protection Range Upper",
+        max_digits=8,
+        decimal_places=2,
+        default=0.0)
+    protection_range_lower = models.DecimalField(
+        "Protection Range Lower",
+        max_digits=8,
+        decimal_places=2,
+        default=0.0)
     emergency_savings_factor_upper = models.DecimalField(
         "Emergency Savings Factor Upper",
         max_digits=8,

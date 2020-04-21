@@ -62,6 +62,16 @@ class Expense(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0.0)
+    current_monthly_protection_payment = models.DecimalField(
+        "Current Monthly Protection Payment",
+        max_digits=8,
+        decimal_places=2,
+        default=0.0)
+    current_protection_coverage = models.DecimalField(
+        "Current Protection Coverage",
+        max_digits=8,
+        decimal_places=2,
+        default=0.0)
 
     def __str__(self):
         attrs = vars(self)
