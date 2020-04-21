@@ -1,7 +1,7 @@
 from django.test import TestCase
 from datetime import date
 from decimal import Decimal
-from .models import Advisor, Client, Expense, Children, Partner, Goal, Plan
+from clients.models import Advisor, Client, Expense, Children, Partner, Goal, Plan
 
 
 class CommonSetup:
