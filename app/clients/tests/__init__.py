@@ -1,1 +1,2 @@
-from .test_models import *
+from .models import *
+from .client_api import *

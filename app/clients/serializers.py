@@ -14,7 +14,7 @@ class IDSerializer(serializers.Serializer):
 
     def validate_id(self, value):
         if not self.queryset.filter(id=value).exists():
-            raise serializers.ValidationError("object not exists")
+            raise serializers.ValidationError("Object not exists.")
 
         return value
 
@@ -24,7 +24,7 @@ class ClientIDSerializer(serializers.Serializer):
 
     def validate_client(self, value):
         if not Client.objects.filter(id=value).exists():
-            raise serializers.ValidationError("object not exists")
+            raise serializers.ValidationError("Object not exists.")
 
         return value
 
