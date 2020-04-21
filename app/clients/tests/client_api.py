@@ -108,6 +108,7 @@ class ClientAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, self.expected_clients)
 
+    def test_get_list_by_first_name(self):
         # filter clients by first_name
         response = self.client.generic('GET', '/api/clients', json.dumps({
             'first_name': 'Dick'
@@ -116,6 +117,7 @@ class ClientAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, [self.expected_clients[1]])
 
+    def test_get_list_by_city(self):
         # filter clients by city
         response = self.client.generic('GET', '/api/clients', json.dumps({
             'city': 'Philadelphia'
@@ -124,6 +126,7 @@ class ClientAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, self.expected_clients)
 
+    def test_get_list_by_first_name_and_last_name(self):
         # filter clients by last_name and first_name
         response = self.client.generic('GET', '/api/clients', json.dumps({
             'first_name': 'Dick',
@@ -133,7 +136,7 @@ class ClientAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, [])
 
-    def test_get_detail(self):
+    def test_get_detail_with_valid_id(self):
         # get the client detail with valid id
         response = self.client.generic('GET', '/api/clients', json.dumps({
             'id': self.first_client_id
@@ -142,6 +145,7 @@ class ClientAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, self.expected_clients[0])
 
+    def test_get_detail_with_non_exist_id(self):
         # get non-exist client
         response = self.client.generic('GET', '/api/clients', json.dumps({
             'id': '123e4567-e89b-12d3-a456-426655440000'
@@ -152,6 +156,7 @@ class ClientAPITest(APITestCase):
             'id': ['Object not exists.']
         })
 
+    def test_get_detail_with_invalid_id(self):
         # get client detail with invalid id
         response = self.client.generic('GET', '/api/clients', json.dumps({
             'id': '1233-1222-122222'
@@ -162,7 +167,7 @@ class ClientAPITest(APITestCase):
             'id': ['Must be a valid UUID.']
         })
 
-    def test_patch(self):
+    def test_patch_with_valid_id(self):
         # change the client detail with valid id
         response = self.client.generic('PATCH', '/api/clients', json.dumps({
             'id': self.first_client_id,
@@ -177,6 +182,7 @@ class ClientAPITest(APITestCase):
         expected_change['last_name'] = 'Bigboy'
         self.assertEqual(response_data, expected_change)
 
+    def test_patch_with_non_exist_id(self):
         # change the client detail with non-exist id
         response = self.client.generic('PATCH', '/api/clients', json.dumps({
             'id': '123e4567-e89b-12d3-a456-426655440000',
@@ -189,6 +195,7 @@ class ClientAPITest(APITestCase):
             'id': ['Object not exists.']
         })
 
+    def test_patch_with_invalid_id(self):
         # change the client detail with invalid id
         response = self.client.generic('PATCH', '/api/clients', json.dumps({
             'id': '12ssfsdfsdfqweqdnqwkd',
@@ -201,7 +208,7 @@ class ClientAPITest(APITestCase):
             'id': ['Must be a valid UUID.']
         })
 
-    def test_delete(self):
+    def test_delete_with_valid_id(self):
         # change the client detail with valid id
         response = self.client.generic('DELETE', '/api/clients', json.dumps({
             'id': self.first_client_id,
@@ -219,6 +226,7 @@ class ClientAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, [self.expected_clients[1]])
 
+    def test_delete_with_non_exist_id(self):
         # change the client detail with non-exist id
         response = self.client.generic('DELETE', '/api/clients', json.dumps({
             'id': '123e4567-e89b-12d3-a456-426655440000',
@@ -229,6 +237,7 @@ class ClientAPITest(APITestCase):
             'id': ['Object not exists.']
         })
 
+    def test_delete_with_invalid_id(self):
         # change the client detail with invalid id
         response = self.client.generic('DELETE', '/api/clients', json.dumps({
             'id': '12ssfsdfsdfqweqdnqwkd',
