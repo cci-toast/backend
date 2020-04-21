@@ -4,18 +4,18 @@ services:
   db:
     image: postgres
   migration:
-    build: .
+    build: ./app
     command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python3 manage.py migrate'
     volumes:
-      - .:/usr/src/app
+      - ./app/:/usr/src/app/
     depends_on:
       - db
   web:
-    build: .
+    build: ./app
     image: django-toast
     command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python3 manage.py runserver 0.0.0.0:8000'
     volumes:
-      - .:/usr/src/app
+      - ./app/:/usr/src/app/
     ports:
       - "8000:8000"
     depends_on:
