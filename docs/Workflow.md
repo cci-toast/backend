@@ -56,3 +56,19 @@ $ docker-compose -f docker-compose.prod.yml down -v
 **Security Considerations in Production**
 - Non-root user is created to avoid running container processes as root inside a contaienr
 - We wouldn't want a bad actor to gain root access to the Docker host if they manage to break out of the container
+
+#### Delete all containers and images
+```
+docker stop $(docker ps -a -q)  # Stop all containers
+docker rm $(docker ps -a -q)    # Delete all containers
+docker rmi $(docker images -q)  # Delete all images
+```
+
+#### Run a command inside the docker image
+```
+docker-compose run [container_name] [command]
+```
+For example:
+```
+docker-compose run web python3 manage.py migrate
+```
