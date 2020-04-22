@@ -129,7 +129,9 @@ class ExpenseTest(TestCase):
             expense_leisure=Decimal("50.20"), 
             expense_transportation=Decimal("10.00"),
             expense_subscriptions=Decimal("2.00"),
-            expense_other=Decimal("500.00"))
+            expense_other=Decimal("500.00"),
+            current_monthly_protection_payment=Decimal("100.00"),
+            current_protection_coverage=Decimal("200.00"))
 
 
     def test_create_expense(self):
@@ -143,6 +145,8 @@ class ExpenseTest(TestCase):
         self.assertEqual(expense.expense_transportation, Decimal("10.00"))
         self.assertEqual(expense.expense_subscriptions, Decimal("2.00"))
         self.assertEqual(expense.expense_other, Decimal("500.00"))
+        self.assertEqual(expense.current_monthly_protection_payment, Decimal("100.00"))
+        self.assertEqual(expense.current_protection_coverage, Decimal("200.00"))
 
         client = Client.objects.get(email=CommonSetup.client_email)
         self.assertEqual(expense.client, client)
@@ -173,13 +177,11 @@ class ChildrenTest(TestCase):
         Children.objects.create(
             client=client,
             first_name="Ron",
-            last_name="Weasley",
             birth_year=2000)
 
         Children.objects.create(
             client=client,
             first_name="Corona",
-            last_name="Lime",
             birth_year=2020,
             planning_on_college=True)
 
@@ -190,14 +192,12 @@ class ChildrenTest(TestCase):
 
         ron_child = children[0]
         self.assertEqual(ron_child.first_name, "Ron")
-        self.assertEqual(ron_child.last_name, "Weasley")
         self.assertEqual(ron_child.birth_year, 2000)
         self.assertFalse(ron_child.planning_on_college)
         self.assertFalse(ron_child.in_college)
 
         corona_child = children[1]
         self.assertEqual(corona_child.first_name, "Corona")
-        self.assertEqual(corona_child.last_name, "Lime")
         self.assertEqual(corona_child.birth_year, 2020)
         self.assertTrue(corona_child.planning_on_college)
         self.assertFalse(corona_child.in_college)
@@ -302,6 +302,10 @@ class PlanTest(TestCase):
         client = CommonSetup.create_faked_client()
         Plan.objects.create(
             client=client,
+            protection_factor_upper=Decimal("4.00"),
+            protection_factor_lower=Decimal("2.00"),
+            protection_range_upper=Decimal("5000.00"),
+            protection_range_lower=Decimal("1000.00"),
             emergency_savings_factor_upper=Decimal("4.00"),
             emergency_savings_factor_lower=Decimal("2.00"),
             emergency_savings_range_upper=Decimal("4000.00"),
@@ -310,6 +314,10 @@ class PlanTest(TestCase):
     
     def test_create_plan(self):
         plan = Plan.objects.filter(client__email=CommonSetup.client_email)[0]
+        self.assertEqual(plan.protection_factor_upper, Decimal("4.00"))
+        self.assertEqual(plan.protection_factor_lower, Decimal("2.00"))
+        self.assertEqual(plan.protection_range_upper, Decimal("5000.00"))
+        self.assertEqual(plan.protection_range_lower, Decimal("1000.00"))
         self.assertEqual(plan.emergency_savings_factor_upper, Decimal("4.00"))
         self.assertEqual(plan.emergency_savings_factor_lower, Decimal("2.00"))
         self.assertEqual(plan.emergency_savings_range_upper, Decimal("4000.00"))

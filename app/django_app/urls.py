@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from clients.models import Partner, Expense, Children, Goal, Plan, Debt
+from clients.models import Partner, Expense, Children, Goal, Plan, Debt, ActionItem
 from clients.serializers import PartnerSerializer, \
-    ExpenseSerializer, ChildrenSerializer, GoalSerializer, PlanSerializer, DebtSerializer
+    ExpenseSerializer, ChildrenSerializer, GoalSerializer, \
+    PlanSerializer, DebtSerializer, ActionItemSerializer
 from clients.views import AdvisorView, ClientView, ClientDependModelView
 
 
@@ -45,4 +46,7 @@ urlpatterns = [
 
     path('api/debt', ClientDependModelView.as_view(
         queryset=Debt.objects.all(), serializer_class=DebtSerializer)),
+
+    path('api/action_items', ClientDependModelView.as_view(
+        queryset=ActionItem.objects.all(), serializer_class=ActionItemSerializer)),
 ]
