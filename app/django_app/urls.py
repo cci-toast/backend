@@ -20,9 +20,15 @@ from clients.serializers import PartnerSerializer, \
     ExpenseSerializer, ChildrenSerializer, GoalSerializer, \
     PlanSerializer, DebtSerializer, ActionItemSerializer
 from clients.views import AdvisorView, ClientView, ClientDependModelView
+from django.http import JsonResponse
+
+
+def home(request):
+    return JsonResponse({"hello": "world!"})
 
 
 urlpatterns = [
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
 
     path('api/advisors', AdvisorView.as_view()),
