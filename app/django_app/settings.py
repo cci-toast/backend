@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '167.99.162.96']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '167.99.162.96', 'toastbackend.live']
 
 # Application definition
 
