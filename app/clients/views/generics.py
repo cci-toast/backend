@@ -1,6 +1,5 @@
 from rest_framework.response import Response
 from rest_framework import generics, status
-
 from clients.serializers import IDSerializer, ClientIDSerializer
 
 
@@ -66,7 +65,7 @@ class ModelView(generics.GenericAPIView):
         return Response(serializer.data)
 
 
-class ClientDependModelView(generics.GenericAPIView):
+class ClientDependentModelView(generics.GenericAPIView):
     def get_queryset(self):
         client_id_serializer = ClientIDSerializer(data=self.request.data)
         client_id_serializer.is_valid(raise_exception=True)
