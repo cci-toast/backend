@@ -1,16 +1,21 @@
 import uuid
+
+from computedfields.models import computed, ComputedFieldsModel
 from django.db import models
 from datetime import date
 from .client import Client
 
 
-class Plan(models.Model):
+# We would leave the factor fields alone since they're basically configurable constants We need to change the value
+# and range fields to @computed based on client.birth_year and client.annual_net_income + client.additional_income
+
+class Plan(ComputedFieldsModel):
     id = models.UUIDField(
-        primary_key=True, 
-        default=uuid.uuid4, 
+        primary_key=True,
+        default=uuid.uuid4,
         editable=False)
     client = models.OneToOneField(
-        to=Client, 
+        to=Client,
         on_delete=models.CASCADE)
     protection_factor_upper = models.DecimalField(
         "Protection Factor Upper",
@@ -107,6 +112,10 @@ class Plan(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0.0)
+
+    @computed(models.CharField(max_length=256, default=""), depends=['client#combined', 'client#expense'])
+    def full_name(self):
+        return u'%s' % (self.client.expense.housing_type)
 
     def __str__(self):
         attrs = vars(self)
