@@ -23,7 +23,7 @@ def home(request):
 
 
 urlpatterns = [
-    path('', home, name='home'),
+    path('', include('clients.urls'), name='home'),
     path('admin/', include('rest_framework.urls')),
     path('api/', include('clients.urls')),
 
