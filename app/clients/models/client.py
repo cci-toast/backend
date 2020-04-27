@@ -47,10 +47,15 @@ class Client(ComputedFieldsModel):
         max_digits=8,
         decimal_places=2,
         default=0.0)
+ 
+    @computed(models.IntegerField(), default=2020)
+    def current_year(self):
+        return date.today().year
 
-    @computed(models.CharField(max_length=32, default=""))
-    def combined(self):
-        return u'%s %s %s' % (self.first_name, self.middle_name, self.last_name)
+    @computed(models.IntegerField(), default=0)
+    def age(self):
+        output_age = self.current_year - self.birth_year
+        return output_age
 
     def __str__(self):
         attrs = vars(self)
