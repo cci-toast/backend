@@ -32,5 +32,4 @@ urlpatterns = [
     path('action_items', ClientDependentModelView.as_view(
         queryset=ActionItem.objects.all(), serializer_class=ActionItemSerializer)),
 
-    path('admin/', include('rest_framework.urls')),
 ]
