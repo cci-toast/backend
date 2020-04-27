@@ -25,6 +25,6 @@ def home(request):
 urlpatterns = [
     path('', home, name='home'),
     path('admin/', include('rest_framework.urls')),
-    path(r'api/', include('clients.urls')),
+    path('api/', include('clients.urls')),
 
 ]
