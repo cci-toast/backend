@@ -1,15 +1,22 @@
-from django.urls import path, include
+from django.urls import include, path
 
-from clients.models import Partner, Expense, Children, Goal, Plan, Debt, ActionItem
-from clients.serializers import PartnerSerializer, \
-    ExpenseSerializer, ChildrenSerializer, GoalSerializer, \
-    PlanSerializer, DebtSerializer, ActionItemSerializer
-from clients.views import AdvisorView, ClientView, ClientDependentModelView
+from clients.models import (ActionItem, Children, Debt, Expense, Goal, Partner,
+                            Plan)
+from clients.serializers import (ActionItemSerializer, ChildrenSerializer,
+                                 DebtSerializer, ExpenseSerializer,
+                                 GoalSerializer, PartnerSerializer,
+                                 PlanSerializer)
+from clients.views import (AdvisorDetail, AdvisorList,
+                           ClientDependentModelView, ClientDetail, ClientList)
 
 urlpatterns = [
-    path('advisors', AdvisorView.as_view()),
+    path('advisors', AdvisorList.as_view()),
 
-    path('clients', ClientView.as_view()),
+    path('advisors/<uuid:pk>', AdvisorDetail.as_view()),
+
+    path('clients', ClientList.as_view()),
+
+    path('clients/<uuid:pk>', ClientDetail.as_view()),
 
     path('expenses', ClientDependentModelView.as_view(
         queryset=Expense.objects.all(), serializer_class=ExpenseSerializer)),
