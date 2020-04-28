@@ -6,14 +6,14 @@ from .client import Client
 
 class Children(models.Model):
     id = models.UUIDField(
-        primary_key=True, 
-        default=uuid.uuid4, 
+        primary_key=True,
+        default=uuid.uuid4,
         editable=False)
     client = models.ForeignKey(
-        to=Client, 
+        to=Client,
         on_delete=models.CASCADE)
     first_name = models.CharField(
-        "First Name", 
+        "First Name",
         max_length=240)
     birth_year = models.IntegerField(
         "Birth Year",
