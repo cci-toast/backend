@@ -7,7 +7,7 @@ services:
     volumes:
       - static_volume:/usr/src/app/staticfiles
     ports:
-      - 8000:8000
+      - 8000:80
     env_file: .env
   nginx:
     image: "${NGINX_IMAGE}"
