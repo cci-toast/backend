@@ -354,9 +354,8 @@ class PlanTest(TestCase):
         self.assertEqual(len(Client.objects.all()), 0)
         self.assertEqual(len(Plan.objects.all()), 0)
 
+
 # Action item tests
-
-
 class ActionItemTest(TestCase):
     def setUp(self):
         client = CommonSetup.create_faked_client()
