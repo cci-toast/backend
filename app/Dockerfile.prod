@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.8.2-alpine
+FROM python:3.7-alpine
 
 # set work directory
 WORKDIR /usr/src/app
@@ -7,22 +7,28 @@ WORKDIR /usr/src/app
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV DEBUG 0
 
-# install psycopg2 dependencies
+# install psycopg2
 RUN apk update \
-    && apk add --no-cache gcc \
-    && apk add postgresql-dev gcc python3-dev musl-dev
+    && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add postgresql-dev \
+    && pip install psycopg2 \
+    && apk del build-deps
 
 # install dependencies
-RUN pip3 install --upgrade pip
 COPY ./requirements.txt /usr/src/app/requirements.txt
-RUN pip3 install -r /usr/src/app/requirements.txt
-
-# copy entrypoint-prod.sh
-COPY ./entrypoint.prod.sh /usr/src/app/entrypoint.prod.sh
+RUN pip install -r requirements.txt
 
 # copy project
 COPY . /usr/src/app/
 
-# run entrypoint.prod.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.prod.sh"]
+# collect static files
+RUN python manage.py collectstatic --noinput
+
+# add and run as non-root user
+RUN adduser -D toastuser
+USER toastuser
+
+# run gunicorn
+CMD gunicorn django_app.wsgi:application --bind 0.0.0.0:$PORT
