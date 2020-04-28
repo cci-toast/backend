@@ -21,14 +21,14 @@ class AdvisorAPITest(APITestCase):
         # expected data return by first advisor
         self.expected_advisors.append({
             'id': self.first_advisor_id,
-            'first_name': 'Madison',       
+            'first_name': 'Madison',
             'last_name': 'Montgomery',
             'email': 'm.montgomery@gmail.com',
             'phone_number': '123-333-3344',
             'address': ''
         })
 
-        #create second advisor 
+        # create second advisor
         response = self.client.generic('POST', '/api/advisors', json.dumps({
             'first_name': 'Michael',
             'last_name': 'Langdon',
@@ -40,16 +40,15 @@ class AdvisorAPITest(APITestCase):
         response_data = json.loads(response.content)
         self.second_advisor_id = response_data['id']
 
-        #expected data returned by second advisor 
+        # expected data returned by second advisor
         self.expected_advisors.append({
             'id': self.second_advisor_id,
             'first_name': 'Michael',
             'last_name': 'Langdon',
             'email': 'm.langdon@gmail.com',
             'phone_number': '966-666-9966',
-            'address': '1120 Westchester Pl., Los Angeles CA' 
+            'address': '1120 Westchester Pl., Los Angeles CA'
         })
-
 
     def test_post(self):
         response = self.client.generic('POST', '/api/advisors', json.dumps({
@@ -96,9 +95,7 @@ class AdvisorAPITest(APITestCase):
         }), content_type='application/json')
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, self.expected_advisors[0])   
-
-     
+        self.assertEqual(response_data, self.expected_advisors[0])
 
     def test_get_detail_with_non_exist_id(self):
         # get non-existent advisor by id
@@ -111,7 +108,6 @@ class AdvisorAPITest(APITestCase):
             'id': ['Object not exists.']
         })
 
-
     def test_get_detail_with_invalid_id(self):
         # get advisor details with invalid id
         response = self.client.generic('GET', '/api/advisors', json.dumps({
@@ -122,7 +118,6 @@ class AdvisorAPITest(APITestCase):
         self.assertEqual(response_data, {
             'id': ['Must be a valid UUID.']
         })
-
 
     def test_patch_with_valid_id(self):
         # change advisor info with valid id
@@ -195,7 +190,7 @@ class AdvisorAPITest(APITestCase):
         })
 
     def test_delete_with_invalid_id(self):
-        # delete advisor with invalid id 
+        # delete advisor with invalid id
         response = self.client.generic('DELETE', '/api/advisors', json.dumps({
             'id': '12blah12blah12blah',
         }), content_type='application/json')
@@ -204,5 +199,3 @@ class AdvisorAPITest(APITestCase):
         self.assertEqual(response_data, {
             'id': ['Must be a valid UUID.']
         })
-    
-
