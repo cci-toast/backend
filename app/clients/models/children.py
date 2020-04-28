@@ -1,6 +1,8 @@
 import uuid
-from django.db import models
 from datetime import date
+
+from django.db import models
+
 from .client import Client
 
 

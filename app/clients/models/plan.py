@@ -1,16 +1,18 @@
 import uuid
-from django.db import models
 from datetime import date
+
+from django.db import models
+
 from .client import Client
 
 
 class Plan(models.Model):
     id = models.UUIDField(
-        primary_key=True, 
-        default=uuid.uuid4, 
+        primary_key=True,
+        default=uuid.uuid4,
         editable=False)
     client = models.OneToOneField(
-        to=Client, 
+        to=Client,
         on_delete=models.CASCADE)
     protection_factor_upper = models.DecimalField(
         "Protection Factor Upper",

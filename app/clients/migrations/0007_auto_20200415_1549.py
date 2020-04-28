@@ -21,46 +21,55 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='expense',
             name='bills_housing',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Bills Housing'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Bills Housing'),
         ),
         migrations.AddField(
             model_name='expense',
             name='bills_insurance',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Bills Insurance'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Bills Insurance'),
         ),
         migrations.AddField(
             model_name='expense',
             name='bills_loan_or_debt',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Bills Loan or Debt'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Bills Loan or Debt'),
         ),
         migrations.AddField(
             model_name='expense',
             name='bills_other',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Bills Other'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Bills Other'),
         ),
         migrations.AddField(
             model_name='expense',
             name='bills_utilities',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Bills Utilities'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Bills Utilities'),
         ),
         migrations.AddField(
             model_name='expense',
             name='expense_leisure',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Expense Leisure'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Expense Leisure'),
         ),
         migrations.AddField(
             model_name='expense',
             name='expense_shopping',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Expense Shopping'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Expense Shopping'),
         ),
         migrations.AddField(
             model_name='expense',
             name='expense_subscriptions',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Expense Subscription'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Expense Subscription'),
         ),
         migrations.AddField(
             model_name='expense',
             name='expense_transportation',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Expense Transportation'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Expense Transportation'),
         ),
     ]

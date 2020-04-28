@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='expense',
             name='housing_type',
-            field=models.CharField(choices=[('Rent', 'Rent'), ('Mortgage', 'Mortgage')], default='Rent', max_length=10),
+            field=models.CharField(choices=[(
+                'Rent', 'Rent'), ('Mortgage', 'Mortgage')], default='Rent', max_length=10),
         ),
     ]

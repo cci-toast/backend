@@ -1,5 +1,7 @@
 import uuid
+
 from django.db import models
+
 from .client import Client
 
 
@@ -9,7 +11,7 @@ class ActionItem(models.Model):
         default=uuid.uuid4,
         editable=False)
     client = models.ForeignKey(
-        to=Client, 
+        to=Client,
         on_delete=models.CASCADE)
     description = models.CharField(
         "Description",

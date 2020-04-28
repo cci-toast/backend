@@ -29,21 +29,25 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='client',
             name='additional_income',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Additional Income'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Additional Income'),
         ),
         migrations.AddField(
             model_name='client',
             name='personal_annual_net_income',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Personal Annual Net Income'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Personal Annual Net Income'),
         ),
         migrations.AddField(
             model_name='partner',
             name='personal_annual_net_income',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Personal Annual Net Income'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Personal Annual Net Income'),
         ),
         migrations.AddField(
             model_name='plan',
             name='household_annual_net_income',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Household Annual Net Income'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Household Annual Net Income'),
         ),
     ]

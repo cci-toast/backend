@@ -13,21 +13,25 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='plan',
             name='protection_factor_lower',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Protection Factor Lower'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Protection Factor Lower'),
         ),
         migrations.AddField(
             model_name='plan',
             name='protection_factor_upper',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Protection Factor Upper'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Protection Factor Upper'),
         ),
         migrations.AddField(
             model_name='plan',
             name='protection_range_lower',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Protection Range Lower'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Protection Range Lower'),
         ),
         migrations.AddField(
             model_name='plan',
             name='protection_range_upper',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Protection Range Upper'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Protection Range Upper'),
         ),
     ]

@@ -13,11 +13,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='expense',
             name='current_monthly_protection_payment',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Current Monthly Protection Payment'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Current Monthly Protection Payment'),
         ),
         migrations.AddField(
             model_name='expense',
             name='current_protection_coverage',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Current Protection Coverage'),
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=8, verbose_name='Current Protection Coverage'),
         ),
     ]

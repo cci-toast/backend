@@ -1,10 +1,12 @@
-from django.urls import path, include
+from django.urls import path
 
-from clients.models import Partner, Expense, Children, Goal, Plan, Debt, ActionItem
-from clients.serializers import PartnerSerializer, \
-    ExpenseSerializer, ChildrenSerializer, GoalSerializer, \
-    PlanSerializer, DebtSerializer, ActionItemSerializer
-from clients.views import AdvisorView, ClientView, ClientDependentModelView
+from clients.models import (ActionItem, Children, Debt, Expense, Goal, Partner,
+                            Plan)
+from clients.serializers import (ActionItemSerializer, ChildrenSerializer,
+                                 DebtSerializer, ExpenseSerializer,
+                                 GoalSerializer, PartnerSerializer,
+                                 PlanSerializer)
+from clients.views import AdvisorView, ClientDependentModelView, ClientView
 
 urlpatterns = [
     path('advisors', AdvisorView.as_view()),

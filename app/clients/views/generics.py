@@ -1,6 +1,7 @@
-from rest_framework.response import Response
 from rest_framework import generics, status
-from clients.serializers import IDSerializer, ClientIDSerializer
+from rest_framework.response import Response
+
+from clients.serializers import ClientIDSerializer, IDSerializer
 
 
 class ModelView(generics.GenericAPIView):
@@ -16,7 +17,8 @@ class ModelView(generics.GenericAPIView):
         return queryset
 
     def get_object(self):
-        id_serializer = IDSerializer(queryset=self.queryset.all(), data=self.request.data)
+        id_serializer = IDSerializer(
+            queryset=self.queryset.all(), data=self.request.data)
         id_serializer.is_valid(raise_exception=True)
         object_id = id_serializer.data['id']
         return self.queryset.all().get(id=object_id)
@@ -27,7 +29,8 @@ class ModelView(generics.GenericAPIView):
         if object_id is None:
             # get list of advisors if no id provided
             data = self.get_queryset()
-            serializer = serializer_class(data, many=True, context={'request': request})
+            serializer = serializer_class(
+                data, many=True, context={'request': request})
         else:
             # retrieve info of a model
             model_object = self.get_object()
@@ -39,7 +42,8 @@ class ModelView(generics.GenericAPIView):
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=request.data)
         if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
         serializer.save()
         return Response(serializer.data)
@@ -52,7 +56,8 @@ class ModelView(generics.GenericAPIView):
                                       partial=True,
                                       context={'request': request})
         if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
         serializer.save()
         return Response(serializer.data)
@@ -73,7 +78,8 @@ class ClientDependentModelView(generics.GenericAPIView):
         return self.queryset.filter(client=client_id)
 
     def get_object(self):
-        id_serializer = IDSerializer(queryset=self.get_queryset(), data=self.request.data)
+        id_serializer = IDSerializer(
+            queryset=self.get_queryset(), data=self.request.data)
         id_serializer.is_valid(raise_exception=True)
         object_id = id_serializer.data['id']
         return self.get_queryset().get(id=object_id)
@@ -99,7 +105,8 @@ class ClientDependentModelView(generics.GenericAPIView):
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=request.data)
         if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
         serializer.save()
 
@@ -117,7 +124,8 @@ class ClientDependentModelView(generics.GenericAPIView):
                                       partial=True,
                                       context={'request': request})
         if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
         serializer.save()
 
