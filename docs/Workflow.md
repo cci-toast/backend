@@ -1,18 +1,7 @@
-# CI/CD with Docker, Travis-CI and Heroku
-We had two options to go about setting up the CI/CD pipeline: 
-### 1. Container registry
-Either we build the Docker container locally, and then push the image to Heroku Container Registry. Heroku would use the image to create a container to host your Django project.
-
-### 2. Build Manifest
-Or we push the Dockerfile and Heroku would be responsible for building and deploying it in standard release flow.
-With the Build Manifest -- we have access to the Pipelines, Review, and Release features which makes it more favorable. 
-
-### Handling PostgreSQL instances
-We use different instances of Postgres during the different stages in the workflow:
-
-- During `development`, **Docker** handles setting up a Postgres server
-- During `testing` in Travis, we won't be using **Travis's instance** of Postgres, we'll let Docker handle it
-- During `deployment`, we have to use **Heroku's instance** of Postgres to make sure data is retained in production
+# CI/CD with Docker, Github Actions and DigitalOcean
+- `docker-comopose-ci.yml` co-ordinates the prod environment with caching to reduce the image size
+- `main.yml` dictates the Github action workflow for handling merging to master and deployment to DigitalOcean
+- The relevant  environment variables are handled by Github secrets
 
 #### Handling data migrations in development
 
@@ -56,3 +45,19 @@ $ docker-compose -f docker-compose.prod.yml down -v
 **Security Considerations in Production**
 - Non-root user is created to avoid running container processes as root inside a contaienr
 - We wouldn't want a bad actor to gain root access to the Docker host if they manage to break out of the container
+
+#### Delete all containers and images
+```
+docker stop $(docker ps -a -q)  # Stop all containers
+docker rm $(docker ps -a -q)    # Delete all containers
+docker rmi $(docker images -q)  # Delete all images
+```
+
+#### Run a command inside the docker image
+```
+docker-compose run [container_name] [command]
+```
+For example:
+```
+docker-compose run web python3 manage.py migrate
+```
