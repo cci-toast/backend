@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default='superfoosecretkey')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '167.99.162.96', 'toastbackend.live']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '167.99.162.96', 'fathomless-tundra-54639.herokuapp.com']
 
 # Application definition
 
@@ -80,8 +80,8 @@ WSGI_APPLICATION = 'django_app.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         "USER": os.environ.get("SQL_USER", "user"),
         "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
         "HOST": os.environ.get("SQL_HOST", "localhost"),
