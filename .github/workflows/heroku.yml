@@ -17,7 +17,10 @@ jobs:
       - name: Build and push
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
+        run: |
+          cd /app
+          docker build -f Dockerfile.prod -t registry.heroku.com/fathomless-tundra-54639/web .
+          docker push registry.heroku.com/fathomless-tundra-54639/web
       - name: Release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
