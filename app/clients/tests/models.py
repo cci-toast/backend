@@ -1,7 +1,7 @@
 from django.test import TestCase
 from datetime import date
 from decimal import Decimal
-from .models import Advisor, Client, Expense, Children, Partner, Goal, Plan
+from clients.models import Advisor, Client, Expense, Children, Partner, Goal, Plan, ActionItem
 
 
 class CommonSetup:
@@ -349,3 +349,35 @@ class PlanTest(TestCase):
         client.delete()
         self.assertEqual(len(Client.objects.all()), 0)
         self.assertEqual(len(Plan.objects.all()), 0)
+
+# Action item tests
+class ActionItemTest(TestCase):
+    def setUp(self):
+        client = CommonSetup.create_faked_client()
+        ActionItem.objects.create(
+            client=client,
+            description="Buy a house for me",
+            completed=False)
+
+
+    def test_create_action_item(self):
+        action_item = ActionItem.objects.filter(client__email=CommonSetup.client_email)[0]
+        self.assertEqual(action_item.description, "Buy a house for me")
+        self.assertEqual(action_item.completed, False)
+
+
+    def test_delete_action_item(self):
+        action_item = ActionItem.objects.filter(client__email=CommonSetup.client_email)[0]
+        action_item.delete()
+        self.assertEqual(len(ActionItem.objects.all()), 0)
+        self.assertTrue(Client.objects.filter(email=CommonSetup.client_email).exists())
+
+
+    def test_delete_client_delete_action_items(self):
+        self.assertEqual(len(ActionItem.objects.all()), 1)
+        self.assertEqual(len(ActionItem.objects.all()), 1)
+
+        client = Client.objects.get(email=CommonSetup.client_email)
+        client.delete()
+        self.assertEqual(len(Client.objects.all()), 0)
+        self.assertEqual(len(ActionItem.objects.all()), 0)
