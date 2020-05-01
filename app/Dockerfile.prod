@@ -7,7 +7,7 @@ WORKDIR /app
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DEBUG 0
+ENV DEBUG 1
 
 # install psycopg2
 RUN apk update \
