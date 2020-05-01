@@ -13,7 +13,7 @@ jobs:
 
       - name: Build Prod Docker container
         if: github.reg == refs/heads/master
-        run: cd app && docker build -f app/Dockerfile.prod -t registry.heroku.com/fathomless-tundra-54639/web .
+        run: cd app && docker build -f app/Dockerfile.prod -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web .
 
       - name: Login to Heroku Container registry
         env:
@@ -23,7 +23,7 @@ jobs:
       - name: Push Docker container
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: docker push registry.heroku.com/fathomless-tundra-54639/web
+        run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
 
       - name: Release Docker container
         env:
