@@ -16,8 +16,9 @@ jobs:
 
       - name: Login to Heroku Container registry
         env:
+          HEROKU_USERNAME: ${{ secrets.HEROKU_USERNAME }}
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
+        run: docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
 
       - name: Push Docker container
         env:
@@ -25,6 +26,9 @@ jobs:
         run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
 
       - name: Release Docker container
+        uses: actions/heroku@master
         env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+        with:
+          args: container:login && heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
