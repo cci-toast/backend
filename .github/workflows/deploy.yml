@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build Prod Docker container
-        if: github.reg == refs/heads/master
+        if: github.ref == refs/heads/master
         run: cd app && docker build -f app/Dockerfile.prod -t registry.heroku.com/fathomless-tundra-54639/web .
 
       - name: Login to Heroku Container registry
