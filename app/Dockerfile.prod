@@ -24,7 +24,7 @@ RUN pip install -r /tmp/requirements.txt
 COPY . .
 
 # collect static files
-RUN python manage.py collectstatic --noinput
+RUN python app/manage.py collectstatic --noinput
 
 # add and run as non-root user
 RUN adduser -D toastuser
