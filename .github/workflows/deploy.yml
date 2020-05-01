@@ -10,18 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Build Prod Docker container
+        if: github.reg == refs/heads/master
+        run: cd app && docker build -f app/Dockerfile.prod -t registry.heroku.com/fathomless-tundra-54639/web .
+
       - name: Login to Heroku Container registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
-      - name: Build and push
+
+      - name: Push Docker container
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: |
-          cd /app
-          docker build -f Dockerfile.prod -t registry.heroku.com/fathomless-tundra-54639/web .
-          docker push registry.heroku.com/fathomless-tundra-54639/web
-      - name: Release
+        run: docker push registry.heroku.com/fathomless-tundra-54639/web
+
+      - name: Release Docker container
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
