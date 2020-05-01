@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build Prod Docker container
-        run: cd app && docker build -f app/Dockerfile.prod -t registry.heroku.com/fathomless-tundra-54639/web .
+        run: docker build -f app/Dockerfile.prod -t registry.heroku.com/fathomless-tundra-54639/web .
 
       - name: Login to Heroku Container registry
         env:
