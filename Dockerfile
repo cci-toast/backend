@@ -16,19 +16,13 @@ RUN apk update \
     && pip install psycopg2 \
     && apk del build-deps
 
-COPY requirements.txt /tmp/
+COPY app/requirements.txt /tmp/
 # install dependencies
 RUN pip install -r /tmp/requirements.txt
 
 # copy project
 COPY . .
 
-# collect static files
-RUN python app/manage.py collectstatic --noinput
-
 # add and run as non-root user
 RUN adduser -D toastuser
 USER toastuser
-
-# run gunicorn
-CMD gunicorn django_app.wsgi:application --bind 0.0.0.0:$PORT
