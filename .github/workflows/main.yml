@@ -21,10 +21,9 @@ jobs:
 
       - name: Heroku Registry Login
         env:
-          HEROKU_USERNAME: ${{ secrets.HEROKU_USERNAME }}
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run:
-          docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
+          heroku container:login
 
       - name: Push Docker Image to Heroku
         env:
