@@ -94,17 +94,7 @@ class Plan(ComputedFieldsModel):
         "Debt Repayment Factor",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
-    debt_repayment_value = models.DecimalField(
-        "Debt Repayment Value",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
-    household_annual_net_income = models.DecimalField(
-        "Household Annual Net Income",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
+        default=0.36)
 
     @computed(models.FloatField("Retirement Factor", default=1.0), depends=['client#age'])
     def retirement_factor(self):
@@ -128,10 +118,14 @@ class Plan(ComputedFieldsModel):
     def recommended_retirement_value(self):
         return self.retirement_factor * self.client.total_annual_income
 
-    @computed(models.IntegerField(default=0), depends=['client#personal_annual_net_income', 'partner#personal_annual_net_income'])
-    def household_annual_income(self):
-        household_annual_income_ouput = self.client.personal_annual_net_income + self.client.additional_income + self.partner.personal_annual_net_income
-        return household_annual_income_ouput
+    @computed(models.FloatField(default=0.0), depends=['client#total_annual_income', 'partner#personal_annual_net_income'])
+    def household_annual_net_income(self):
+        return self.client.total_annual_income + float(self.partner.personal_annual_net_income)
+
+    @computed(models.FloatField(default=0.0))
+    def recommended_monthly_maximum_debt_amount(self):
+        return float((self.household_annual_net_income * self.debt_repayment_factor) / 12)
+        # debt repayment factor is configurable
 
     def __str__(self):
         attrs = vars(self)

@@ -2,8 +2,7 @@ import uuid
 from django.db import models
 from .client import Client
 from .plan import Plan
-from computedfields.models import ComputedFieldsModel, computed
-
+git
 class Debt(models.Model):
     id = models.UUIDField(
         primary_key=True,
@@ -30,11 +29,6 @@ class Debt(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0.0)
-
-    @computed(models.IntegerField(default=0), depends=['plan#household_annual_net_income'])
-    def debt(self):
-        debt_output = self.plan.household_annual_net_income * 0.36
-        return debt_output
 
     def __str__(self):
         attrs = vars(self)
