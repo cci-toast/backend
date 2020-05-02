@@ -47,15 +47,18 @@ class Client(ComputedFieldsModel):
         max_digits=8,
         decimal_places=2,
         default=0.0)
- 
-    @computed(models.IntegerField(), default=2020)
+
+    @computed(models.IntegerField("Current Year"), default=2020)
     def current_year(self):
         return date.today().year
 
-    @computed(models.IntegerField(), default=0)
+    @computed(models.IntegerField("Age", default=0))
     def age(self):
-        output_age = self.current_year - self.birth_year
-        return output_age
+        return self.current_year - self.birth_year
+
+    @computed(models.FloatField("Total Annual Income", default=0.0))
+    def total_annual_income(self):
+        return self.personal_annual_net_income + self.additional_income
 
     def __str__(self):
         attrs = vars(self)

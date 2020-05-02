@@ -60,16 +60,6 @@ class Plan(ComputedFieldsModel):
         max_digits=8,
         decimal_places=2,
         default=0.0)
-    retirement_factor = models.DecimalField(
-        "Retirement Factor",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
-    retirement_value = models.DecimalField(
-        "Retirement Value",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
     budget_savings_factor = models.DecimalField(
         "Budget Savings Factor",
         max_digits=8,
@@ -116,9 +106,27 @@ class Plan(ComputedFieldsModel):
         decimal_places=2,
         default=0.0)
 
-    @computed(models.CharField(max_length=256, default=""), depends=['client#combined', 'client#expense'])
-    def full_name(self):
-        return u'%s' % (self.client.expense.housing_type)
+    @computed(models.FloatField("Retirement Factor", default=1.0), depends=['client#age'])
+    def retirement_factor(self):
+        client_age = self.client.age
+        if client_age < 39:
+            self.retirement_factor = 1.0
+        elif 40 <= client_age <= 49:
+            self.retirement_factor = 3.0
+        elif 50 <= client_age <= 59:
+            self.retirement_factor = 6.0
+        elif 60 <= client_age <= 66:
+            self.retirement_factor = 8.0
+        elif client_age >= 67:
+            self.retirement_factor = 10.0
+        else:
+            self.retirement_factor = 1.0
+        return self.retirement_factor
+
+    @computed(models.FloatField("Recommended Retirement Value", default=0.0),
+              depends=['client#total_annual_income'])
+    def recommended_retirement_value(self):
+        return self.retirement_factor * self.client.total_annual_income
 
     @computed(models.IntegerField(default=0), depends=['client#personal_annual_net_income', 'partner#personal_annual_net_income'])
     def household_annual_income(self):
