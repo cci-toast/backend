@@ -1,6 +1,6 @@
 build:
   docker:
-    web: app/Dockerfile.prod
+    web: Dockerfile
 
 run:
   web: gunicorn django_app.wsgi:application --bind 0.0.0.0:$PORT
