@@ -4,7 +4,7 @@ from computedfields.models import computed, ComputedFieldsModel
 from django.db import models
 from datetime import date
 from .client import Client
-
+from .partner import Partner
 
 # We would leave the factor fields alone since they're basically configurable constants We need to change the value
 # and range fields to @computed based on client.birth_year and client.annual_net_income + client.additional_income
@@ -16,6 +16,9 @@ class Plan(ComputedFieldsModel):
         editable=False)
     client = models.OneToOneField(
         to=Client,
+        on_delete=models.CASCADE)
+    partner = models.OneToOneField(
+        to=Partner,
         on_delete=models.CASCADE)
     protection_factor_upper = models.DecimalField(
         "Protection Factor Upper",
@@ -116,6 +119,11 @@ class Plan(ComputedFieldsModel):
     @computed(models.CharField(max_length=256, default=""), depends=['client#combined', 'client#expense'])
     def full_name(self):
         return u'%s' % (self.client.expense.housing_type)
+
+    @computed(models.IntegerField(default=0), depends=['client#personal_annual_net_income', 'partner#personal_annual_net_income'])
+    def household_annual_income(self):
+        household_annual_income_ouput = self.client.personal_annual_net_income + self.client.additional_income + self.partner.personal_annual_net_income
+        return household_annual_income_ouput
 
     def __str__(self):
         attrs = vars(self)
