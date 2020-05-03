@@ -6,30 +6,6 @@ from clients.models import (ActionItem, Advisor, Children, Client, Debt,
                             Expense, Goal, Partner, Plan)
 
 
-class IDSerializer(serializers.Serializer):
-    id = serializers.UUIDField(required=True, format='hex_verbose')
-
-    def __init__(self, queryset, **kwargs):
-        super().__init__(**kwargs)
-        self.queryset = queryset
-
-    def validate_id(self, value):
-        if not self.queryset.filter(id=value).exists():
-            raise serializers.ValidationError("Object not exists.")
-
-        return value
-
-
-class ClientIDSerializer(serializers.Serializer):
-    client = serializers.UUIDField(required=True, format='hex_verbose')
-
-    def validate_client(self, value):
-        if not Client.objects.filter(id=value).exists():
-            raise serializers.ValidationError("Object not exists.")
-
-        return value
-
-
 class AdvisorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advisor
@@ -43,91 +19,42 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
-    class ResponseSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = Expense
-            exclude = ['client']
-
-    response_serializer = ResponseSerializer
-
     class Meta:
         model = Expense
-        fields = '__all__'
+        exclude = ['client']
 
 
 class ChildrenSerializer(serializers.ModelSerializer):
-    class ResponseSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = Children
-            exclude = ['client']
-
-    response_serializer = ResponseSerializer
-
     class Meta:
         model = Children
-        fields = '__all__'
+        exclude = ['client']
 
 
 class PartnerSerializer(serializers.ModelSerializer):
-    class ResponseSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = Partner
-            exclude = ['client']
-
-    response_serializer = ResponseSerializer
-
     class Meta:
         model = Partner
-        fields = '__all__'
+        exclude = ['client']
 
 
 class GoalSerializer(serializers.ModelSerializer):
-    class ResponseSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = Goal
-            exclude = ['client']
-
-    response_serializer = ResponseSerializer
-
     class Meta:
         model = Goal
-        fields = '__all__'
+        exclude = ['client']
 
 
 class PlanSerializer(serializers.ModelSerializer):
-    class ResponseSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = Plan
-            exclude = ['client']
-
-    response_serializer = ResponseSerializer
-
     class Meta:
         model = Plan
-        fields = '__all__'
+        exclude = ['client']
 
 
 class DebtSerializer(serializers.ModelSerializer):
-    class ResponseSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = Debt
-            exclude = ['client']
-
-    response_serializer = ResponseSerializer
-
     class Meta:
         model = Debt
-        fields = '__all__'
+        exclude = ['client']
 
 
 class ActionItemSerializer(serializers.ModelSerializer):
-    class ResponseSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = ActionItem
-            exclude = ['client']
-
-    response_serializer = ResponseSerializer
-
     class Meta:
         model = ActionItem
-        fields = '__all__'
+        exclude = ['client']

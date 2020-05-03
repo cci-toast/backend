@@ -1,3 +1,3 @@
 from .advisor import AdvisorDetail, AdvisorList
 from .client import ClientDetail, ClientList
-from .generics import ClientDependentModelView, ModelView
+from .client_dependence import ClientDependenceDetail, ClientDependenceList
