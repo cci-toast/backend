@@ -19,63 +19,91 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
+    class CreateSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Expense
+            fields = '__all__'
+            extra_kwargs = {
+                'client': {'write_only': True}}
+
     class Meta:
         model = Expense
-        fields = '__all__'
-        extra_kwargs = {
-            'client': {'write_only': True}
-        }
+        exclude = ['client']
 
 
 class ChildrenSerializer(serializers.ModelSerializer):
+    class CreateSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Children
+            fields = '__all__'
+            extra_kwargs = {
+                'client': {'write_only': True}}
+
     class Meta:
         model = Children
-        fields = '__all__'
-        extra_kwargs = {
-            'client': {'write_only': True}
-        }
+        exclude = ['client']
 
 
 class PartnerSerializer(serializers.ModelSerializer):
+    class CreateSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Partner
+            fields = '__all__'
+            extra_kwargs = {
+                'client': {'write_only': True}}
+
     class Meta:
         model = Partner
-        fields = '__all__'
-        extra_kwargs = {
-            'client': {'write_only': True}
-        }
+        exclude = ['client']
 
 
 class GoalSerializer(serializers.ModelSerializer):
+    class CreateSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Goal
+            fields = '__all__'
+            extra_kwargs = {
+                'client': {'write_only': True}}
+
     class Meta:
         model = Goal
-        fields = '__all__'
-        extra_kwargs = {
-            'client': {'write_only': True}
-        }
+        exclude = ['client']
 
 
 class PlanSerializer(serializers.ModelSerializer):
+    class CreateSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Plan
+            fields = '__all__'
+            extra_kwargs = {
+                'client': {'write_only': True}}
+
     class Meta:
         model = Plan
-        fields = '__all__'
-        extra_kwargs = {
-            'client': {'write_only': True}
-        }
+        exclude = ['client']
 
 
 class DebtSerializer(serializers.ModelSerializer):
+    class CreateSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Debt
+            fields = '__all__'
+            extra_kwargs = {
+                'client': {'write_only': True}}
+
     class Meta:
         model = Debt
-        fields = '__all__'
-        extra_kwargs = {
-            'client': {'write_only': True}
-        }
+        exclude = ['client']
 
 
 class ActionItemSerializer(serializers.ModelSerializer):
+    class CreateSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = ActionItem
+            fields = '__all__'
+            extra_kwargs = {
+                'client': {'write_only': True}}
+
     class Meta:
         model = ActionItem
-        fields = '__all__'
-        extra_kwargs = {
-            'client': {'write_only': True}
-        }
+        exclude = ['client']

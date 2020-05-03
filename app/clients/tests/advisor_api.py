@@ -86,7 +86,12 @@ class AdvisorAPITest(APITestCase):
         response = self.client.get('/api/advisors')
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, self.expected_advisors)
+        self.assertEqual(response_data, {
+            'count': len(self.expected_advisors),
+            'next': None,
+            'previous': None,
+            'results': self.expected_advisors
+        })
 
     def test_get_detail_with_valid_id(self):
         # get the advisor info with valid id
@@ -145,7 +150,12 @@ class AdvisorAPITest(APITestCase):
         response = self.client.generic('GET', '/api/advisors')
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, [self.expected_advisors[1]])
+        self.assertEqual(response_data, {
+            'count': 1,
+            'next': None,
+            'previous': None,
+            'results': [self.expected_advisors[1]]
+        })
 
     def test_delete_with_non_exist_id(self):
         # get non-existent advisor by id

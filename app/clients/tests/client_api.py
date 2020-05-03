@@ -1,4 +1,5 @@
 import json
+from datetime import date
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -33,7 +34,10 @@ class ClientAPITest(APITestCase):
             'email': 'bwayne@drexel.edu',
             'personal_annual_net_income': '10000.00',
             'additional_income': '5000.00',
-            'advisor': None
+            'advisor': None,
+            'current_year': date.today().year,
+            'age': date.today().year - 1992,
+            'total_annual_income': 15000.00
         })
 
         # create second client
@@ -61,7 +65,10 @@ class ClientAPITest(APITestCase):
             'email': 'dgrayson@gmail.com',
             'personal_annual_net_income': '20000.00',
             'additional_income': '1000.00',
-            'advisor': None
+            'advisor': None,
+            'current_year': date.today().year,
+            'age': date.today().year - 2000,
+            'total_annual_income': 21000.00
         })
 
     def test_post(self):
@@ -87,7 +94,10 @@ class ClientAPITest(APITestCase):
             'email': 'jf91@drexel.edu',
             'personal_annual_net_income': '80000.00',
             'additional_income': '5000.00',
-            'advisor': None
+            'advisor': None,
+            'current_year': date.today().year,
+            'age': date.today().year - 1996,
+            'total_annual_income': 85000.00
         })
 
     def test_post_required(self):
@@ -105,7 +115,12 @@ class ClientAPITest(APITestCase):
         response = self.client.get('/api/clients')
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, self.expected_clients)
+        self.assertEqual(response_data, {
+            'count': len(self.expected_clients),
+            'next': None,
+            'previous': None,
+            'results': self.expected_clients
+        })
 
     def test_get_list_by_first_name(self):
         # filter clients by first_name
@@ -114,7 +129,12 @@ class ClientAPITest(APITestCase):
         })
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, [self.expected_clients[1]])
+        self.assertEqual(response_data, {
+            'count': 1,
+            'next': None,
+            'previous': None,
+            'results': [self.expected_clients[1]]
+        })
 
     def test_get_list_by_city(self):
         # filter clients by city
@@ -123,7 +143,12 @@ class ClientAPITest(APITestCase):
         })
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, self.expected_clients)
+        self.assertEqual(response_data, {
+            'count': len(self.expected_clients),
+            'next': None,
+            'previous': None,
+            'results': self.expected_clients
+        })
 
     def test_get_list_by_first_name_and_last_name(self):
         # filter clients by last_name and first_name
@@ -133,7 +158,12 @@ class ClientAPITest(APITestCase):
         })
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, [])
+        self.assertEqual(response_data, {
+            'count': 0,
+            'next': None,
+            'previous': None,
+            'results': []
+        })
 
     def test_get_detail_with_valid_id(self):
         # get the client detail with valid id
@@ -192,7 +222,12 @@ class ClientAPITest(APITestCase):
         response = self.client.get('/api/clients')
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, [self.expected_clients[1]])
+        self.assertEqual(response_data, {
+            'count': 1,
+            'next': None,
+            'previous': None,
+            'results': [self.expected_clients[1]]
+        })
 
     def test_delete_with_non_exist_id(self):
         response = self.client.delete(
