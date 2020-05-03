@@ -1,8 +1,8 @@
 import uuid
 from django.db import models
 from .client import Client
-
-
+from .plan import Plan
+git
 class Debt(models.Model):
     id = models.UUIDField(
         primary_key=True,
@@ -10,6 +10,9 @@ class Debt(models.Model):
         editable=False)
     client = models.ForeignKey(
         to=Client,
+        on_delete=models.CASCADE)
+    plan = models.ForeignKey(
+        to=Plan,
         on_delete=models.CASCADE)
     debt_monthly_amount = models.DecimalField(
         "Debt Monthly Amount",
