@@ -4,7 +4,7 @@ from computedfields.models import computed, ComputedFieldsModel
 from django.db import models
 from datetime import date
 from .client import Client
-
+from .partner import Partner
 
 # We would leave the factor fields alone since they're basically configurable constants We need to change the value
 # and range fields to @computed based on client.birth_year and client.annual_net_income + client.additional_income
@@ -16,6 +16,9 @@ class Plan(ComputedFieldsModel):
         editable=False)
     client = models.OneToOneField(
         to=Client,
+        on_delete=models.CASCADE)
+    partner = models.OneToOneField(
+        to=Partner,
         on_delete=models.CASCADE)
     protection_factor_upper = models.DecimalField(
         "Protection Factor Upper",
@@ -91,17 +94,7 @@ class Plan(ComputedFieldsModel):
         "Debt Repayment Factor",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
-    debt_repayment_value = models.DecimalField(
-        "Debt Repayment Value",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
-    household_annual_net_income = models.DecimalField(
-        "Household Annual Net Income",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
+        default=0.36)
 
     @computed(models.FloatField("Retirement Factor", default=1.0), depends=['client#age'])
     def retirement_factor(self):
@@ -124,6 +117,15 @@ class Plan(ComputedFieldsModel):
               depends=['client#total_annual_income'])
     def recommended_retirement_value(self):
         return self.retirement_factor * self.client.total_annual_income
+
+    @computed(models.FloatField(default=0.0), depends=['client#total_annual_income', 'partner#personal_annual_net_income'])
+    def household_annual_net_income(self):
+        return self.client.total_annual_income + float(self.partner.personal_annual_net_income)
+
+    @computed(models.FloatField(default=0.0))
+    def recommended_monthly_maximum_debt_amount(self):
+        return float((self.household_annual_net_income * self.debt_repayment_factor) / 12)
+        # debt repayment factor is configurable
 
     def __str__(self):
         attrs = vars(self)
