@@ -7,11 +7,17 @@ class ClientDependenceList(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = '__all__'
 
-    def perform_create(self, serializer):
-        serializer.save(client_id=self.kwargs.get('client'))
+    def post(self, request, *args, **kwargs):
+        request.data['client'] = kwargs['client']
+        return self.create(request, *args, **kwargs)
 
 
 class ClientDependenceDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_fields = ['client', 'pk']
     filter_backends = [DjangoFilterBackend]
     filterset_fields = '__all__'
+    http_method_names = ['get', 'patch', 'delete']
+
+    def patch(self, request, *args, **kwargs):
+        request.data.pop('client', None)
+        return self.partial_update(request, *args, **kwargs)
