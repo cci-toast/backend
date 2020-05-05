@@ -1,4 +1,5 @@
 import json
+from datetime import date
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -9,15 +10,15 @@ class ClientAPITest(APITestCase):
         self.expected_clients = []
 
         # create first client
-        response = self.client.generic('POST', '/api/clients', json.dumps({
+        response = self.client.post('/api/clients', data={
             'first_name': 'Bruce',
             'last_name': 'Wayne',
             'birth_year': '1992',
             'email': 'bwayne@drexel.edu',
             'personal_annual_net_income': 10000.0,
             'additional_income': 5000.0,
-        }), content_type='application/json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        })
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response_data = json.loads(response.content)
         self.first_client_id = response_data['id']
 
@@ -33,19 +34,23 @@ class ClientAPITest(APITestCase):
             'email': 'bwayne@drexel.edu',
             'personal_annual_net_income': '10000.00',
             'additional_income': '5000.00',
-            'advisor': None
+            'advisor': None,
+            'current_year': date.today().year,
+            'age': date.today().year - 1992,
+            'total_annual_income': '15000.00',
+            'household_annual_net_income': '15000.00'
         })
 
         # create second client
-        response = self.client.generic('POST', '/api/clients', json.dumps({
+        response = self.client.post('/api/clients', data={
             'first_name': 'Dick',
             'last_name': 'Grayson',
             'birth_year': '2000',
             'email': 'dgrayson@gmail.com',
             'personal_annual_net_income': 20000.0,
             'additional_income': 1000.0,
-        }), content_type='application/json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        })
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response_data = json.loads(response.content)
         self.second_client_id = response_data['id']
 
@@ -61,21 +66,25 @@ class ClientAPITest(APITestCase):
             'email': 'dgrayson@gmail.com',
             'personal_annual_net_income': '20000.00',
             'additional_income': '1000.00',
-            'advisor': None
+            'advisor': None,
+            'current_year': date.today().year,
+            'age': date.today().year - 2000,
+            'total_annual_income': '21000.00',
+            'household_annual_net_income': '21000.00',
         })
 
     def test_post(self):
-        response = self.client.generic('POST', '/api/clients', json.dumps({
+        response = self.client.post('/api/clients', data={
             'first_name': 'Bao',
             'last_name': 'Batman',
             'birth_year': '1996',
             'email': 'jf91@drexel.edu',
             'personal_annual_net_income': 80000.0,
             'additional_income': 5000.0,
-        }), content_type='application/json')
+        })
         response_data = json.loads(response.content)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response_data, {
             'id': response_data['id'],
             'first_name': 'Bao',
@@ -87,12 +96,15 @@ class ClientAPITest(APITestCase):
             'email': 'jf91@drexel.edu',
             'personal_annual_net_income': '80000.00',
             'additional_income': '5000.00',
-            'advisor': None
+            'advisor': None,
+            'current_year': date.today().year,
+            'age': date.today().year - 1996,
+            'total_annual_income': '85000.00',
+            'household_annual_net_income': '85000.00'
         })
 
     def test_post_required(self):
-        response = self.client.generic(
-            'POST', '/api/clients', json.dumps({}), content_type='application/json')
+        response = self.client.post('/api/clients', data={})
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response_data, {
@@ -103,77 +115,83 @@ class ClientAPITest(APITestCase):
 
     def test_get_list(self):
         # get the all list of clients
-        response = self.client.generic('GET', '/api/clients')
+        response = self.client.get('/api/clients')
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, self.expected_clients)
+        self.assertEqual(response_data, {
+            'count': len(self.expected_clients),
+            'next': None,
+            'previous': None,
+            'results': self.expected_clients
+        })
 
     def test_get_list_by_first_name(self):
         # filter clients by first_name
-        response = self.client.generic('GET', '/api/clients', json.dumps({
+        response = self.client.get('/api/clients', data={
             'first_name': 'Dick'
-        }), content_type='application/json')
+        })
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, [self.expected_clients[1]])
+        self.assertEqual(response_data, {
+            'count': 1,
+            'next': None,
+            'previous': None,
+            'results': [self.expected_clients[1]]
+        })
 
     def test_get_list_by_city(self):
         # filter clients by city
-        response = self.client.generic('GET', '/api/clients', json.dumps({
+        response = self.client.get('/api/clients', data={
             'city': 'Philadelphia'
-        }), content_type='application/json')
+        })
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, self.expected_clients)
+        self.assertEqual(response_data, {
+            'count': len(self.expected_clients),
+            'next': None,
+            'previous': None,
+            'results': self.expected_clients
+        })
 
     def test_get_list_by_first_name_and_last_name(self):
         # filter clients by last_name and first_name
-        response = self.client.generic('GET', '/api/clients', json.dumps({
+        response = self.client.get('/api/clients', data={
             'first_name': 'Dick',
             'last_name': 'Wayne'
-        }), content_type='application/json')
+        })
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, [])
+        self.assertEqual(response_data, {
+            'count': 0,
+            'next': None,
+            'previous': None,
+            'results': []
+        })
 
     def test_get_detail_with_valid_id(self):
         # get the client detail with valid id
-        response = self.client.generic('GET', '/api/clients', json.dumps({
-            'id': self.first_client_id
-        }), content_type='application/json')
+        response = self.client.get('/api/clients/' + self.first_client_id)
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, self.expected_clients[0])
 
     def test_get_detail_with_non_exist_id(self):
         # get non-exist client
-        response = self.client.generic('GET', '/api/clients', json.dumps({
-            'id': '123e4567-e89b-12d3-a456-426655440000'
-        }), content_type='application/json')
-        response_data = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response_data, {
-            'id': ['Object not exists.']
-        })
+        response = self.client.get(
+            '/api/clients/' + '123e4567-e89b-12d3-a456-426655440000')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_get_detail_with_invalid_id(self):
         # get client detail with invalid id
-        response = self.client.generic('GET', '/api/clients', json.dumps({
-            'id': '1233-1222-122222'
-        }), content_type='application/json')
-        response_data = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response_data, {
-            'id': ['Must be a valid UUID.']
-        })
+        response = self.client.get('/api/clients/' + '1233-1222-122222')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_patch_with_valid_id(self):
         # change the client detail with valid id
-        response = self.client.generic('PATCH', '/api/clients', json.dumps({
-            'id': self.first_client_id,
+        response = self.client.patch('/api/clients/' + self.first_client_id, data={
             'first_name': 'Superman',
             'last_name': 'Bigboy'
-        }), content_type='application/json')
+        })
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -184,66 +202,42 @@ class ClientAPITest(APITestCase):
 
     def test_patch_with_non_exist_id(self):
         # change the client detail with non-exist id
-        response = self.client.generic('PATCH', '/api/clients', json.dumps({
-            'id': '123e4567-e89b-12d3-a456-426655440000',
+        response = self.client.patch('/api/clients/123e4567-e89b-12d3-a456-426655440000', data={
             'first_name': 'Superman',
             'last_name': 'Bigboy'
-        }), content_type='application/json')
-        response_data = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response_data, {
-            'id': ['Object not exists.']
         })
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_patch_with_invalid_id(self):
         # change the client detail with invalid id
-        response = self.client.generic('PATCH', '/api/clients', json.dumps({
-            'id': '12ssfsdfsdfqweqdnqwkd',
+        response = self.client.patch('/api/clients/12ssfsdfsdfqweqdnqwkd', data={
             'first_name': 'Superman',
             'last_name': 'Bigboy'
-        }), content_type='application/json')
-        response_data = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response_data, {
-            'id': ['Must be a valid UUID.']
         })
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_delete_with_valid_id(self):
         # change the client detail with valid id
-        response = self.client.generic('DELETE', '/api/clients', json.dumps({
-            'id': self.first_client_id,
-        }), content_type='application/json')
-        response_data = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        expected_change = self.expected_clients[0]
-        expected_change['id'] = None
-        self.assertEqual(response_data, expected_change)
+        response = self.client.delete('/api/clients/' + self.first_client_id)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
         # make sure we only have one client left
-        response = self.client.generic('GET', '/api/clients')
+        response = self.client.get('/api/clients')
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data, [self.expected_clients[1]])
+        self.assertEqual(response_data, {
+            'count': 1,
+            'next': None,
+            'previous': None,
+            'results': [self.expected_clients[1]]
+        })
 
     def test_delete_with_non_exist_id(self):
-        # change the client detail with non-exist id
-        response = self.client.generic('DELETE', '/api/clients', json.dumps({
-            'id': '123e4567-e89b-12d3-a456-426655440000',
-        }), content_type='application/json')
-        response_data = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response_data, {
-            'id': ['Object not exists.']
-        })
+        response = self.client.delete(
+            '/api/clients/123e4567-e89b-12d3-a456-426655440000')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_delete_with_invalid_id(self):
-        # change the client detail with invalid id
-        response = self.client.generic('DELETE', '/api/clients', json.dumps({
-            'id': '12ssfsdfsdfqweqdnqwkd',
-        }), content_type='application/json')
-        response_data = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response_data, {
-            'id': ['Must be a valid UUID.']
-        })
+        response = self.client.delete('/api/clients/12ssfsdfsdfqweqdnqwkd')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

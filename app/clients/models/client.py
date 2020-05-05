@@ -1,23 +1,27 @@
 import uuid
-from django.db import models
 from datetime import date
+from decimal import Decimal
+
+from computedfields.models import ComputedFieldsModel, computed
+from django.db import models
+
 from .advisor import Advisor
 
 
-class Client(models.Model):
+class Client(ComputedFieldsModel):
     id = models.UUIDField(
-        primary_key=True, 
-        default=uuid.uuid4, 
+        primary_key=True,
+        default=uuid.uuid4,
         editable=False)
     advisor = models.ForeignKey(
-        to=Advisor, 
-        on_delete=models.SET_NULL, 
+        to=Advisor,
+        on_delete=models.SET_NULL,
         null=True)
     first_name = models.CharField(
-        "First Name", 
+        "First Name",
         max_length=240)
     last_name = models.CharField(
-        "Last Name", 
+        "Last Name",
         max_length=240)
     middle_name = models.CharField(
         "Middle Name",
@@ -46,6 +50,34 @@ class Client(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0.0)
+
+    @computed(models.IntegerField("Current Year"), default=2020)
+    def current_year(self):
+        return date.today().year
+
+    @computed(models.IntegerField("Age", default=0))
+    def age(self):
+        return self.current_year - self.birth_year
+
+    @computed(models.DecimalField(
+        "Total Annual Income",
+        max_digits=8,
+        decimal_places=2,
+        default=0.0))
+    def total_annual_income(self):
+        return self.personal_annual_net_income + self.additional_income
+
+    @computed(models.DecimalField(
+        'Household Annual Net Income',
+        max_digits=8,
+        decimal_places=2,
+        default=0.0),
+        depends=['partner#personal_annual_net_income'])
+    def household_annual_net_income(self):
+        partner_income = Decimal(0.0)
+        for partner in self.partner_set.all():
+            partner_income = partner_income + partner.personal_annual_net_income
+        return self.total_annual_income + partner_income
 
     def __str__(self):
         attrs = vars(self)
