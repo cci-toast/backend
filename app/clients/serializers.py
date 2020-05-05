@@ -4,6 +4,8 @@ from rest_framework import serializers
 
 from clients.models import (ActionItem, Advisor, Children, Client, Debt,
                             Expense, Goal, Partner, Plan)
+from django.contrib.auth.models import User
+from rest_framework import serializers
 
 
 class AdvisorSerializer(serializers.ModelSerializer):
@@ -107,3 +109,26 @@ class ActionItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActionItem
         exclude = ['client']
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['url', 'first_name', 'last_name', 'username', 'email',
+                  'password']
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'first_name': {'required': True},
+            'last_name': {'required': True}
+        }
+
+    def create(self, validated_data):
+        instance = super(UserSerializer, self).create(validated_data)
+        instance.set_password(validated_data['password'])
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data['password'])
+        instance.save()
+        return instance
