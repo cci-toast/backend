@@ -3,11 +3,14 @@ from rest_framework import generics
 
 from clients.models import Client
 from clients.serializers import ClientSerializer
+from clients.permissions.permissions import IsAuthenticatedOrWriteOnly, IsAdminOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 
 class ClientList(generics.ListCreateAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+    permission_classes = (IsAuthenticated,)
     filter_backends = [DjangoFilterBackend]
     filterset_fields = '__all__'
 
