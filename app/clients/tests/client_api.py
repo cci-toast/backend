@@ -37,7 +37,8 @@ class ClientAPITest(APITestCase):
             'advisor': None,
             'current_year': date.today().year,
             'age': date.today().year - 1992,
-            'total_annual_income': 15000.00
+            'total_annual_income': '15000.00',
+            'household_annual_net_income': '15000.00'
         })
 
         # create second client
@@ -68,7 +69,8 @@ class ClientAPITest(APITestCase):
             'advisor': None,
             'current_year': date.today().year,
             'age': date.today().year - 2000,
-            'total_annual_income': 21000.00
+            'total_annual_income': '21000.00',
+            'household_annual_net_income': '21000.00',
         })
 
     def test_post(self):
@@ -97,7 +99,8 @@ class ClientAPITest(APITestCase):
             'advisor': None,
             'current_year': date.today().year,
             'age': date.today().year - 1996,
-            'total_annual_income': 85000.00
+            'total_annual_income': '85000.00',
+            'household_annual_net_income': '85000.00'
         })
 
     def test_post_required(self):
