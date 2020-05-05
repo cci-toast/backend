@@ -3,8 +3,8 @@ from rest_framework import generics
 
 from clients.models import Client
 from clients.serializers import ClientSerializer
-from clients.permissions.permissions import IsAuthenticatedOrWriteOnly, IsAdminOrReadOnly
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+
+from rest_framework.permissions import IsAuthenticated
 
 
 class ClientList(generics.ListCreateAPIView):
