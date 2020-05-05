@@ -1,13 +1,14 @@
 import uuid
+from decimal import Decimal
 
-from computedfields.models import computed, ComputedFieldsModel
+from computedfields.models import ComputedFieldsModel, computed
 from django.db import models
-from datetime import date
+
 from .client import Client
-from .partner import Partner
 
 # We would leave the factor fields alone since they're basically configurable constants We need to change the value
 # and range fields to @computed based on client.birth_year and client.annual_net_income + client.additional_income
+
 
 class Plan(ComputedFieldsModel):
     id = models.UUIDField(
@@ -16,9 +17,6 @@ class Plan(ComputedFieldsModel):
         editable=False)
     client = models.OneToOneField(
         to=Client,
-        on_delete=models.CASCADE)
-    partner = models.OneToOneField(
-        to=Partner,
         on_delete=models.CASCADE)
     protection_factor_upper = models.DecimalField(
         "Protection Factor Upper",
@@ -96,36 +94,40 @@ class Plan(ComputedFieldsModel):
         decimal_places=2,
         default=0.36)
 
-    @computed(models.FloatField("Retirement Factor", default=1.0), depends=['client#age'])
+    @computed(models.DecimalField(
+        'Retirement Factor',
+        max_digits=5,
+        decimal_places=2,
+        default=1.0), depends=['client#age'])
     def retirement_factor(self):
         client_age = self.client.age
         if client_age < 39:
-            self.retirement_factor = 1.0
-        elif 40 <= client_age <= 49:
-            self.retirement_factor = 3.0
-        elif 50 <= client_age <= 59:
-            self.retirement_factor = 6.0
-        elif 60 <= client_age <= 66:
-            self.retirement_factor = 8.0
-        elif client_age >= 67:
-            self.retirement_factor = 10.0
-        else:
-            self.retirement_factor = 1.0
-        return self.retirement_factor
+            return 1.0
+        if 40 <= client_age <= 49:
+            return 3.0
+        if 50 <= client_age <= 59:
+            return 6.0
+        if 60 <= client_age <= 66:
+            return 8.0
+        if client_age >= 67:
+            return 10.0
+        return 1.0
 
-    @computed(models.FloatField("Recommended Retirement Value", default=0.0),
-              depends=['client#total_annual_income'])
+    @computed(models.DecimalField(
+        'Recommended Retirement Value',
+        max_digits=8,
+        decimal_places=2,
+        default=0.0), depends=['client#total_annual_income'])
     def recommended_retirement_value(self):
-        return self.retirement_factor * self.client.total_annual_income
+        return Decimal(self.retirement_factor) * self.client.total_annual_income
 
-    @computed(models.FloatField(default=0.0), depends=['client#total_annual_income', 'partner#personal_annual_net_income'])
-    def household_annual_net_income(self):
-        return self.client.total_annual_income + float(self.partner.personal_annual_net_income)
-
-    @computed(models.FloatField(default=0.0))
+    @computed(models.DecimalField(
+        'Recommended Monthly Maximum Debt Amount',
+        max_digits=8,
+        decimal_places=2,
+        default=0.0), depends=['client#household_annual_net_income'])
     def recommended_monthly_maximum_debt_amount(self):
-        return float((self.household_annual_net_income * self.debt_repayment_factor) / 12)
-        # debt repayment factor is configurable
+        return float(self.client.household_annual_net_income) * float(self.debt_repayment_factor) / 12.0
 
     def __str__(self):
         attrs = vars(self)
