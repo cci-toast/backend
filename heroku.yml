@@ -7,6 +7,6 @@ build:
 release:
   image: web
   command:
-    - python manage.py collectstatic --noinput
+    - python app/manage.py collectstatic --noinput
 run:
-  web: gunicorn django_app.wsgi
+  web: gunicorn app/django_app.wsgi
