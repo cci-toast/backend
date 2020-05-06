@@ -8,3 +8,4 @@ django-computedfields
 dj-database-url
 whitenoise
 django-rest-auth
+django-allauth
