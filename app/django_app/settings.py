@@ -26,8 +26,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default='superfoosecretkey')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '167.99.162.96', 'sheltered-falls-88441.herokuapp.com',
-                 'fathomless-tundra-54639.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0',
+                 'toastbackend.herokuapp.com']
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'django_filters',
     'django.contrib.sites',
