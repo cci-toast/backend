@@ -9,4 +9,4 @@ release:
   command:
     - python app/manage.py collectstatic --noinput
 run:
-  web: gunicorn app/django_app.wsgi
+  web: gunicorn django_app.wsgi
