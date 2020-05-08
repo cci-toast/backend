@@ -8,5 +8,7 @@ release:
   image: web
   command:
     - python manage.py collectstatic --noinput
+    - python manage.py makemigrations
+    - python manage.py migrate
 run:
   web: gunicorn django_app.wsgi
