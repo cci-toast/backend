@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY", default='superfoosecretkey')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get("DEBUG", default=True))
+DEBUG = (os.environ.get("DEBUG", default=True))
 
 ALLOWED_HOSTS = ['toastbackend.herokuapp.com']
 # Help guard against XSS attacks
