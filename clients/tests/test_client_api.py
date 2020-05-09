@@ -3,13 +3,28 @@ from datetime import date
 
 from rest_framework import status
 from rest_framework.test import APITestCase
+from django.test.client import Client
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 
 class ClientAPITest(APITestCase):
+
     def setUp(self):
         self.expected_clients = []
 
+        response = self.client.post('/auth/registration', data={
+            'username': 'testuser',
+            'email': 'testuser@email.com',
+            'password1': 'testpassword',
+            'password2': 'testpassword',
+        })
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        response_data = json.loads(response.content)
+        self.headers = response_data['key']
         # create first client
+
         response = self.client.post('/api/clients', data={
             'first_name': 'Bruce',
             'last_name': 'Wayne',
@@ -17,7 +32,7 @@ class ClientAPITest(APITestCase):
             'email': 'bwayne@drexel.edu',
             'personal_annual_net_income': 10000.0,
             'additional_income': 5000.0,
-        })
+        }, headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response_data = json.loads(response.content)
         self.first_client_id = response_data['id']
@@ -49,7 +64,7 @@ class ClientAPITest(APITestCase):
             'email': 'dgrayson@gmail.com',
             'personal_annual_net_income': 20000.0,
             'additional_income': 1000.0,
-        })
+        }, headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response_data = json.loads(response.content)
         self.second_client_id = response_data['id']
@@ -72,6 +87,7 @@ class ClientAPITest(APITestCase):
             'total_annual_income': '21000.00',
             'household_annual_net_income': '21000.00',
         })
+        # self.client.credentials()
 
     def test_post(self):
         response = self.client.post('/api/clients', data={
@@ -81,7 +97,7 @@ class ClientAPITest(APITestCase):
             'email': 'jf91@drexel.edu',
             'personal_annual_net_income': 80000.0,
             'additional_income': 5000.0,
-        })
+        }, headers=self.headers)
         response_data = json.loads(response.content)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -102,6 +118,7 @@ class ClientAPITest(APITestCase):
             'total_annual_income': '85000.00',
             'household_annual_net_income': '85000.00'
         })
+        # self.client.credentials()
 
     def test_post_required(self):
         response = self.client.post('/api/clients', data={})
@@ -112,6 +129,7 @@ class ClientAPITest(APITestCase):
             'last_name': ['This field is required.'],
             'email': ['This field is required.'],
         })
+        # self.client.credentials()
 
     def test_get_list(self):
         # get the all list of clients
