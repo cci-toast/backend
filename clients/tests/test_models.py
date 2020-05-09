@@ -357,6 +357,7 @@ class PlanTest(TestCase):
         self.assertEqual(len(Client.objects.all()), 0)
         self.assertEqual(len(Plan.objects.all()), 0)
 
+
 # Action item tests
 
 

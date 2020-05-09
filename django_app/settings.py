@@ -25,25 +25,30 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default='superfoosecretkey')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (os.environ.get("DEBUG", default=True))
 
-ALLOWED_HOSTS = ['toastbackend.herokuapp.com']
-# Help guard against XSS attacks
-SECURE_BROWSER_XSS_FILTER = True
-# Protection against Clickjacking
-X_FRAME_OPTIONS = 'DENY'
-# Force all non-HTTPS traffic to be redirected to HTTPS
-SECURE_SSL_REDIRECT = True
-# HTTP Strict Transport Security (HSTS)
-# Enforce web browsers should only interact via HTTPS
-SECURE_HSTS_SECONDS = 3600
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True  #
-SECURE_CONTENT_TYPE_NOSNIFF = True
-# Force cookies over HTTPS
-SESSION_COOKIE_SECURE = True
-# Force CSRF cookies over HTTPS
-CSRF_COOKIE_SECURE = True
-#
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+ENVIRONMENT = os.environ.get('ENVIRONMENT')
+
+if ENVIRONMENT == 'production':
+    ALLOWED_HOSTS = ['toastbackend.herokuapp.com']
+    # Help guard against XSS attacks
+    SECURE_BROWSER_XSS_FILTER = True
+    # Protection against Clickjacking
+    X_FRAME_OPTIONS = 'DENY'
+    # Force all non-HTTPS traffic to be redirected to HTTPS
+    SECURE_SSL_REDIRECT = True
+    # HTTP Strict Transport Security (HSTS)
+    # Enforce web browsers should only interact via HTTPS
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True  #
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    # Force cookies over HTTPS
+    SESSION_COOKIE_SECURE = True
+    # Force CSRF cookies over HTTPS
+    CSRF_COOKIE_SECURE = True
+    #
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',

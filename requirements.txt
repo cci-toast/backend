@@ -10,3 +10,5 @@ whitenoise
 django-rest-auth
 django-allauth
 django-heroku
+pytest
+pytest-django
