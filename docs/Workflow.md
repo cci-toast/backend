@@ -1,63 +1,33 @@
-# CI/CD with Docker, Github Actions and DigitalOcean
-- `docker-comopose-ci.yml` co-ordinates the prod environment with caching to reduce the image size
-- `main.yml` dictates the Github action workflow for handling merging to master and deployment to DigitalOcean
-- The relevant  environment variables are handled by Github secrets
+# Build and Test Workflow
+All the django directories moved out of /app.
+After you pull the new master branch:
+- Make sure there’s a file called pytest.ini in django_app folder after you pulled successfully from new-master 
+(remove pytest.ini from your .gitignore (pytest needs this file)
 
-#### Handling data migrations in development
+- Make sure you've stopped and deleted any stray containers, that may interfere with the build process.
+## Stop and Purge all docker containers 
+From the backend root:
+```docker container stop $(docker container ls -aq)```
+
+```docker container rm $(docker container ls -aq)```
+
+# Build Process
+## 1. Build and run local docker container
+#### `docker-compose -f docker-compose-dev.yml up --build`
+
+## 2. Run Pytest in local docker container
+#### `docker-compose -f docker-compose-dev.yml run web pytest`
+
+**When you write new tests and want to run the test suite, make sure you** 
+- **stop and purge all old containers** 
+- **add your test-entity-api class to tests __init__.py** 
+- **rebuild the container (see 1) and then run pytest (see 2)**
+
+#### Handling data migrations in local docker container
 
 In case you have changes to migrate:
 ```
-$ docker-compose run web python manage.py makemigrations
+`docker-compose -f docker-compose-dev.yml run web python3 manage.py makemigrations`
 
-$ docker-compose run web python manage.py migrate
-
-$ docker-compose up --build
-```
-
-#### Handling data migrations in production
-```
-$ docker-compose -f docker-compose.prod.yml up -d --build
-
-$ docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
-```
-
-#### Bringing down Dev containers
-In case you want to stop containers and remove containers, networks, volumes, and images created by up
-Bring down the development containers (and the associated volumes with the -v flag):
-```
-$ docker-compose down -v
-```
-
-#### Building the production image and spin up the containers
-```
-$ docker-compose -f docker-compose.prod.yml up -d --build
-```
-
-#### Bringing down Prod containers
-```
-$ docker-compose -f docker-compose.prod.yml down -v
-```
-
-#### Notes about the Production Dockerfile
-- We used a Docker multi-stage build to reduce the final image size. 
-- Essentially, builder is a temporary image that's used for building the Python wheels. 
-- The wheels are then copied over to the final production image and the builder image is discarded.
-**Security Considerations in Production**
-- Non-root user is created to avoid running container processes as root inside a contaienr
-- We wouldn't want a bad actor to gain root access to the Docker host if they manage to break out of the container
-
-#### Delete all containers and images
-```
-docker stop $(docker ps -a -q)  # Stop all containers
-docker rm $(docker ps -a -q)    # Delete all containers
-docker rmi $(docker images -q)  # Delete all images
-```
-
-#### Run a command inside the docker image
-```
-docker-compose run [container_name] [command]
-```
-For example:
-```
-docker-compose run web python3 manage.py migrate
+`docker-compose -f docker-compose-dev.yml run web python3 manage.py migrate`
 ```
