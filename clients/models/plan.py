@@ -118,9 +118,9 @@ class Plan(ComputedFieldsModel):
         'Recommended Monthly Maximum Debt Amount',
         max_digits=8,
         decimal_places=2,
-        default=0.0), depends=['client#household_annual_net_income'])
+        default=0.0), depends=['client#total_annual_net_income'])
     def recommended_monthly_maximum_debt_amount(self):
-        return float(self.client.household_annual_net_income) * float(self.debt_repayment_factor) / 12.0
+        return Decimal(self.client.total_annual_income) * Decimal(self.debt_repayment_factor) / 12.0
 
     # Recommended emergency savings upper range
     @computed(models.DecimalField(
