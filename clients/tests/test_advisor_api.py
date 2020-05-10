@@ -7,6 +7,16 @@ from rest_framework.test import APITestCase
 class AdvisorAPITest(APITestCase):
     def setUp(self):
         self.expected_advisors = []
+        response = self.client.post('/auth/registration', data={
+            'username': 'testuser',
+            'email': 'testuser@email.com',
+            'password1': 'testpassword',
+            'password2': 'testpassword',
+        })
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        response_data = json.loads(response.content)
+        self.headers = response_data['key']
 
         # create first advisor
         response = self.client.post('/api/advisors', data={
@@ -14,7 +24,7 @@ class AdvisorAPITest(APITestCase):
             'last_name': 'Montgomery',
             'email': 'm.montgomery@gmail.com',
             'phone_number': '123-333-3344'
-        })
+        }, headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response_data = json.loads(response.content)
         self.first_advisor_id = response_data['id']
@@ -36,7 +46,7 @@ class AdvisorAPITest(APITestCase):
             'email': 'm.langdon@gmail.com',
             'phone_number': '966-666-9966',
             'address': '1120 Westchester Pl., Los Angeles CA'
-        })
+        }, headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response_data = json.loads(response.content)
         self.second_advisor_id = response_data['id']
@@ -57,7 +67,7 @@ class AdvisorAPITest(APITestCase):
             'last_name': 'Winters',
             'email': 'l.winters@drexel.edu',
             'phone_number': '355-323-2233'
-        })
+        }, headers=self.headers)
         response_data = json.loads(response.content)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -71,7 +81,7 @@ class AdvisorAPITest(APITestCase):
         })
 
     def test_post_required(self):
-        response = self.client.post('/api/advisors')
+        response = self.client.post('/api/advisors', headers=self.headers)
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response_data, {
@@ -83,7 +93,7 @@ class AdvisorAPITest(APITestCase):
 
     def test_get_list(self):
         # get the list of all advisors
-        response = self.client.get('/api/advisors')
+        response = self.client.get('/api/advisors', headers=self.headers)
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, {
@@ -95,7 +105,7 @@ class AdvisorAPITest(APITestCase):
 
     def test_get_detail_with_valid_id(self):
         # get the advisor info with valid id
-        response = self.client.get('/api/advisors/' + self.first_advisor_id)
+        response = self.client.get('/api/advisors/' + self.first_advisor_id, headers=self.headers)
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, self.expected_advisors[0])
@@ -103,12 +113,12 @@ class AdvisorAPITest(APITestCase):
     def test_get_detail_with_non_exist_id(self):
         # get non-existent advisor by id
         response = self.client.get(
-            '/api/advisors/123e4567-e89b-12d3-a456-426655440000')
+            '/api/advisors/123e4567-e89b-12d3-a456-426655440000', headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_get_detail_with_invalid_id(self):
         # get advisor details with invalid id
-        response = self.client.get('/api/advisors/4532-122-195832')
+        response = self.client.get('/api/advisors/4532-122-195832', headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_patch_with_valid_id(self):
@@ -116,7 +126,7 @@ class AdvisorAPITest(APITestCase):
         response = self.client.patch('/api/advisors/' + self.first_advisor_id, data={
             'first_name': 'Nora',
             'email': 'n.montgomery@gmail.com'
-        })
+        }, headers=self.headers)
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -130,7 +140,7 @@ class AdvisorAPITest(APITestCase):
         response = self.client.patch('/api/advisors/123e4567-e89b-12d3-a456-426655440000', data={
             'first_name': 'Nora',
             'last_name': 'Montgomery'
-        })
+        }, headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_patch_with_invalid_id(self):
@@ -138,16 +148,16 @@ class AdvisorAPITest(APITestCase):
         response = self.client.patch('/api/advisors/blah12blah12blah12', data={
             'first_name': 'Nora',
             'last_name': 'Montgomery'
-        })
+        }, headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_delete_with_valid_id(self):
         # delete advisor with valid id
-        response = self.client.delete('/api/advisors/' + self.first_advisor_id)
+        response = self.client.delete('/api/advisors/' + self.first_advisor_id, headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
         # make sure we only have one advisor left
-        response = self.client.generic('GET', '/api/advisors')
+        response = self.client.generic('GET', '/api/advisors', headers=self.headers)
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, {
@@ -160,11 +170,11 @@ class AdvisorAPITest(APITestCase):
     def test_delete_with_non_exist_id(self):
         # get non-existent advisor by id
         response = self.client.delete(
-            '/api/advisors/123e4567-e89b-12d3-a456-426655440000')
+            '/api/advisors/123e4567-e89b-12d3-a456-426655440000', headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_delete_with_invalid_id(self):
         # get non-existent advisor by id
         response = self.client.delete(
-            '/api/advisors/123e4567asdgerr')
+            '/api/advisors/123e4567asdgerr', headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
