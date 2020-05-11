@@ -65,7 +65,7 @@ class Client(ComputedFieldsModel):
         decimal_places=2,
         default=0.0))
     def total_annual_income(self):
-        return self.personal_annual_net_income + self.additional_income
+        return Decimal(self.personal_annual_net_income + self.additional_income)
 
     @computed(models.DecimalField(
         'Household Annual Net Income',
