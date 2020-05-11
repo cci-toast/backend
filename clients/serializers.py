@@ -4,8 +4,6 @@ from rest_framework import serializers
 
 from clients.models import (ActionItem, Advisor, Children, Client, Debt,
                             Expense, Goal, Partner, Plan)
-from django.contrib.auth.models import User
-from rest_framework import serializers
 
 
 class AdvisorSerializer(serializers.ModelSerializer):

@@ -307,35 +307,32 @@ class PlanTest(TestCase):
         self.client = CommonSetup.create_faked_client()
         Plan.objects.create(
             client=self.client,
-            protection_factor_upper=Decimal("4.00"),
-            protection_factor_lower=Decimal("2.00"),
-            protection_range_upper=Decimal("5000.00"),
-            protection_range_lower=Decimal("1000.00"),
             emergency_savings_factor_upper=Decimal("4.00"),
             emergency_savings_factor_lower=Decimal("2.00"))
 
     def test_create_plan(self):
         plan = Plan.objects.filter(client__email=CommonSetup.client_email)[0]
-        self.assertEqual(plan.protection_factor_upper, Decimal("4.00"))
-        self.assertEqual(plan.protection_factor_lower, Decimal("2.00"))
-        self.assertEqual(plan.protection_range_upper, Decimal("5000.00"))
-        self.assertEqual(plan.protection_range_lower, Decimal("1000.00"))
+        self.assertEqual(plan.debt_repayment_factor, Decimal("0.36"))
+        self.assertEqual(plan.protection_factor, Decimal("20.00"))
         self.assertEqual(plan.emergency_savings_factor_upper, Decimal("4.00"))
         self.assertEqual(plan.emergency_savings_factor_lower, Decimal("2.00"))
-        self.assertEqual(plan.recommended_emergency_savings_range_upper,
-                         Decimal("633.47"))
-        self.assertEqual(plan.recommended_emergency_savings_range_lower,
-                         Decimal("316.73"))
         self.assertEqual(plan.retirement_factor, Decimal("1.0"))
-        self.assertEqual(plan.recommended_retirement_value,
-                         self.client.total_annual_income)
-        self.assertEqual(plan.budget_savings_factor, Decimal("0.0"))
-        self.assertEqual(plan.budget_savings_value, Decimal("0.0"))
-        self.assertEqual(plan.budget_fixed_expenses_factor, Decimal("0.0"))
-        self.assertEqual(plan.budget_fixed_expenses_value, Decimal("0.0"))
-        self.assertEqual(plan.budget_spending_factor, Decimal("0.0"))
-        self.assertEqual(plan.budget_spending_value, Decimal("0.0"))
-        self.assertEqual(plan.debt_repayment_factor, Decimal("0.36"))
+        self.assertEqual(plan.budget_savings_factor, Decimal("0.2"))
+        self.assertEqual(plan.budget_fixed_expenses_factor, Decimal("0.5"))
+        self.assertEqual(plan.budget_spending_factor, Decimal("0.3"))
+        self.assertEqual(plan.recommended_protection_value, Decimal("3167.33"))
+        self.assertEqual(
+            plan.recommended_budget_savings_value, Decimal("31.67"))
+        self.assertEqual(
+            plan.recommended_budget_fixed_expenses_value, Decimal("79.18"))
+        self.assertEqual(
+            plan.recommended_budget_spending_value, Decimal("47.51"))
+        self.assertEqual(
+            plan.recommended_retirement_value, self.client.total_annual_income)
+        self.assertEqual(
+            plan.recommended_emergency_savings_range_upper, Decimal("633.47"))
+        self.assertEqual(
+            plan.recommended_emergency_savings_range_lower, Decimal("316.73"))
         self.assertEqual(
             plan.recommended_monthly_maximum_debt_amount, Decimal("57.01"))
 
