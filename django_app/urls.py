@@ -24,7 +24,8 @@ def home(request):
 
 urlpatterns = [
     path('', home, name='home'),
-    path('admin/', include('rest_framework.urls')),
+    path('admin/', admin.site.urls),
     path('api/', include('clients.urls')),
-
+    path('auth/', include('rest_auth.urls')),
+    path('auth/registration', include('rest_auth.registration.urls')),
 ]

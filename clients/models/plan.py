@@ -42,22 +42,12 @@ class Plan(ComputedFieldsModel):
         "Emergency Savings Factor Upper",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=6.0)
     emergency_savings_factor_lower = models.DecimalField(
         "Emergency Savings Factor Lower",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
-    emergency_savings_range_upper = models.DecimalField(
-        "Emergency Savings Range Upper",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
-    emergency_savings_range_lower = models.DecimalField(
-        "Emergency Savings Range Lower",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
+        default=3.0)
     budget_savings_factor = models.DecimalField(
         "Budget Savings Factor",
         max_digits=8,
@@ -113,6 +103,7 @@ class Plan(ComputedFieldsModel):
             return 10.0
         return 1.0
 
+    # Recommended Retirement
     @computed(models.DecimalField(
         'Recommended Retirement Value',
         max_digits=8,
@@ -121,13 +112,32 @@ class Plan(ComputedFieldsModel):
     def recommended_retirement_value(self):
         return Decimal(self.retirement_factor) * self.client.total_annual_income
 
+    # Recommended Debt
     @computed(models.DecimalField(
         'Recommended Monthly Maximum Debt Amount',
         max_digits=8,
         decimal_places=2,
-        default=0.0), depends=['client#household_annual_net_income'])
+        default=0.0), depends=['client#total_annual_income'])
     def recommended_monthly_maximum_debt_amount(self):
-        return float(self.client.household_annual_net_income) * float(self.debt_repayment_factor) / 12.0
+        return Decimal(self.client.total_annual_income) * Decimal(self.debt_repayment_factor) / Decimal(12.0)
+
+    # Recommended emergency savings upper range
+    @computed(models.DecimalField(
+        'Recommended Emergency Savings Range Upper',
+        max_digits=8,
+        decimal_places=2,
+        default=0.0), depends=['client#total_annual_income'])
+    def recommended_emergency_savings_range_upper(self):
+        return Decimal((self.client.total_annual_income / 12) * Decimal(self.emergency_savings_factor_upper))
+
+    # Recommended emergency savings lower range
+    @computed(models.DecimalField(
+        'Recommended Emergency Savings Range Lower',
+        max_digits=8,
+        decimal_places=2,
+        default=0.0), depends=['client#total_annual_income'])
+    def recommended_emergency_savings_range_lower(self):
+        return Decimal((self.client.total_annual_income / 12) * Decimal(self.emergency_savings_factor_lower))
 
     def __str__(self):
         attrs = vars(self)

@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 django = "*"
 djangorestframework = "*"
+django-filter = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.7"

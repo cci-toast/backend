@@ -1,11 +1,14 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
 build:
   docker:
-    web: Dockerfile
-
-run:
-  web: gunicorn django_app.wsgi:application --bind 0.0.0.0:$PORT
-
+    web: Dockerfile.prod
 release:
   image: web
   command:
-    - python app/manage.py collectstatic --noinput
+    - python manage.py collectstatic --noinput
+    - python manage.py makemigrations
+    - python manage.py migrate
+run:
+  web: gunicorn django_app.wsgi
