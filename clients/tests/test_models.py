@@ -312,9 +312,7 @@ class PlanTest(TestCase):
             protection_range_upper=Decimal("5000.00"),
             protection_range_lower=Decimal("1000.00"),
             emergency_savings_factor_upper=Decimal("4.00"),
-            emergency_savings_factor_lower=Decimal("2.00"),
-            emergency_savings_range_upper=Decimal("4000.00"),
-            emergency_savings_range_lower=Decimal("2000.00"))
+            emergency_savings_factor_lower=Decimal("2.00"))
 
     def test_create_plan(self):
         plan = Plan.objects.filter(client__email=CommonSetup.client_email)[0]
@@ -324,10 +322,10 @@ class PlanTest(TestCase):
         self.assertEqual(plan.protection_range_lower, Decimal("1000.00"))
         self.assertEqual(plan.emergency_savings_factor_upper, Decimal("4.00"))
         self.assertEqual(plan.emergency_savings_factor_lower, Decimal("2.00"))
-        self.assertEqual(plan.emergency_savings_range_upper,
-                         Decimal("4000.00"))
-        self.assertEqual(plan.emergency_savings_range_lower,
-                         Decimal("2000.00"))
+        self.assertEqual(plan.recommended_emergency_savings_range_upper,
+                         Decimal("633.47"))
+        self.assertEqual(plan.recommended_emergency_savings_range_lower,
+                         Decimal("316.73"))
         self.assertEqual(plan.retirement_factor, Decimal("1.0"))
         self.assertEqual(plan.recommended_retirement_value,
                          self.client.total_annual_income)
