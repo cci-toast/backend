@@ -6,7 +6,6 @@ from django.db import models
 
 from .client import Client
 
-
 # We would leave the factor fields alone since they're basically configurable constants We need to change the value
 # and range fields to @computed based on client.birth_year and client.annual_net_income + client.additional_income
 
@@ -104,7 +103,7 @@ class Plan(ComputedFieldsModel):
             return 10.0
         return 1.0
 
-    # Recommended Retirement 
+    # Recommended Retirement
     @computed(models.DecimalField(
         'Recommended Retirement Value',
         max_digits=8,
@@ -118,16 +117,16 @@ class Plan(ComputedFieldsModel):
         'Recommended Monthly Maximum Debt Amount',
         max_digits=8,
         decimal_places=2,
-        default=0.0), depends=['client#total_annual_net_income'])
+        default=0.0), depends=['client#total_annual_income'])
     def recommended_monthly_maximum_debt_amount(self):
-        return Decimal(self.client.total_annual_income) * Decimal(self.debt_repayment_factor) / 12.0
+        return Decimal(self.client.total_annual_income) * Decimal(self.debt_repayment_factor) / Decimal(12.0)
 
     # Recommended emergency savings upper range
     @computed(models.DecimalField(
         'Recommended Emergency Savings Range Upper',
         max_digits=8,
         decimal_places=2,
-        default=0.0), depends=['client#total_annual_net_income'])
+        default=0.0), depends=['client#total_annual_income'])
     def recommended_emergency_savings_range_upper(self):
         return Decimal((self.client.total_annual_income / 12) * Decimal(self.emergency_savings_factor_upper))
 
@@ -136,7 +135,7 @@ class Plan(ComputedFieldsModel):
         'Recommended Emergency Savings Range Lower',
         max_digits=8,
         decimal_places=2,
-        default=0.0), depends=['client#total_annual_net_income'])
+        default=0.0), depends=['client#total_annual_income'])
     def recommended_emergency_savings_range_lower(self):
         return Decimal((self.client.total_annual_income / 12) * Decimal(self.emergency_savings_factor_lower))
 
