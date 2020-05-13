@@ -181,13 +181,14 @@ class ChildrenTest(TestCase):
         Children.objects.create(
             client=client,
             first_name="Ron",
-            birth_year=2000)
+            birth_year=2000,
+            education=Children.GOING_TO_COLLEGE)
 
         Children.objects.create(
             client=client,
             first_name="Corona",
             birth_year=2020,
-            planning_on_college=True)
+            education=Children.OTHER)
 
     def test_create_children(self):
         children = Children.objects.filter(
@@ -197,14 +198,12 @@ class ChildrenTest(TestCase):
         ron_child = children[0]
         self.assertEqual(ron_child.first_name, "Ron")
         self.assertEqual(ron_child.birth_year, 2000)
-        self.assertFalse(ron_child.planning_on_college)
-        self.assertFalse(ron_child.in_college)
+        self.assertEqual(ron_child.education, "Going to College")
 
         corona_child = children[1]
         self.assertEqual(corona_child.first_name, "Corona")
         self.assertEqual(corona_child.birth_year, 2020)
-        self.assertTrue(corona_child.planning_on_college)
-        self.assertFalse(corona_child.in_college)
+        self.assertEqual(corona_child.education, "Other")
 
     def test_delete_children(self):
         children = Children.objects.filter(
