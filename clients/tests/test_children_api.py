@@ -37,8 +37,7 @@ class ChildrenAPITest(APITestCase):
             'client': self.client_id,
             'first_name': 'Dick',
             'birth_year': 2000,
-            'planning_on_college': True,
-            'in_college': False
+            'education': 'In College'
         }, headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response_data = json.loads(response.content)
@@ -49,8 +48,7 @@ class ChildrenAPITest(APITestCase):
             'client': self.client_id,
             'first_name': 'Alex',
             'birth_year': 2000,
-            'planning_on_college': False,
-            'in_college': False
+            'education': 'Going to College',
         }, headers=self.headers)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response_data = json.loads(response.content)
@@ -61,16 +59,14 @@ class ChildrenAPITest(APITestCase):
             'id': self.expected_children[0]['id'],
             'first_name': 'Dick',
             'birth_year': 2000,
-            'planning_on_college': True,
-            'in_college': False
+            'education': 'In College',
         })
 
         self.assertEqual(self.expected_children[1], {
             'id': self.expected_children[1]['id'],
             'first_name': 'Alex',
             'birth_year': 2000,
-            'planning_on_college': False,
-            'in_college': False
+            'education': 'Going to College'
         })
 
     def test_post_required(self):

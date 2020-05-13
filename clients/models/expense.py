@@ -32,11 +32,6 @@ class Expense(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0.0)
-    bills_insurance = models.DecimalField(
-        "Bills Insurance",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
     expense_shopping = models.DecimalField(
         "Expense Shopping",
         max_digits=8,
@@ -69,6 +64,11 @@ class Expense(models.Model):
         default=0.0)
     current_protection_coverage = models.DecimalField(
         "Current Protection Coverage",
+        max_digits=8,
+        decimal_places=2,
+        default=0.0)
+    current_retirement_savings = models.DecimalField(
+        "Current Retirement Savings",
         max_digits=8,
         decimal_places=2,
         default=0.0)
