@@ -130,7 +130,6 @@ class ExpenseTest(TestCase):
             client=client,
             bills_housing=Decimal("4000.00"),
             bills_utilities=Decimal("2000.00"),
-            bills_insurance=Decimal("1000.00"),
             expense_shopping=Decimal("100.00"),
             expense_leisure=Decimal("50.20"),
             expense_transportation=Decimal("10.00"),
@@ -144,7 +143,6 @@ class ExpenseTest(TestCase):
         self.assertEqual(expense.housing_type, expense.RENT)
         self.assertEqual(expense.bills_housing, Decimal("4000.00"))
         self.assertEqual(expense.bills_utilities, Decimal("2000.00"))
-        self.assertEqual(expense.bills_insurance, Decimal("1000.00"))
         self.assertEqual(expense.expense_shopping, Decimal("100.00"))
         self.assertEqual(expense.expense_leisure, Decimal("50.20"))
         self.assertEqual(expense.expense_transportation, Decimal("10.00"))

@@ -5,6 +5,14 @@ from .client import Client
 
 
 class Children(models.Model):
+    COLLEGE = 'In College'
+    GOING_TO_COLLEGE = 'Going to College'
+    OTHER = 'Other'
+    EDUCATION_CHOICES = [
+        (COLLEGE, 'In College'),
+        (GOING_TO_COLLEGE, 'Going to College'),
+        (OTHER, 'Other')
+    ]
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -18,12 +26,10 @@ class Children(models.Model):
     birth_year = models.IntegerField(
         "Birth Year",
         default=date.today().year)
-    planning_on_college = models.BooleanField(
-        "Planning On College",
-        default=False)
-    in_college = models.BooleanField(
-        "In College",
-        default=False)
+    education = models.CharField(
+        max_length=25,
+        choices=EDUCATION_CHOICES,
+        default=OTHER)
 
     def __str__(self):
         attrs = vars(self)

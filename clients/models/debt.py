@@ -18,16 +18,6 @@ class Debt(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0.0)
-    debt_remaining_total = models.DecimalField(
-        "Debt Remaining Total",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
-    debt_interest_rate = models.DecimalField(
-        "Debt Interest Rate",
-        max_digits=8,
-        decimal_places=2,
-        default=0.0)
 
     def __str__(self):
         attrs = vars(self)
