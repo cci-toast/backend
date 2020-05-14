@@ -78,6 +78,18 @@ class Client(ComputedFieldsModel):
         for partner in self.partner_set.all():
             partner_income = partner_income + partner.personal_annual_net_income
         return self.total_annual_income + partner_income
+    
+    @computed(models.DecimalField(
+        'Total Monthly Debt Repayment',
+        max_digits=8,
+        decimal_places=2,
+        default=0.0),
+        depends=['debt#debt_monthly_amount'])
+    def total_monthly_debt_amount(self):
+        debt_amount = Decimal(0.0)
+        for debt in self.debt_set.all():
+            debt_amount = debt_amount + debt.debt_monthly_amount
+        return debt_amount
 
     def __str__(self):
         attrs = vars(self)

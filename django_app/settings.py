@@ -111,9 +111,9 @@ WSGI_APPLICATION = 'django_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': 'toastapp_dev',
+        'USER': 'toastapp',
+        'PASSWORD': 'toastapp',
         'HOST': 'db',
         'PORT': 5432
     }

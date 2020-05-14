@@ -6,6 +6,7 @@ from django.db import models
 
 from .client import Client
 
+
 # We would leave the factor fields alone since they're basically configurable constants We need to change the value
 # and range fields to @computed based on client.birth_year and client.annual_net_income + client.additional_income
 
@@ -87,6 +88,33 @@ class Plan(ComputedFieldsModel):
             return 6.0
         return 20.0
 
+    def calc_recommended_monthly_maximum_debt_amount(self):
+        return Decimal(self.client.total_annual_income) * Decimal(self.debt_repayment_factor) / Decimal(12.0)
+
+    @computed(models.BooleanField(
+        'Debt On Track', default=False), depends=['client#total_monthly_debt_amount', 'client#total_annual_income'])
+    def on_track(self):
+        return self.client.total_monthly_debt_amount <= self.calc_recommended_monthly_maximum_debt_amount()
+
+    @computed(models.DecimalField(
+        'Protection Factor',
+        max_digits=5,
+        decimal_places=2,
+        default=20.0), depends=['client#age'])
+    def protection_factor(self):
+        client_age = self.client.age
+        if client_age < 30:
+            return 20.0
+        if 30 <= client_age <= 39:
+            return 20.0
+        if 40 <= client_age <= 49:
+            return 12.0
+        if 50 <= client_age <= 59:
+            return 6.0
+        if client_age >= 60:
+            return 6.0
+        return 20.0
+
     # Recommended Retirement
     @computed(models.DecimalField(
         'Recommended Retirement Value',
@@ -103,7 +131,7 @@ class Plan(ComputedFieldsModel):
         decimal_places=2,
         default=0.0), depends=['client#total_annual_income'])
     def recommended_monthly_maximum_debt_amount(self):
-        return Decimal(self.client.total_annual_income) * Decimal(self.debt_repayment_factor) / Decimal(12.0)
+        return self.calc_recommended_monthly_maximum_debt_amount()
 
     # Recommended emergency savings upper range
     @computed(models.DecimalField(

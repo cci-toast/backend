@@ -4,7 +4,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
 
-class ClientDependenceList(generics.ListCreateAPIView):
+class ClientDependentList(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     permission_classes = (IsAuthenticated,)
     filterset_fields = '__all__'
@@ -15,7 +15,7 @@ class ClientDependenceList(generics.ListCreateAPIView):
         return self.serializer_class
 
 
-class ClientDependenceDetail(generics.RetrieveUpdateDestroyAPIView):
+class ClientDependentDetail(generics.RetrieveUpdateDestroyAPIView):
     filter_backends = [DjangoFilterBackend]
     permission_classes = (IsAuthenticated,)
     filterset_fields = '__all__'

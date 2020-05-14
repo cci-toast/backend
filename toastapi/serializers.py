@@ -16,6 +16,8 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = '__all__'
+        extra_kwargs = {
+            'advisor': {'read_only': True}}
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
