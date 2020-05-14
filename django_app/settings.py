@@ -28,7 +28,7 @@ DEBUG = (os.environ.get("DEBUG", default=True))
 ENVIRONMENT = os.environ.get('ENVIRONMENT')
 
 if ENVIRONMENT == 'production':
-    ALLOWED_HOSTS = ['toastbackend.herokuapp.com']
+    ALLOWED_HOSTS = ['toastapi.herokuapp.com']
     # Help guard against XSS attacks
     SECURE_BROWSER_XSS_FILTER = True
     # Protection against Clickjacking
