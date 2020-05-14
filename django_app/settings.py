@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'rest_framework',
     'corsheaders',
-    'clients',
+    'toastapi',
     'computedfields',
     'rest_framework.authtoken',
     'rest_auth',

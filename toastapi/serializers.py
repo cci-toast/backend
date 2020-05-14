@@ -2,8 +2,8 @@
 
 from rest_framework import serializers
 
-from clients.models import (ActionItem, Advisor, Children, Client, Debt,
-                            Expense, Goal, Partner, Plan)
+from toastapi.models import (ActionItem, Advisor, Children, Client, Debt,
+                             Expense, Goal, Partner, Plan)
 
 
 class AdvisorSerializer(serializers.ModelSerializer):

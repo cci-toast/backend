@@ -3,8 +3,8 @@ from decimal import Decimal
 
 from django.test import TestCase
 
-from clients.models import (ActionItem, Advisor, Children, Client, Expense,
-                            Goal, Partner, Plan)
+from toastapi.models import (ActionItem, Advisor, Children, Client, Expense,
+                             Goal, Partner, Plan)
 
 
 class CommonSetup:

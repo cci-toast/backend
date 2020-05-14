@@ -1,13 +1,13 @@
 from django.urls import path
 
-from clients.models import (ActionItem, Children, Debt, Expense, Goal, Partner,
-                            Plan)
-from clients.serializers import (ActionItemSerializer, ChildrenSerializer,
-                                 DebtSerializer, ExpenseSerializer,
-                                 GoalSerializer, PartnerSerializer,
-                                 PlanSerializer)
-from clients.views import (AdvisorDetail, AdvisorList, ClientDependenceDetail,
-                           ClientDependenceList, ClientDetail, ClientList)
+from toastapi.models import (ActionItem, Children, Debt, Expense, Goal, Partner,
+                             Plan)
+from toastapi.serializers import (ActionItemSerializer, ChildrenSerializer,
+                                  DebtSerializer, ExpenseSerializer,
+                                  GoalSerializer, PartnerSerializer,
+                                  PlanSerializer)
+from toastapi.views import (AdvisorDetail, AdvisorList, ClientDependenceDetail,
+                            ClientDependenceList, ClientDetail, ClientList)
 
 urlpatterns = [
     path('advisors', AdvisorList.as_view()),

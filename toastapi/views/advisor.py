@@ -1,8 +1,8 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from clients.models import Advisor
-from clients.serializers import AdvisorSerializer
+from toastapi.models import Advisor
+from toastapi.serializers import AdvisorSerializer
 
 
 class AdvisorList(generics.ListCreateAPIView):
