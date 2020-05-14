@@ -6,13 +6,17 @@ from clients.serializers import (ActionItemSerializer, ChildrenSerializer,
                                  DebtSerializer, ExpenseSerializer,
                                  GoalSerializer, PartnerSerializer,
                                  PlanSerializer)
-from clients.views import (AdvisorDetail, AdvisorList, ClientDependenceDetail,
-                           ClientDependenceList, ClientDetail, ClientList)
+from clients.views import (AdvisorClientList, AdvisorDetail, AdvisorList,
+                           ClientDependenceDetail, ClientDependenceList,
+                           ClientDetail, ClientList)
 
 urlpatterns = [
     path('advisors', AdvisorList.as_view()),
 
     path('advisors/<uuid:pk>', AdvisorDetail.as_view()),
+
+    path('advisors/<uuid:advisor_pk>/clients/<uuid:client_pk>',
+         AdvisorClientList.as_view()),
 
     path('clients', ClientList.as_view()),
 
