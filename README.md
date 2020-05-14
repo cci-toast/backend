@@ -1,5 +1,4 @@
 # Toast Backend
-![Push Container to Heroku](https://github.com/cci-toast/backend/workflows/Push%20Container%20to%20Heroku/badge.svg?branch=master&event=deployment_status)
 
 ## Development Set up
 - `git clone` this repo 
