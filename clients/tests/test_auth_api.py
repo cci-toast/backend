@@ -17,7 +17,7 @@ class AuthAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        self.client.post('/auth/logout')
+        self.client.post('/auth/logout/')
 
     def test_register_new_user(self):
         response = self.client.post('/auth/registration', data={
@@ -28,7 +28,7 @@ class AuthAPITest(APITestCase):
         })
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        self.client.post('/auth/logout')
+        self.client.post('/auth/logout/')
 
     def test_login_existing_user_with_valid_credentials(self):
         response = self.client.post('/auth/login/', data={
@@ -37,7 +37,7 @@ class AuthAPITest(APITestCase):
             'password': 'mariopassword'
             })
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.client.post('/auth/logout')
+        self.client.post('/auth/logout/')
 
     def test_login_existing_user_with_invalid_credentials(self):
         response = self.client.post('/auth/login/', data={
@@ -68,7 +68,7 @@ class AuthAPITest(APITestCase):
         })
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.client.post('/auth/logout')
+        self.client.post('/auth/logout/')
 
     def test_register_with_non_matching_passwords(self):
         response = self.client.post('/auth/registration', data={
@@ -77,4 +77,14 @@ class AuthAPITest(APITestCase):
             'password1': 'susanpassword',
             'password2': 'karenpassword'
         })
+        response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response_data, {
+            'non_field_errors': ["The two password fields didn't match."]
+            })
+
+
+    def test_get_clients_without_auth(self):
+        self.client.post('/auth/logout/')
+        response = self.client.get('/api/clients')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
