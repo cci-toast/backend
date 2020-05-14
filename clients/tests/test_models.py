@@ -351,8 +351,6 @@ class PlanTest(TestCase):
 
 
 # Action item tests
-
-
 class ActionItemTest(TestCase):
     def setUp(self):
         client = CommonSetup.create_faked_client()
