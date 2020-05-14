@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                  models.DecimalField(decimal_places=2, default=0.0, editable=False, max_digits=8,
                                      verbose_name='Household Annual Net Income')),
                 ('advisor',
-                 models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='clients.Advisor')),
+                 models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='toastapi.Advisor')),
             ],
             options={
                 'abstract': False,
@@ -95,7 +95,7 @@ class Migration(migrations.Migration):
                 ('recommended_monthly_maximum_debt_amount',
                  models.DecimalField(decimal_places=2, default=0.0, editable=False, max_digits=8,
                                      verbose_name='Recommended Monthly Maximum Debt Amount')),
-                ('client', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='clients.Client')),
+                ('client', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='toastapi.Client')),
             ],
             options={
                 'abstract': False,
@@ -110,7 +110,7 @@ class Migration(migrations.Migration):
                 ('birth_year', models.IntegerField(default=2020, verbose_name='Birth Year')),
                 ('personal_annual_net_income', models.DecimalField(decimal_places=2, default=0.0, max_digits=8,
                                                                    verbose_name='Personal Annual Net Income')),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='clients.Client')),
+                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='toastapi.Client')),
             ],
         ),
         migrations.CreateModel(
@@ -121,7 +121,7 @@ class Migration(migrations.Migration):
                 ('goal_value',
                  models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Goal Value')),
                 ('goal_end_date', models.DateField(default=datetime.date.today, verbose_name='Goal End Date')),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='clients.Client')),
+                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='toastapi.Client')),
             ],
         ),
         migrations.CreateModel(
@@ -150,7 +150,7 @@ class Migration(migrations.Migration):
                                                                            verbose_name='Current Monthly Protection Payment')),
                 ('current_protection_coverage', models.DecimalField(decimal_places=2, default=0.0, max_digits=8,
                                                                     verbose_name='Current Protection Coverage')),
-                ('client', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='clients.Client')),
+                ('client', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='toastapi.Client')),
             ],
         ),
         migrations.CreateModel(
@@ -163,7 +163,7 @@ class Migration(migrations.Migration):
                  models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Debt Remaining Total')),
                 ('debt_interest_rate',
                  models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='Debt Interest Rate')),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='clients.Client')),
+                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='toastapi.Client')),
             ],
         ),
         migrations.CreateModel(
@@ -174,7 +174,7 @@ class Migration(migrations.Migration):
                 ('birth_year', models.IntegerField(default=2020, verbose_name='Birth Year')),
                 ('planning_on_college', models.BooleanField(default=False, verbose_name='Planning On College')),
                 ('in_college', models.BooleanField(default=False, verbose_name='In College')),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='clients.Client')),
+                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='toastapi.Client')),
             ],
         ),
         migrations.CreateModel(
@@ -183,7 +183,7 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('description', models.CharField(max_length=240, verbose_name='Description')),
                 ('completed', models.BooleanField(verbose_name='Completed')),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='clients.Client')),
+                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='toastapi.Client')),
             ],
         ),
     ]
