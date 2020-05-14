@@ -98,6 +98,7 @@ class ClientTest(TestCase):
                          CommonSetup.client_additional_income)
         self.assertEqual(potter_client.household_annual_net_income,
                          potter_client.total_annual_income)
+        self.assertEqual(potter_client.total_monthly_debt_amount, Decimal(0.0))
 
         john_advisor = Advisor.objects.get(email=CommonSetup.advisor_email)
         client_set = john_advisor.client_set.all()
@@ -332,6 +333,8 @@ class PlanTest(TestCase):
             plan.recommended_emergency_savings_range_lower, Decimal("316.73"))
         self.assertEqual(
             plan.recommended_monthly_maximum_debt_amount, Decimal("57.01"))
+        self.assertEqual(
+            plan.on_track, True)
 
     def test_delete_plan(self):
         plan = Plan.objects.filter(client__email=CommonSetup.client_email)[0]
