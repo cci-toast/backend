@@ -32,7 +32,7 @@ class AdvisorClientList(APIView):
         client.advisor = advisor
         client.save()
         serializer = ClientSerializer(client)
-        return Response(serializer.data)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, advisor_pk, client_pk):
         advisor = get_object_or_404(Advisor, pk=advisor_pk)
