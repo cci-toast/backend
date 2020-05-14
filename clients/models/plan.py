@@ -68,6 +68,14 @@ class Plan(ComputedFieldsModel):
             return 10.0
         return 1.0
 
+    def calc_recommended_monthly_maximum_debt_amount(self):
+        return Decimal(self.client.total_annual_income) * Decimal(self.debt_repayment_factor) / Decimal(12.0)
+
+    @computed(models.BooleanField(
+        'Debt On Track'), depends=['client#total_monthly_debt_amount', 'client#total_annual_income'])
+    def on_track(self):
+        return self.client.total_monthly_debt_amount <= self.calc_recommended_monthly_maximum_debt_amount()
+
     @computed(models.DecimalField(
         'Protection Factor',
         max_digits=5,
@@ -103,7 +111,7 @@ class Plan(ComputedFieldsModel):
         decimal_places=2,
         default=0.0), depends=['client#total_annual_income'])
     def recommended_monthly_maximum_debt_amount(self):
-        return Decimal(self.client.total_annual_income) * Decimal(self.debt_repayment_factor) / Decimal(12.0)
+        return self.calc_recommended_monthly_maximum_debt_amount()
 
     # Recommended emergency savings upper range
     @computed(models.DecimalField(

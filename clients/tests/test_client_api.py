@@ -1,11 +1,11 @@
 import json
 from datetime import date
 
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from django.test.client import Client
 from rest_framework import status
 from rest_framework.test import APITestCase
-from django.test.client import Client
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
 
 
 class ClientAPITest(APITestCase):
@@ -53,7 +53,8 @@ class ClientAPITest(APITestCase):
             'current_year': date.today().year,
             'age': date.today().year - 1992,
             'total_annual_income': '15000.00',
-            'household_annual_net_income': '15000.00'
+            'household_annual_net_income': '15000.00',
+            'total_monthly_debt_amount': '0.00'
         })
 
         # create second client
@@ -86,6 +87,7 @@ class ClientAPITest(APITestCase):
             'age': date.today().year - 2000,
             'total_annual_income': '21000.00',
             'household_annual_net_income': '21000.00',
+            'total_monthly_debt_amount': '0.00'
         })
         # self.client.credentials()
 
@@ -116,7 +118,8 @@ class ClientAPITest(APITestCase):
             'current_year': date.today().year,
             'age': date.today().year - 1996,
             'total_annual_income': '85000.00',
-            'household_annual_net_income': '85000.00'
+            'household_annual_net_income': '85000.00',
+            'total_monthly_debt_amount': '0.00'
         })
         # self.client.credentials()
 
