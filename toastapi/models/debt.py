@@ -15,7 +15,7 @@ class Debt(models.Model):
         on_delete=models.CASCADE)
     debt_monthly_amount = models.DecimalField(
         "Debt Monthly Amount",
-        max_digits=8,
+        max_digits=15,
         decimal_places=2,
         default=0.0)
 

@@ -42,12 +42,12 @@ class Client(ComputedFieldsModel):
         default="PA")
     personal_annual_net_income = models.DecimalField(
         "Personal Annual Net Income",
-        max_digits=8,
+        max_digits=15,
         decimal_places=2,
         default=0.0)
     additional_income = models.DecimalField(
         "Additional Income",
-        max_digits=8,
+        max_digits=15,
         decimal_places=2,
         default=0.0)
 
@@ -61,7 +61,7 @@ class Client(ComputedFieldsModel):
 
     @computed(models.DecimalField(
         "Total Annual Income",
-        max_digits=8,
+        max_digits=20,
         decimal_places=2,
         default=0.0))
     def total_annual_income(self):
@@ -69,7 +69,7 @@ class Client(ComputedFieldsModel):
 
     @computed(models.DecimalField(
         'Household Annual Net Income',
-        max_digits=8,
+        max_digits=20,
         decimal_places=2,
         default=0.0),
         depends=['partner#personal_annual_net_income'])
@@ -78,10 +78,10 @@ class Client(ComputedFieldsModel):
         for partner in self.partner_set.all():
             partner_income = partner_income + partner.personal_annual_net_income
         return self.total_annual_income + partner_income
-    
+
     @computed(models.DecimalField(
         'Total Monthly Debt Repayment',
-        max_digits=8,
+        max_digits=20,
         decimal_places=2,
         default=0.0),
         depends=['debt#debt_monthly_amount'])
