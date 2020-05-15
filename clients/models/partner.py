@@ -1,22 +1,25 @@
 import uuid
-from django.db import models
 from datetime import date
+from decimal import Decimal
+
+from django.db import models
+
 from .client import Client
 
 
 class Partner(models.Model):
     id = models.UUIDField(
-        primary_key=True, 
-        default=uuid.uuid4, 
+        primary_key=True,
+        default=uuid.uuid4,
         editable=False)
     client = models.ForeignKey(
-        to=Client, 
+        to=Client,
         on_delete=models.CASCADE)
     first_name = models.CharField(
-        "First Name", 
+        "First Name",
         max_length=240)
     last_name = models.CharField(
-        "Last Name", 
+        "Last Name",
         max_length=240)
     birth_year = models.IntegerField(
         "Birth Year",
@@ -25,7 +28,7 @@ class Partner(models.Model):
         "Personal Annual Net Income",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
 
     def __str__(self):
         attrs = vars(self)

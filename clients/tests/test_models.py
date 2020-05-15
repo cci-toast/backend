@@ -318,7 +318,8 @@ class PlanTest(TestCase):
         self.assertEqual(plan.budget_savings_factor, Decimal("0.2"))
         self.assertEqual(plan.budget_fixed_expenses_factor, Decimal("0.5"))
         self.assertEqual(plan.budget_spending_factor, Decimal("0.3"))
-        self.assertEqual(plan.recommended_protection_value, Decimal("3167.33"))
+        self.assertEqual(plan.recommended_protection_value,
+                         Decimal("38008.00"))
         self.assertEqual(
             plan.recommended_budget_savings_value, Decimal("31.67"))
         self.assertEqual(

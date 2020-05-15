@@ -44,12 +44,12 @@ class Client(ComputedFieldsModel):
         "Personal Annual Net Income",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
     additional_income = models.DecimalField(
         "Additional Income",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
 
     @computed(models.IntegerField("Current Year"), default=2020)
     def current_year(self):

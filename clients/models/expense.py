@@ -1,5 +1,8 @@
 import uuid
+from decimal import Decimal
+
 from django.db import models
+
 from .client import Client
 
 
@@ -26,52 +29,52 @@ class Expense(models.Model):
         "Bills Housing",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
     bills_utilities = models.DecimalField(
         "Bills Utilities",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
     expense_shopping = models.DecimalField(
         "Expense Shopping",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
     expense_leisure = models.DecimalField(
         "Expense Leisure",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
     expense_transportation = models.DecimalField(
         "Expense Transportation",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
     expense_subscriptions = models.DecimalField(
         "Expense Subscription",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
     expense_other = models.DecimalField(
         "Expense Other",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
     current_monthly_protection_payment = models.DecimalField(
         "Current Monthly Protection Payment",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
     current_protection_coverage = models.DecimalField(
         "Current Protection Coverage",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
     current_retirement_savings = models.DecimalField(
         "Current Retirement Savings",
         max_digits=8,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
 
     def __str__(self):
         attrs = vars(self)
