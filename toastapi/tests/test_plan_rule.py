@@ -86,6 +86,32 @@ class PlanRuleTest(APITestCase):
         self.assertAlmostEqual(
             plan.recommended_budget_spending_value, Decimal('800.00'), 2)
 
+    # tests debt_repayment
+    def test_default_client_default_monthly_maximum_debt_amount(self):
+        plan = Plan.objects.create(client=self.default_client)
+        self.assertEqual(plan.debt_repayment_factor, Decimal('0.36'))
+        self.assertAlmostEqual(
+            plan.recommended_monthly_maximum_debt_amount, Decimal('30.00'), 2)
+
+    def test_default_client_patch_monthly_maximum_debt_amount(self):
+        plan = Plan.objects.create(client=self.default_client)
+        plan.debt_repayment_factor = Decimal('0.50')
+        plan.save()
+        self.assertEqual(
+            plan.debt_repayment_factor, Decimal('0.50'))
+        self.assertAlmostEqual(
+            plan.recommended_monthly_maximum_debt_amount, Decimal('41.67'), 2)
+
+    def test_patch_client_default_monthly_maximum_debt_amount(self):
+        self.default_client.personal_annual_net_income = Decimal('32000.00')
+        self.default_client.save()
+
+        plan = Plan.objects.create(client=self.default_client)
+        self.assertEqual(
+            plan.debt_repayment_factor, Decimal('0.36'))
+        self.assertAlmostEqual(
+            plan.recommended_monthly_maximum_debt_amount, Decimal('960.00'), 2)
+
     # tests protection
     def test_default_client_default_protection(self):
         plan = Plan.objects.create(client=self.default_client)
@@ -96,7 +122,7 @@ class PlanRuleTest(APITestCase):
         plan = Plan.objects.get(client=self.default_client)
         self.assertEqual(plan.protection_factor, Decimal('20.00'))
         self.assertAlmostEqual(
-            plan.recommended_protection_value, Decimal('20000.00'), 7)
+            plan.recommended_protection_value, Decimal('20000.00'), 2)
 
         # client is 30 years old
         self.default_client.birth_year = date.today().year - 30
@@ -104,7 +130,7 @@ class PlanRuleTest(APITestCase):
         plan = Plan.objects.get(client=self.default_client)
         self.assertEqual(plan.protection_factor, Decimal('20.00'))
         self.assertAlmostEqual(
-            plan.recommended_protection_value, Decimal('20000.00'), 7)
+            plan.recommended_protection_value, Decimal('20000.00'), 2)
 
         # client is 40 years old
         self.default_client.birth_year = date.today().year - 40
@@ -112,7 +138,7 @@ class PlanRuleTest(APITestCase):
         plan = Plan.objects.get(client=self.default_client)
         self.assertEqual(plan.protection_factor, Decimal('12.00'))
         self.assertAlmostEqual(
-            plan.recommended_protection_value, Decimal('12000.00'), 7)
+            plan.recommended_protection_value, Decimal('12000.00'), 2)
 
         # client is 50 years old
         self.default_client.birth_year = date.today().year - 50
@@ -120,7 +146,7 @@ class PlanRuleTest(APITestCase):
         plan = Plan.objects.get(client=self.default_client)
         self.assertEqual(plan.protection_factor, Decimal('6.00'))
         self.assertAlmostEqual(
-            plan.recommended_protection_value, Decimal('6000.00'), 6)
+            plan.recommended_protection_value, Decimal('6000.00'), 2)
 
         # client is 60 years old
         self.default_client.birth_year = date.today().year - 60
@@ -128,7 +154,7 @@ class PlanRuleTest(APITestCase):
         plan = Plan.objects.get(client=self.default_client)
         self.assertEqual(plan.protection_factor, Decimal('6.00'))
         self.assertAlmostEqual(
-            plan.recommended_protection_value, Decimal('6000.00'), 6)
+            plan.recommended_protection_value, Decimal('6000.00'), 2)
 
     def test_patch_client_default_protection(self):
         self.default_client.personal_annual_net_income = Decimal('32000.00')
@@ -139,4 +165,59 @@ class PlanRuleTest(APITestCase):
         plan = Plan.objects.create(client=self.default_client)
         self.assertEqual(plan.protection_factor, Decimal('6.00'))
         self.assertAlmostEqual(
-            plan.recommended_protection_value, Decimal('192000.00'), 8)
+            plan.recommended_protection_value, Decimal('192000.00'), 2)
+
+    # tests retirement
+    def test_default_client_default_retirement(self):
+        plan = Plan.objects.create(client=self.default_client)
+
+        # client is 38 years old
+        self.default_client.birth_year = date.today().year - 38
+        self.default_client.save()
+        plan = Plan.objects.get(client=self.default_client)
+        self.assertEqual(plan.retirement_factor, Decimal('1.00'))
+        self.assertAlmostEqual(
+            plan.recommended_retirement_value, Decimal('1000.00'), 2)
+
+        # client is 40 years old
+        self.default_client.birth_year = date.today().year - 40
+        self.default_client.save()
+        plan = Plan.objects.get(client=self.default_client)
+        self.assertEqual(plan.retirement_factor, Decimal('3.00'))
+        self.assertAlmostEqual(
+            plan.recommended_retirement_value, Decimal('3000.00'), 2)
+
+        # client is 50 years old
+        self.default_client.birth_year = date.today().year - 50
+        self.default_client.save()
+        plan = Plan.objects.get(client=self.default_client)
+        self.assertEqual(plan.retirement_factor, Decimal('6.00'))
+        self.assertAlmostEqual(
+            plan.recommended_retirement_value, Decimal('6000.00'), 2)
+
+        # client is 60 years old
+        self.default_client.birth_year = date.today().year - 60
+        self.default_client.save()
+        plan = Plan.objects.get(client=self.default_client)
+        self.assertEqual(plan.retirement_factor, Decimal('8.00'))
+        self.assertAlmostEqual(
+            plan.recommended_retirement_value, Decimal('8000.00'), 2)
+
+        # client is 67 years old
+        self.default_client.birth_year = date.today().year - 67
+        self.default_client.save()
+        plan = Plan.objects.get(client=self.default_client)
+        self.assertEqual(plan.retirement_factor, Decimal('10.00'))
+        self.assertAlmostEqual(
+            plan.recommended_retirement_value, Decimal('10000.00'), 2)
+
+    def test_patch_client_default_retirement(self):
+        self.default_client.personal_annual_net_income = Decimal('32000.00')
+        self.default_client.birth_year = date.today().year - 67
+        self.default_client.save()
+
+        # client is 67 years old
+        plan = Plan.objects.create(client=self.default_client)
+        self.assertEqual(plan.retirement_factor, Decimal('10.00'))
+        self.assertAlmostEqual(
+            plan.recommended_retirement_value, Decimal('320000.00'), 2)
