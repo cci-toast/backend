@@ -5,8 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from clients.models import Advisor, Client
-from clients.serializers import AdvisorSerializer, ClientSerializer
+from toastapi.models import Advisor, Client
+from toastapi.serializers import AdvisorSerializer, ClientSerializer
 
 
 class AdvisorList(generics.ListCreateAPIView):

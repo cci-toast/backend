@@ -3,7 +3,7 @@ from decimal import Decimal
 
 from rest_framework.test import APITestCase
 
-from clients.models import Client, Plan
+from toastapi.models import Client, Plan
 
 
 class PlanRuleTest(APITestCase):

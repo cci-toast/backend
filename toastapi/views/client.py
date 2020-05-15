@@ -1,8 +1,8 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
-from clients.models import Client
-from clients.serializers import ClientSerializer
+from toastapi.models import Client
+from toastapi.serializers import ClientSerializer
 
 from rest_framework.permissions import IsAuthenticated
 

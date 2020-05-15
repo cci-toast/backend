@@ -7,7 +7,7 @@ from rest_framework.test import APITestCase
 class ActionItemAPITest(APITestCase):
     def setUp(self):
         self.expected_action_items = []
-        #authenticate
+        # authenticate
         response = self.client.post('/auth/registration', data={
             'username': 'testuser',
             'email': 'testuser@email.com',
