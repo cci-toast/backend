@@ -96,21 +96,37 @@ class AdvisorAPITest(APITestCase):
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response_data, {
-            'additional_income': '0.00',
+            # 'additional_income': '0.00',
+            # 'advisor': self.first_advisor_id,
+            # 'age': 0,
+            # 'birth_year': 2020,
+            # 'city': 'Philadelphia',
+            # 'current_year': 2020,
+            # 'email': 'mjordan@gmail.com',
+            # 'first_name': 'Mike',
+            # 'household_annual_net_income': '0.00',
+            # 'id': self.client_id,
+            # 'last_name': 'Jordan',
+            # 'middle_name': '',
+            # 'personal_annual_net_income': '0.00',
+            # 'state': 'PA',
+            # 'total_annual_income': '0.00'
+            'id': self.client_id,
             'advisor': self.first_advisor_id,
             'age': 0,
-            'birth_year': 2020,
-            'city': 'Philadelphia',
-            'current_year': 2020,
-            'email': 'mjordan@gmail.com',
             'first_name': 'Mike',
-            'household_annual_net_income': '0.00',
-            'id': self.client_id,
             'last_name': 'Jordan',
             'middle_name': '',
-            'personal_annual_net_income': '0.00',
+            'birth_year': 2020,
+            'email': 'mjordan@gmail.com',
+            'city': 'Philadelphia',
             'state': 'PA',
-            'total_annual_income': '0.00'
+            'personal_annual_net_income': '0.00',
+            'additional_income': '0.00',
+            'current_year': 2020,
+            'total_annual_income': '0.00',
+            'household_annual_net_income': '0.00',
+            'total_monthly_debt_amount': '0.00'
         })
 
     def test_post_assign_client_to_advisor_with_invalid_id(self):
@@ -133,21 +149,37 @@ class AdvisorAPITest(APITestCase):
         response_data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, {
-            'additional_income': '0.00',
-            'advisor': None,
-            'age': 0,
-            'birth_year': 2020,
-            'city': 'Philadelphia',
-            'current_year': 2020,
-            'email': 'mjordan@gmail.com',
-            'first_name': 'Mike',
-            'household_annual_net_income': '0.00',
+            # 'id':
+            # 'additional_income': '0.00',
+            # 'advisor': 'None',
+            # 'age': 0,
+            # 'birth_year': 2020,
+            # 'city': 'Philadelphia',
+            # 'current_year': 2020,
+            # 'email': 'mjordan@gmail.com',
+            # 'first_name': 'Mike',
+            # 'household_annual_net_income': '0.00',
+            # 'last_name': 'Jordan',
+            # 'middle_name': '',
+            # 'personal_annual_net_income': '0.00',
+            # 'state': 'PA',
+            # 'total_annual_income': '0.00'
             'id': self.client_id,
+            'first_name': 'Mike',
             'last_name': 'Jordan',
             'middle_name': '',
-            'personal_annual_net_income': '0.00',
+            'birth_year': 2020,
+            'email': 'mjordan@gmail.com',
+            'city': 'Philadelphia',
             'state': 'PA',
-            'total_annual_income': '0.00'
+            'personal_annual_net_income': '0.00',
+            'additional_income': '0.00',
+            'current_year': 2020,
+            'age': 0,
+            'total_annual_income': '0.00',
+            'total_monthly_debt_amount': '0.00',
+            'household_annual_net_income': '0.00',
+            'advisor': None
         })
 
     def test_delete_client_from_advisor_with_mismatched_id(self):
