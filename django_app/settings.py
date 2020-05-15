@@ -28,7 +28,7 @@ DEBUG = (os.environ.get("DEBUG", default=True))
 ENVIRONMENT = os.environ.get('ENVIRONMENT')
 
 if ENVIRONMENT == 'production':
-    ALLOWED_HOSTS = ['toastbackend.herokuapp.com']
+    ALLOWED_HOSTS = ['toastapi.herokuapp.com']
     # Help guard against XSS attacks
     SECURE_BROWSER_XSS_FILTER = True
     # Protection against Clickjacking
@@ -62,13 +62,14 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'rest_framework',
     'corsheaders',
-    'clients',
+    'toastapi',
     'computedfields',
     'rest_framework.authtoken',
     'rest_auth',
     'rest_auth.registration',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -111,9 +112,9 @@ WSGI_APPLICATION = 'django_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': 'toastapp_dev',
+        'USER': 'toastapp',
+        'PASSWORD': 'toastapp',
         'HOST': 'db',
         'PORT': 5432
     }

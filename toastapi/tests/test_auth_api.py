@@ -7,7 +7,7 @@ from rest_framework.test import APITestCase
 class AuthAPITest(APITestCase):
 
     def setUp(self):
-        #create a user to test login
+        # create a user to test login
         response = self.client.post('/auth/registration', data={
             'username': 'mario',
             'email': 'mario@email.com',
@@ -35,7 +35,7 @@ class AuthAPITest(APITestCase):
             'username': 'mario',
             'email': 'mario@email.com',
             'password': 'mariopassword'
-            })
+        })
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.client.post('/auth/logout/')
 
@@ -46,7 +46,6 @@ class AuthAPITest(APITestCase):
         })
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
 
     def test_register_required_info(self):
         response = self.client.post('/auth/registration', data={
@@ -81,8 +80,7 @@ class AuthAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response_data, {
             'non_field_errors': ["The two password fields didn't match."]
-            })
-
+        })
 
     def test_get_clients_without_auth(self):
         self.client.post('/auth/logout/')
