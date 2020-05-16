@@ -15,17 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.http import JsonResponse
+from rest_framework_swagger.views import get_swagger_view
+from django.conf.urls import url
 
-
-def home(request):
-    return JsonResponse({"hello": "world!"})
-
+schema_view = get_swagger_view(title='Rules as a Service API')
 
 urlpatterns = [
-    path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('api/', include('toastapi.urls')),
     path('auth/', include('rest_auth.urls')),
     path('auth/registration', include('rest_auth.registration.urls')),
+    url(r'^$', schema_view),
 ]
