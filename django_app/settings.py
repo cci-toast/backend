@@ -157,8 +157,6 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': 'False',
 }
 
-LOGOUT_URL = 'rest_framework:logout'
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
