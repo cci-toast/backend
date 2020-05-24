@@ -1,5 +1,5 @@
 # Toast Backend
-
+  Build Status: ![.github/workflows/main.yml](https://github.com/cci-toast/backend/workflows/.github/workflows/main.yml/badge.svg)
 ## Development Set up
 - `git clone` this repo 
 - [Install docker](https://docs.docker.com/docker-for-mac/install/)
