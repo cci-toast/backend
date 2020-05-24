@@ -27,7 +27,7 @@ jobs:
           SQL_PORT: ${{ secrets.SQL_PORT }}
           SQL_USER: ${{ secrets.SQL_USER }}
         run: |
-          docker-compose -f docker-compose-dev.yml up --build
+          docker-compose -f docker-compose-dev.yml up --build -d
           docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov"
       - name: Check running containers
         run: docker-compose ps -a
