@@ -7,15 +7,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: docker-compose up
-        env:
-          COMPOSE_INTERACTIVE_NO_CLI: 1
-        run: docker-compose -f docker-compose-dev.yml up --build
+      - name: Add environment variables to .env
+        run: |
+          echo ENVIRONMENT = ${{ secrets.ENVIRONMENT }} >> .env.dev
+          echo DEBUG = ${{ secrets.DEBUG }} >> .env.dev
+          echo DATABASE = ${{ secrets.DATABASE }} >> .env.dev
+          echo DJANGO_ALLOWED_HOSTS = ${{ secrets.DJANGO_ALLOWED_HOSTS }} >> .env.dev
+          echo SECRET_KEY = ${{ secrets.SECRET_KEY }} >> .env.dev
+          echo SQL_DATABASE = ${{ secrets.SQL_DATABASE }} >> .env.dev
+          echo SQL_ENGINE=django.db.backends.postgresql >> .env.dev
+          echo SQL_HOST = ${{ secrets.SQL_HOST }} >> .env.dev
+          echo SQL_PASSWORD = ${{ secrets.SQL_PASSWORD }} >> .env.dev
+          echo SQL_PORT = ${{ secrets.SQL_PORT }} >> .env.dev
+          echo SQL_USER = ${{ secrets.SQL_USER }} >> .env.dev
+      - name: Build image
+          run: docker-compose -f docker-compose-dev.yml up --build
       - name: Check running containers
-        run: docker-compose ps -a
+          run: docker-compose ps -a
       - name: Check logs
-        run: docker-compose logs web
+          run: docker-compose logs web
       - name: Run tests with coverage
-        env:
-          COMPOSE_INTERACTIVE_NO_CLI: 1
-        run: docker-compose exec -T web pytest
+          env:
+            ENVIRONMENT = ${{ secrets.ENVIRONMENT }}
+            DEBUG = ${{ secrets.DEBUG }}
+            DATABASE = ${{ secrets.DATABASE }}
+            DJANGO_ALLOWED_HOSTS = ${{ secrets.DJANGO_ALLOWED_HOSTS }}
+            SECRET_KEY = ${{ secrets.SECRET_KEY }}
+            SQL_DATABASE = ${{ secrets.SQL_DATABASE }}
+            SQL_ENGINE = ${{ secrets.SQL_ENGINE }}
+            SQL_HOST = ${{ secrets.SQL_HOST }}
+            SQL_PASSWORD = ${{ secrets.SQL_PASSWORD }}
+            SQL_PORT = ${{ secrets.SQL_PORT }}
+            SQL_USER = ${{ secrets.SQL_USER }}
+          run: docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov"
