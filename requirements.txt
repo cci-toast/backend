@@ -12,4 +12,5 @@ django-allauth
 django-heroku
 pytest
 pytest-django
+pytest-cov
 django-rest-swagger
