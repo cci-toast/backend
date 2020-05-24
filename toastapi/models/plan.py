@@ -19,54 +19,54 @@ class Plan(ComputedFieldsModel):
         "Emergency Savings Factor Upper",
         max_digits=15,
         decimal_places=2,
-        default=6.0)
+        default=Decimal('6.00'))
     emergency_savings_factor_lower = models.DecimalField(
         "Emergency Savings Factor Lower",
         max_digits=15,
         decimal_places=2,
-        default=3.0)
+        default=Decimal('3.00'))
     budget_savings_factor = models.DecimalField(
         "Budget Savings Factor",
         max_digits=15,
         decimal_places=2,
-        default=0.20)
+        default=Decimal('0.20'))
     budget_fixed_expenses_factor = models.DecimalField(
         "Budget Fixed Expenses Factor",
         max_digits=15,
         decimal_places=2,
-        default=0.50)
+        default=Decimal('0.50'))
     budget_spending_factor = models.DecimalField(
         "Budget Spending Factor",
         max_digits=15,
         decimal_places=2,
-        default=0.30)
+        default=Decimal('0.30'))
     debt_repayment_factor = models.DecimalField(
         "Debt Repayment Factor",
         max_digits=15,
         decimal_places=2,
-        default=0.36)
+        default=Decimal('0.36'))
 
     @computed(models.DecimalField(
         'Retirement Factor',
         max_digits=15,
         decimal_places=2,
-        default=1.0), depends=['client#age'])
+        default=Decimal('1.00')), depends=['client#age'])
     def retirement_factor(self):
         client_age = self.client.age
         if client_age < 39:
-            return 1.0
+            return Decimal('1.00')
         if 40 <= client_age <= 49:
-            return 3.0
+            return Decimal('3.00')
         if 50 <= client_age <= 59:
-            return 6.0
+            return Decimal('6.00')
         if 60 <= client_age <= 66:
-            return 8.0
+            return Decimal('8.00')
         if client_age >= 67:
-            return 10.0
-        return 1.0
+            return Decimal('10.0')
+        return Decimal('1.00')
 
     def calc_recommended_monthly_maximum_debt_amount(self):
-        return Decimal(self.client.total_annual_income) * Decimal(self.debt_repayment_factor) / Decimal(12.0)
+        return Decimal(self.client.total_annual_income) * Decimal(self.debt_repayment_factor) / Decimal('12.0')
 
     @computed(models.BooleanField(
         'Debt On Track', default=False), depends=['client#total_monthly_debt_amount', 'client#total_annual_income'])
@@ -77,20 +77,20 @@ class Plan(ComputedFieldsModel):
         'Protection Factor',
         max_digits=15,
         decimal_places=2,
-        default=20.0), depends=['client#age'])
+        default=Decimal('20.0')), depends=['client#age'])
     def protection_factor(self):
         client_age = self.client.age
         if client_age < 30:
-            return 20.0
+            return Decimal('20.0')
         if 30 <= client_age <= 39:
-            return 20.0
+            return Decimal('20.0')
         if 40 <= client_age <= 49:
-            return 12.0
+            return Decimal('12.0')
         if 50 <= client_age <= 59:
-            return 6.0
+            return Decimal('6.00')
         if client_age >= 60:
-            return 6.0
-        return 20.0
+            return Decimal('6.00')
+        return Decimal('20.0')
 
     # Recommended Retirement
     @computed(models.DecimalField(
@@ -99,14 +99,14 @@ class Plan(ComputedFieldsModel):
         decimal_places=2,
         default=0.0), depends=['client#total_annual_income'])
     def recommended_retirement_value(self):
-        return Decimal(self.retirement_factor) * self.client.total_annual_income
+        return self.retirement_factor * self.client.total_annual_income
 
     # Recommended Debt
     @computed(models.DecimalField(
         'Recommended Monthly Maximum Debt Amount',
         max_digits=20,
         decimal_places=2,
-        default=0.0), depends=['client#total_annual_income'])
+        default=Decimal('0.00')), depends=['client#total_annual_income'])
     def recommended_monthly_maximum_debt_amount(self):
         return self.calc_recommended_monthly_maximum_debt_amount()
 
@@ -115,7 +115,7 @@ class Plan(ComputedFieldsModel):
         'Recommended Emergency Savings Range Upper',
         max_digits=20,
         decimal_places=2,
-        default=0.0), depends=['client#total_annual_income'])
+        default=Decimal('0.00')), depends=['client#total_annual_income'])
     def recommended_emergency_savings_range_upper(self):
         return Decimal((self.client.total_annual_income / 12) * Decimal(self.emergency_savings_factor_upper))
 
@@ -124,7 +124,7 @@ class Plan(ComputedFieldsModel):
         'Recommended Emergency Savings Range Lower',
         max_digits=20,
         decimal_places=2,
-        default=0.0), depends=['client#total_annual_income'])
+        default=Decimal('0.00')), depends=['client#total_annual_income'])
     def recommended_emergency_savings_range_lower(self):
         return Decimal((self.client.total_annual_income / 12) * Decimal(self.emergency_savings_factor_lower))
 
@@ -133,7 +133,7 @@ class Plan(ComputedFieldsModel):
         'Recommended Budget Savings Value',
         max_digits=20,
         decimal_places=2,
-        default=0.0), depends=['client#total_annual_income'])
+        default=Decimal('0.00')), depends=['client#total_annual_income'])
     def recommended_budget_savings_value(self):
         return Decimal((self.client.total_annual_income / 12) * Decimal(self.budget_savings_factor))
 
@@ -142,7 +142,7 @@ class Plan(ComputedFieldsModel):
         'Recommended Budget Fixed Expenses Value',
         max_digits=20,
         decimal_places=2,
-        default=0.0), depends=['client#total_annual_income'])
+        default=Decimal('0.00')), depends=['client#total_annual_income'])
     def recommended_budget_fixed_expenses_value(self):
         return Decimal((self.client.total_annual_income / 12) * Decimal(self.budget_fixed_expenses_factor))
 
@@ -151,7 +151,7 @@ class Plan(ComputedFieldsModel):
         'Recommended Budget Spending Value',
         max_digits=20,
         decimal_places=2,
-        default=0.0), depends=['client#total_annual_income'])
+        default=Decimal('0.00')), depends=['client#total_annual_income'])
     def recommended_budget_spending_value(self):
         return Decimal((self.client.total_annual_income / 12) * Decimal(self.budget_spending_factor))
 
@@ -160,7 +160,7 @@ class Plan(ComputedFieldsModel):
         'Recommended Protection Value',
         max_digits=20,
         decimal_places=2,
-        default=0.0), depends=['client#total_annual_income'])
+        default=Decimal('0.00')), depends=['client#total_annual_income'])
     def recommended_protection_value(self):
         return Decimal((self.client.total_annual_income) * Decimal(self.protection_factor))
 
