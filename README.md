@@ -28,7 +28,9 @@
 
 #### Handling data migrations in local docker container
 In case you have changes to migrate:
-- The equivalent of running _python manage.py makemigrations_
-`make migration`
-- The equivalent of running _python manage.py migrate_
-`make migrate`
+```
+make migration
+```
+```
+make migrate
+```
