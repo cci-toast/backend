@@ -55,7 +55,8 @@ class Client(ComputedFieldsModel):
     def current_year(self):
         return date.today().year
 
-    @computed(models.IntegerField("Age", default=0))
+    @computed(models.IntegerField("Age", default=0),
+              depends=[['self', ['current_year', 'birth_year']]])
     def age(self):
         return self.current_year - self.birth_year
 
@@ -63,7 +64,8 @@ class Client(ComputedFieldsModel):
         "Total Annual Income",
         max_digits=20,
         decimal_places=2,
-        default=Decimal('0.00')))
+        default=Decimal('0.00')),
+        depends=[['self', ['personal_annual_net_income', 'additional_income']]])
     def total_annual_income(self):
         return Decimal(self.personal_annual_net_income) + Decimal(self.additional_income)
 
@@ -72,7 +74,7 @@ class Client(ComputedFieldsModel):
         max_digits=20,
         decimal_places=2,
         default=Decimal('0.00')),
-        depends=['partner#personal_annual_net_income'])
+        depends=[['partner', ['personal_annual_net_income']], ['self', ['total_annual_income']]])
     def household_annual_net_income(self):
         partner_income = Decimal(0.0)
         for partner in self.partner_set.all():
@@ -84,7 +86,7 @@ class Client(ComputedFieldsModel):
         max_digits=20,
         decimal_places=2,
         default=Decimal('0.00')),
-        depends=['debt#debt_monthly_amount'])
+        depends=[['debt', ['debt_monthly_amount']]])
     def total_monthly_debt_amount(self):
         debt_amount = Decimal(0.0)
         for debt in self.debt_set.all():

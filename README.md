@@ -5,42 +5,30 @@
 - [Install docker](https://docs.docker.com/docker-for-mac/install/)
 - Check the version by `docker --version`
 - Make sure Docker desktop is running 
-- `cd` into `/backend`
+- `cd` into `/backend`. This is the project root.
 - Create an `.env.dev` file to store the environment variables which can be copied over (Check Slack) 
-- Build the docker image
-- The Django app will be hosted on `http://0.0.0.0:8000/`
-- Open the `Rules as a Service` collection on Postman to test the end points 
 
 # Build and Test Workflow
-All the django directories moved out of /app.
-After you pull the new master branch:
-- Make sure there’s a file called pytest.ini in django_app folder after you pulled successfully from new-master 
-(remove pytest.ini from your .gitignore (pytest needs this file)
-
-- Make sure you've stopped and deleted any stray containers, that may interfere with the build process.
-## Stop and Purge all docker containers 
-From the backend root:
-```docker container stop $(docker container ls -aq)```
-
-```docker container rm $(docker container ls -aq)```
-
-# Build Process
-## 1. Build and run local docker container
-#### `docker-compose -f docker-compose-dev.yml up --build`
-
-## 2. Run Pytest in local docker container
-#### `docker-compose -f docker-compose-dev.yml run web pytest`
+## Build and Run the Docker container
+- Open a terminal in the project's root directory
+- You can browse the Swagger docs to view the api once authenticated
+`make build`
+- The Django app will be hosted on `http://0.0.0.0:8000/`
+## Run Test Suite with Coverage
+- Open a second terminal and run:
+`make test`
+## Stop and Purge all the containers
+  Stop:   `docker container stop $(docker container ls -aq)`
+  Purge:  `docker container rm $(docker container ls -aq)`
 
 **When you write new tests and want to run the test suite, make sure you** 
 - **stop and purge all old containers** 
-- **add your test-entity-api class to tests __init__.py** 
+- **add your test-<entity> class to tests __init__.py** 
 - **rebuild the container (see 1) and then run pytest (see 2)**
 
 #### Handling data migrations in local docker container
-
 In case you have changes to migrate:
-```
-`docker-compose -f docker-compose-dev.yml run web python3 manage.py makemigrations`
-
-`docker-compose -f docker-compose-dev.yml run web python3 manage.py migrate`
-```
+- The equivalent of running _python manage.py makemigrations_
+`make migration`
+- The equivalent of running _python manage.py migrate_
+`make migrate`
