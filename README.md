@@ -23,7 +23,7 @@
 
 **When you write new tests and want to run the test suite, make sure you** 
 - **stop and purge all old containers** 
-- **add your test-<entity> class to tests __init__.py** 
+- **add your test-entity class to tests __init__.py** 
 - **rebuild the container (see 1) and then run pytest (see 2)**
 
 #### Handling data migrations in local docker container
