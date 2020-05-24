@@ -4,7 +4,7 @@ clean:
 		@docker-compose -f docker-compose-dev.yml run --rm web sh -c "find . -name '*.pyc' -delete && find . -name '*.pyo' -delete && rm -f .coverage && rm -rf htmlcov"
 
 build:
-		@docker-compose -f docker-compose-dev.yml build
+		@docker-compose -f docker-compose-dev.yml up --build
 
 db:
 		@docker-compose -f docker-compose-dev.yml up -d db
@@ -30,5 +30,5 @@ stop:
 remove:
 		@docker-compose -f docker-compose-dev.yml rm
 
-test: clean
-		@docker-compose -f docker-compose-dev.yml run --rm web sh -c "pytest --cov"
+test:
+		@docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov"
