@@ -20,23 +20,22 @@ jobs:
           echo SQL_PASSWORD = ${{ secrets.SQL_PASSWORD }} >> .env.dev
           echo SQL_PORT = ${{ secrets.SQL_PORT }} >> .env.dev
           echo SQL_USER = ${{ secrets.SQL_USER }} >> .env.dev
+
+      - name: Install docker-compose
+          run: sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      - name: Docker-compose chmod
+          run: sudo chmod +x /usr/local/bin/docker-compose
+
       - name: Build image
+          env: .env.dev
           run: docker-compose -f docker-compose-dev.yml up --build
+
       - name: Check running containers
           run: docker-compose ps -a
+
       - name: Check logs
           run: docker-compose logs web
+
       - name: Run tests with coverage
-          env:
-            ENVIRONMENT = ${{ secrets.ENVIRONMENT }}
-            DEBUG = ${{ secrets.DEBUG }}
-            DATABASE = ${{ secrets.DATABASE }}
-            DJANGO_ALLOWED_HOSTS = ${{ secrets.DJANGO_ALLOWED_HOSTS }}
-            SECRET_KEY = ${{ secrets.SECRET_KEY }}
-            SQL_DATABASE = ${{ secrets.SQL_DATABASE }}
-            SQL_ENGINE = ${{ secrets.SQL_ENGINE }}
-            SQL_HOST = ${{ secrets.SQL_HOST }}
-            SQL_PASSWORD = ${{ secrets.SQL_PASSWORD }}
-            SQL_PORT = ${{ secrets.SQL_PORT }}
-            SQL_USER = ${{ secrets.SQL_USER }}
+          env: .env.dev
           run: docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov"
