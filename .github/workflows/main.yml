@@ -15,17 +15,17 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
       - name: Build image and Run tests with coverage
         env:
-          ENVIRONMENT = ${{ secrets.ENVIRONMENT }}
-          DEBUG = ${{ secrets.DEBUG }}
-          DATABASE = ${{ secrets.DATABASE }}
-          DJANGO_ALLOWED_HOSTS = ${{ secrets.DJANGO_ALLOWED_HOSTS }}
-          SECRET_KEY = ${{ secrets.SECRET_KEY }}
-          SQL_DATABASE = ${{ secrets.SQL_DATABASE }}
-          SQL_ENGINE = ${{ secrets.SQL_ENGINE }}
-          SQL_HOST = ${{ secrets.SQL_HOST }}
-          SQL_PASSWORD = ${{ secrets.SQL_PASSWORD }}
-          SQL_PORT = ${{ secrets.SQL_PORT }}
-          SQL_USER = ${{ secrets.SQL_USER }}
+          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+          DEBUG: ${{ secrets.DEBUG }}
+          DATABASE: ${{ secrets.DATABASE }}
+          DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          SQL_DATABASE: ${{ secrets.SQL_DATABASE }}
+          SQL_ENGINE: ${{ secrets.SQL_ENGINE }}
+          SQL_HOST: ${{ secrets.SQL_HOST }}
+          SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
+          SQL_PORT: ${{ secrets.SQL_PORT }}
+          SQL_USER: ${{ secrets.SQL_USER }}
         run: |
           docker-compose -f docker-compose-dev.yml up --build
           docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov"
