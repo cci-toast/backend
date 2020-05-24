@@ -7,19 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Add environment variables to .env
-        run: |
-          echo ENVIRONMENT = ${{ secrets.ENVIRONMENT }} >> .env.dev
-          echo DEBUG = ${{ secrets.DEBUG }} >> .env.dev
-          echo DATABASE = ${{ secrets.DATABASE }} >> .env.dev
-          echo DJANGO_ALLOWED_HOSTS = ${{ secrets.DJANGO_ALLOWED_HOSTS }} >> .env.dev
-          echo SECRET_KEY = ${{ secrets.SECRET_KEY }} >> .env.dev
-          echo SQL_DATABASE = ${{ secrets.SQL_DATABASE }} >> .env.dev
-          echo SQL_ENGINE=django.db.backends.postgresql >> .env.dev
-          echo SQL_HOST = ${{ secrets.SQL_HOST }} >> .env.dev
-          echo SQL_PASSWORD = ${{ secrets.SQL_PASSWORD }} >> .env.dev
-          echo SQL_PORT = ${{ secrets.SQL_PORT }} >> .env.dev
-          echo SQL_USER = ${{ secrets.SQL_USER }} >> .env.dev
       - name: Install docker-compose
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -27,7 +14,18 @@ jobs:
         run: |
           sudo chmod +x /usr/local/bin/docker-compose
       - name: Build image and Run tests with coverage
-        env: .env.dev
+        with:
+          ENVIRONMENT = ${{ secrets.ENVIRONMENT }}
+          DEBUG = ${{ secrets.DEBUG }}
+          DATABASE = ${{ secrets.DATABASE }}
+          DJANGO_ALLOWED_HOSTS = ${{ secrets.DJANGO_ALLOWED_HOSTS }}
+          SECRET_KEY = ${{ secrets.SECRET_KEY }}
+          SQL_DATABASE = ${{ secrets.SQL_DATABASE }}
+          SQL_ENGINE = ${{ secrets.SQL_ENGINE }}
+          SQL_HOST = ${{ secrets.SQL_HOST }}
+          SQL_PASSWORD = ${{ secrets.SQL_PASSWORD }}
+          SQL_PORT = ${{ secrets.SQL_PORT }}
+          SQL_USER = ${{ secrets.SQL_USER }}
         run: |
           docker-compose -f docker-compose-dev.yml up --build
           docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov"
