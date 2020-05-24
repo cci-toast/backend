@@ -1,4 +1,5 @@
 import uuid
+from decimal import Decimal
 
 from django.db import models
 
@@ -17,7 +18,7 @@ class Debt(models.Model):
         "Debt Monthly Amount",
         max_digits=15,
         decimal_places=2,
-        default=0.0)
+        default=Decimal('0.00'))
 
     def __str__(self):
         attrs = vars(self)
