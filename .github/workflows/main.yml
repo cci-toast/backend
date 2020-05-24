@@ -26,13 +26,10 @@ jobs:
       - name: Docker-compose chmod
         run: |
           sudo chmod +x /usr/local/bin/docker-compose
-      - name: Build image
+      - name: Build image and Run tests with coverage
         env: .env.dev
         run: |
           docker-compose -f docker-compose-dev.yml up --build
+          docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov"
       - name: Check running containers
         run: docker-compose ps -a
-      - name: Run tests with coverage
-        env: .env.dev
-        run: |
-          docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov"
