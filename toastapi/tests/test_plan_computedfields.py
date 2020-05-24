@@ -6,7 +6,7 @@ from rest_framework.test import APITestCase
 from toastapi.models import Client, Plan
 
 
-class PlanRuleTest(APITestCase):
+class PlanComputedFieldsTest(APITestCase):
     def setUp(self):
         self.default_client = Client.objects.create(
             first_name="Potter",
