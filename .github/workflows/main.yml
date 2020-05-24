@@ -14,7 +14,7 @@ jobs:
         run: |
           sudo chmod +x /usr/local/bin/docker-compose
       - name: Build image and Run tests with coverage
-        with:
+        env:
           ENVIRONMENT = ${{ secrets.ENVIRONMENT }}
           DEBUG = ${{ secrets.DEBUG }}
           DATABASE = ${{ secrets.DATABASE }}
