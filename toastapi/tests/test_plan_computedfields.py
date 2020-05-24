@@ -163,6 +163,8 @@ class PlanComputedFieldsTest(APITestCase):
 
         # client is 60 years old
         plan = Plan.objects.create(client=self.default_client)
+        self.assertAlmostEqual(
+            self.default_client.total_annual_income, Decimal('32000.00'), 2)
         self.assertEqual(plan.protection_factor, Decimal('6.00'))
         self.assertAlmostEqual(
             plan.recommended_protection_value, Decimal('192000.00'), 2)
