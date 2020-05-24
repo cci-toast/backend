@@ -13,13 +13,14 @@ jobs:
       - name: Docker-compose chmod
         run: |
           sudo chmod +x /usr/local/bin/docker-compose
-          
+
       - name: Build and run Docker image
         env:
           ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
           DEBUG: ${{ secrets.DEBUG }}
           DATABASE: ${{ secrets.DATABASE }}
           DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
+          DJANGO_SETTINGS_MODULE: ${{ secrets.DJANGO_SETTINGS_MODULE }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           SQL_DATABASE: ${{ secrets.SQL_DATABASE }}
           SQL_ENGINE: ${{ secrets.SQL_ENGINE }}
@@ -29,13 +30,14 @@ jobs:
           SQL_USER: ${{ secrets.SQL_USER }}
         run: |
           docker-compose -f docker-compose-dev.yml up --build -d
-          
+
       - name: Run tests with coverage
         env:
           ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
           DEBUG: ${{ secrets.DEBUG }}
           DATABASE: ${{ secrets.DATABASE }}
           DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
+          DJANGO_SETTINGS_MODULE: ${{ secrets.DJANGO_SETTINGS_MODULE }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           SQL_DATABASE: ${{ secrets.SQL_DATABASE }}
           SQL_ENGINE: ${{ secrets.SQL_ENGINE }}
@@ -45,10 +47,10 @@ jobs:
           SQL_USER: ${{ secrets.SQL_USER }}
         run: |
           docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov"
-          
+
       - name: Check running containers
         run: docker-compose ps -a
-        
+
       - name: Stop running containers
         run: |
           docker-compose -f docker-compose-dev.yml stop
