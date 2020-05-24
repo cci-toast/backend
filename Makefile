@@ -9,6 +9,9 @@ build:
 db:
 		@docker-compose -f docker-compose-dev.yml up -d db
 
+migration: db
+		@docker-compose -f docker-compose-dev.yml run --rm web python manage.py makemigrations
+
 migrate: db
 		@docker-compose -f docker-compose-dev.yml run --rm web python manage.py migrate
 
