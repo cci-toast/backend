@@ -221,3 +221,55 @@ class PlanRuleTest(APITestCase):
         self.assertEqual(plan.retirement_factor, Decimal('10.00'))
         self.assertAlmostEqual(
             plan.recommended_retirement_value, Decimal('320000.00'), 2)
+
+    # test emergency_saving_lower_factor
+    def test_default_client_default_emergency_saving_factor_lower(self):
+        plan = Plan.objects.create(client=self.default_client)
+        self.assertEqual(plan.emergency_savings_factor_lower, Decimal('3.00'))
+        self.assertAlmostEqual(
+            plan.recommended_emergency_savings_range_lower, Decimal('250.00'), 2)
+
+    def test_default_client_patch_emergency_saving_factor_lower(self):
+        plan = Plan.objects.create(client=self.default_client)
+        plan.emergency_savings_factor_lower = Decimal('0.50')
+        plan.save()
+        self.assertEqual(
+            plan.emergency_savings_factor_lower, Decimal('0.50'))
+        self.assertAlmostEqual(
+            plan.recommended_emergency_savings_range_lower, Decimal('41.67'), 2)
+
+    def test_patch_client_default_emergency_saving_factor_lower(self):
+        self.default_client.personal_annual_net_income = Decimal('32000.00')
+        self.default_client.save()
+
+        plan = Plan.objects.create(client=self.default_client)
+        self.assertEqual(
+            plan.emergency_savings_factor_lower, Decimal('3.00'))
+        self.assertAlmostEqual(
+            plan.recommended_emergency_savings_range_lower, Decimal('8000.00'), 2)
+
+    # test emergency_saving_upper_factor
+    def test_default_client_default_emergency_saving_factor_upper(self):
+        plan = Plan.objects.create(client=self.default_client)
+        self.assertEqual(plan.emergency_savings_factor_upper, Decimal('6.00'))
+        self.assertAlmostEqual(
+            plan.recommended_emergency_savings_range_upper, Decimal('500.00'), 2)
+
+    def test_default_client_patch_emergency_saving_factor_upper(self):
+        plan = Plan.objects.create(client=self.default_client)
+        plan.emergency_savings_factor_upper = Decimal('0.50')
+        plan.save()
+        self.assertEqual(
+            plan.emergency_savings_factor_upper, Decimal('0.50'))
+        self.assertAlmostEqual(
+            plan.recommended_emergency_savings_range_upper, Decimal('41.67'), 2)
+
+    def test_patch_client_default_emergency_saving_factor_upper(self):
+        self.default_client.personal_annual_net_income = Decimal('32000.00')
+        self.default_client.save()
+
+        plan = Plan.objects.create(client=self.default_client)
+        self.assertEqual(
+            plan.emergency_savings_factor_upper, Decimal('6.00'))
+        self.assertAlmostEqual(
+            plan.recommended_emergency_savings_range_upper, Decimal('16000.00'), 2)
