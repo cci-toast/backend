@@ -1,9 +1,20 @@
 [run]
+relative_files = True
+branch = True
 omit =
     *apps.py,
-    *migrations/*,
-    *settings*,
-    *tests/*,
-    *urls.py,
-    *wsgi.py,
-    manage.py
+    */migrations/*.py,
+    */tests/*,
+    */urls.py,
+    */settings/*,
+    manage.py,
+    wsgi.py
+source =
+    .
+
+[report]
+skip_covered = True
+show_missing = False
+
+[html]
+directory = .cover
