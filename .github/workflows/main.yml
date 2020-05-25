@@ -52,4 +52,4 @@ jobs:
           COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
         run: |
           docker-compose -f docker-compose-ci.yml run web sh -c "pytest -s -v --cov --cov-report=html:reports/html_dir --cov-report=xml:reports/coverage.xml"
-          docker-compose -f docker-compose-ci.yml run -e COVERALLS_TOKEN="$COVERALLS_TOKEN" web sh -c "coveralls"
+          docker-compose -f docker-compose-ci.yml run -e COVERALLS_TOKEN=${{ secrets.COVERALLS_TOKEN }} web sh -c "coveralls"
