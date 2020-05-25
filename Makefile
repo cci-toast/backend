@@ -36,12 +36,5 @@ remove:
 test:
 		@docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov=./ --cov-report=xml"
 
-cover:
-        @docker-compose -f docker-compose-dev.yml exec web coverage run --rcfile=.coveragerc pytest
-		@docker-compose -f docker-compose-dev.yml exec web coverage report --show-missing --skip-covered --rcfile=.coveragerc
-
-coverage-html:
-	    @docker-compose -f docker-compose-dev.yml exec web coverage html --directory ../.cover --rcfile=.coveragerc
-
-codecov: cover
-	    @docker-compose -f docker-compose-dev.yml exec web codecov
+coverage: clean
+		@docker-compose -f docker-compose-dev.yml run --rm web sh -c "pytest -s -v --cov=./ --cov-branch --cov-report=term-missing --cov-report=html"

@@ -4,7 +4,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    machine: true
     steps:
       - uses: actions/checkout@v2
       - name: Install docker-compose
@@ -31,6 +31,10 @@ jobs:
         run: |
           docker-compose -f docker-compose-ci.yml up --build -d
 
+  test:
+    - machine: true
+    - steps:
+      - uses: actions/checkout@v2
       - name: Run tests with coverage
         env:
           ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
@@ -45,19 +49,14 @@ jobs:
           SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
           SQL_PORT: ${{ secrets.SQL_PORT }}
           SQL_USER: ${{ secrets.SQL_USER }}
-        run: |
-          docker-compose -f docker-compose-ci.yml run web sh -c "pytest --cov=./ --cov-report=xml"
-          docker-compose -f docker-compose-ci.yml exec web coverage run --rcfile=.coveragerc pytest
-          docker-compose -f docker-compose-ci.yml exec web coverage report --show-missing --skip-covered --rcfile=.coveragerc
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: coverage.xml
-          flags: unittests
-          fail_ci_if_error: true
-
-      - name: Stop running containers
-        run: |
-          docker-compose -f docker-compose-ci.yml stop
+          COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+        - run: |
+          docker-compose -f docker-compose-ci.yml run web sh -c "pytest -v -rf --junitxml=test-results/junit.xml --cov=./ --cov-report html:test-results/coverage/html --cov-report xml:test-results/coverage/coverage.xml --cov-report term-missing"
+        - store_test_results:
+            path: test-results
+        - store_artifacts:
+            path: test-reports
+            destination: test-reports
+        - run:
+          name: Send Coverage status
+          command: docker-compose -f docker-compose-ci.yml run -e COVERALLS_TOKEN="$COVERALLS_TOKEN" web sh -c "coveralls"
