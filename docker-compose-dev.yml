@@ -13,6 +13,8 @@ services:
       - ./.env.dev
     depends_on:
       - db
+    volumes:
+      - reports_volume:reports/
   db:
     image: postgres:12.0-alpine
     restart: always
@@ -23,3 +25,4 @@ services:
 
 volumes:
   postgres-data:
+  reports_volume:

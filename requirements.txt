@@ -14,3 +14,4 @@ pytest
 pytest-django
 pytest-cov
 django-rest-swagger
+coveralls
