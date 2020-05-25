@@ -9,19 +9,8 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - 8000:8000
-    environment:
-      - ENVIRONMENT=${ENVIRONMENT}
-      - DEBUG=${DEBUG}
-      - DATABASE=${DATABASE}
-      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
-      - SECRET_KEY=${SECRET_KEY}
-      - SQL_DATABASE=${SQL_DATABASE}
-      - SQL_ENGINE=${SQL_ENGINE}
-      - SQL_HOST=${SQL_HOST}
-      - SQL_PASSWORD=${SQL_PASSWORD}
-      - SQL_PORT=${SQL_PORT}
-      - SQL_USER=${SQL_USER}
-      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    env_file:
+      - ./.env.dev
     depends_on:
       - db
   db:

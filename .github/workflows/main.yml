@@ -29,7 +29,7 @@ jobs:
           SQL_PORT: ${{ secrets.SQL_PORT }}
           SQL_USER: ${{ secrets.SQL_USER }}
         run: |
-          docker-compose -f docker-compose-dev.yml up --build -d
+          docker-compose -f docker-compose-ci.yml up --build -d
 
       - name: Run tests with coverage
         env:
@@ -46,8 +46,8 @@ jobs:
           SQL_PORT: ${{ secrets.SQL_PORT }}
           SQL_USER: ${{ secrets.SQL_USER }}
         run: |
-          docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov=./ --cov-report=xml"
-          
+          docker-compose -f docker-compose-ci.yml run web sh -c "pytest --cov=./ --cov-report=xml"
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
@@ -60,4 +60,4 @@ jobs:
 
       - name: Stop running containers
         run: |
-          docker-compose -f docker-compose-dev.yml stop
+          docker-compose -f docker-compose-ci.yml stop
