@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">89%</span>
+        </h1>
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        <span class="key">b</span>
+        <span class="key">p</span>
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+<div id="index">
+    <table class="index">
+        <thead>
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                <th class="shortkey_b">branches</th>
+                <th class="shortkey_p">partial</th>
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>354</td>
+                <td>22</td>
+                <td>0</td>
+                <td>46</td>
+                <td>4</td>
+                <td class="right" data-ratio="356 400">89%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr class="file">
+                <td class="name left"><a href="django_app___init___py.html">django_app/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi___init___py.html">toastapi/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_admin_py.html">toastapi/admin.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_models___init___py.html">toastapi/models/__init__.py</a></td>
+                <td>9</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="9 9">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_models_action_item_py.html">toastapi/models/action_item.py</a></td>
+                <td>11</td>
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="9 13">69%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_models_advisor_py.html">toastapi/models/advisor.py</a></td>
+                <td>12</td>
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="10 14">71%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_models_children_py.html">toastapi/models/children.py</a></td>
+                <td>17</td>
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="15 19">79%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_models_client_py.html">toastapi/models/client.py</a></td>
+                <td>37</td>
+                <td>3</td>
+                <td>0</td>
+                <td>6</td>
+                <td>1</td>
+                <td class="right" data-ratio="37 43">86%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_models_debt_py.html">toastapi/models/debt.py</a></td>
+                <td>11</td>
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="9 13">69%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_models_expense_py.html">toastapi/models/expense.py</a></td>
+                <td>24</td>
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="22 26">85%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_models_goal_py.html">toastapi/models/goal.py</a></td>
+                <td>14</td>
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="12 16">75%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_models_partner_py.html">toastapi/models/partner.py</a></td>
+                <td>15</td>
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="13 17">76%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_models_plan_py.html">toastapi/models/plan.py</a></td>
+                <td>61</td>
+                <td>4</td>
+                <td>0</td>
+                <td>22</td>
+                <td>2</td>
+                <td class="right" data-ratio="75 83">90%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_serializers_py.html">toastapi/serializers.py</a></td>
+                <td>74</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="74 74">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_views___init___py.html">toastapi/views/__init__.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_views_advisor_py.html">toastapi/views/advisor.py</a></td>
+                <td>35</td>
+                <td>1</td>
+                <td>0</td>
+                <td>2</td>
+                <td>1</td>
+                <td class="right" data-ratio="35 37">95%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_views_client_py.html">toastapi/views/client.py</a></td>
+                <td>14</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="14 14">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="toastapi_views_client_dependent_views_py.html">toastapi/views/client_dependent_views.py</a></td>
+                <td>16</td>
+                <td>0</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="18 18">100%</td>
+            </tr>
+        </tbody>
+    </table>
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.1</a>,
+            created at 2020-05-25 19:06
+        </p>
+    </div>
+</div>
+</body>
+</html>

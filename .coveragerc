@@ -8,7 +8,10 @@ omit =
     */urls.py,
     */settings/*,
     manage.py,
-    wsgi.py
+    wsgi.py,
+    django_app/settings.py,
+    django_app/asgi.py,
+    django_app/wsgi.py,
 
-[report]
-skip_covered = True
+[html]
+directory = coverage

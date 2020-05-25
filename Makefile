@@ -37,4 +37,5 @@ test:
 		@docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov=./ --cov-report=xml"
 
 coverage: clean
-		@docker-compose -f docker-compose-dev.yml run --rm web sh -c "pytest -s -v --cov=./ --cov-branch --cov-report=term-missing --cov-report=html"
+		@docker-compose -f docker-compose-dev.yml run --rm web sh -c "pytest -s -v --cov --cov-report=html:reports/html_dir --cov-report=xml:reports/coverage.xml"
+

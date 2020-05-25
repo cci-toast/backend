@@ -50,30 +50,6 @@ jobs:
           SQL_PORT: ${{ secrets.SQL_PORT }}
           SQL_USER: ${{ secrets.SQL_USER }}
           COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
-      - run: |
-            docker-compose -f docker-compose-ci.yml run web sh -c "pytest -v -rf --junitxml=test-results/junit.xml --cov=./ --cov-report html:test-results/coverage/html --cov-report xml:test-results/coverage/coverage.xml --cov-report term-missing"
-    
-            - store_test_results:
-              path: test-results
-      
-            - store_artifacts:
-              path: test-reports
-              destination: test-reports
-            
-      - name: Send Coverage status
-        env:
-          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-          DEBUG: ${{ secrets.DEBUG }}
-          DATABASE: ${{ secrets.DATABASE }}
-          DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
-          DJANGO_SETTINGS_MODULE: ${{ secrets.DJANGO_SETTINGS_MODULE }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          SQL_DATABASE: ${{ secrets.SQL_DATABASE }}
-          SQL_ENGINE: ${{ secrets.SQL_ENGINE }}
-          SQL_HOST: ${{ secrets.SQL_HOST }}
-          SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
-          SQL_PORT: ${{ secrets.SQL_PORT }}
-          SQL_USER: ${{ secrets.SQL_USER }}
-          COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
-          run: |
-            docker-compose -f docker-compose-ci.yml run -e COVERALLS_TOKEN="$COVERALLS_TOKEN" web sh -c "coveralls"
+        run: |
+          docker-compose -f docker-compose-ci.yml run web sh -c "pytest -s -v --cov --cov-report=html:reports/html_dir --cov-report=xml:reports/coverage.xml"
+          docker-compose -f docker-compose-ci.yml run -e COVERALLS_TOKEN="$COVERALLS_TOKEN" web sh -c "coveralls"
