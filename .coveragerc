@@ -9,12 +9,6 @@ omit =
     */settings/*,
     manage.py,
     wsgi.py
-source =
-    .
 
 [report]
 skip_covered = True
-show_missing = False
-
-[html]
-directory = .cover
