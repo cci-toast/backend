@@ -46,7 +46,17 @@ jobs:
           SQL_PORT: ${{ secrets.SQL_PORT }}
           SQL_USER: ${{ secrets.SQL_USER }}
         run: |
-          docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov"
+          docker-compose -f docker-compose-dev.yml run web sh -c "pytest --cov=./ --cov-report=xml"
+          
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          flags: unittests
+          env_vars: OS,PYTHON
+          name: codecov-umbrella
+          fail_ci_if_error: true
 
       - name: Stop running containers
         run: |
