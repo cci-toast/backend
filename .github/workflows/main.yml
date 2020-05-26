@@ -51,9 +51,7 @@ jobs:
           SQL_USER: ${{ secrets.SQL_USER }}
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: |
-          docker-compose -f docker-compose-ci.yml run -e COVERALLS_REPO_TOKEN web sh -c "pytest -s -v --cov --cov-report=html:reports/html_dir --cov-report=xml:reports/coverage.xml
-          &&
-          coveralls"
+          docker-compose -f docker-compose-ci.yml run -e COVERALLS_REPO_TOKEN web sh -c "pytest -s -v --cov --cov-report=html:reports/html_dir --cov-report=xml:reports/coverage.xml && coveralls"
 
 #      - name: Archive code coverage reports
 #        uses: actions/upload-artifact@v1
