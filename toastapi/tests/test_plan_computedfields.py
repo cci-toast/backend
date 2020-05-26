@@ -173,6 +173,14 @@ class PlanComputedFieldsTest(APITestCase):
     def test_default_client_default_retirement(self):
         plan = Plan.objects.create(client=self.default_client)
 
+        # client is 25 years old
+        self.default_client.birth_year = date.today().year - 25
+        self.default_client.save()
+        plan = Plan.objects.get(client=self.default_client)
+        self.assertEqual(plan.retirement_factor, Decimal('1.00'))
+        self.assertAlmostEqual(
+            plan.recommended_retirement_value, Decimal('1000.00'), 2)
+
         # client is 38 years old
         self.default_client.birth_year = date.today().year - 38
         self.default_client.save()
@@ -207,6 +215,14 @@ class PlanComputedFieldsTest(APITestCase):
 
         # client is 67 years old
         self.default_client.birth_year = date.today().year - 67
+        self.default_client.save()
+        plan = Plan.objects.get(client=self.default_client)
+        self.assertEqual(plan.retirement_factor, Decimal('10.00'))
+        self.assertAlmostEqual(
+            plan.recommended_retirement_value, Decimal('10000.00'), 2)
+
+        # client is 70 years old
+        self.default_client.birth_year = date.today().year - 70
         self.default_client.save()
         plan = Plan.objects.get(client=self.default_client)
         self.assertEqual(plan.retirement_factor, Decimal('10.00'))
