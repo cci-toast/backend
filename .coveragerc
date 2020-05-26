@@ -14,4 +14,11 @@ omit =
     django_app/wsgi.py,
 
 [html]
-directory = coverage
+directory = reports
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __str__(self):
+    attrs = vars(self)
+    return '\n'.join('%s: %s' % item for item in attrs.items())

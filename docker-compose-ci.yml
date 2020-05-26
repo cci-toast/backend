@@ -22,9 +22,11 @@ services:
       - SQL_PORT=${SQL_PORT}
       - SQL_USER=${SQL_USER}
       - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
-      - CODECOV_TOKEN=${CODECOV_TOKEN}
+      - COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN}
     depends_on:
       - db
+    volumes:
+      - reports_volume:/code/reports/
   db:
     image: postgres:12.0-alpine
     restart: always
@@ -35,3 +37,4 @@ services:
 
 volumes:
   postgres-data:
+  reports_volume:
