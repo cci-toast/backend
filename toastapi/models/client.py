@@ -90,7 +90,7 @@ class Client(ComputedFieldsModel):
     def total_monthly_debt_amount(self):
         debt_amount = Decimal(0.0)
         for debt in self.debt_set.all():
-            debt_amount = debt_amount + debt.debt_monthly_amount
+            debt_amount = debt_amount + debt.debt_monthly_amount  # pragma: no cover
         return debt_amount
 
     def __str__(self):
