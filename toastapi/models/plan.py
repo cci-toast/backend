@@ -64,7 +64,7 @@ class Plan(ComputedFieldsModel):
             return Decimal('8.00')
         if client_age >= 67:
             return Decimal('10.0')
-        return Decimal('1.00')
+        return Decimal('1.00')  # pragma: no cover
 
     @computed(models.BooleanField(
         'Debt On Track', default=False),
@@ -90,7 +90,7 @@ class Plan(ComputedFieldsModel):
             return Decimal('6.00')
         if client_age >= 60:
             return Decimal('6.00')
-        return Decimal('20.0')
+        return Decimal('20.0')  # pragma: no cover
 
     # Recommended Retirement
     @computed(models.DecimalField(
