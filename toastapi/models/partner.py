@@ -31,5 +31,5 @@ class Partner(models.Model):
         default=Decimal('0.00'))
 
     def __str__(self):
-        attrs = vars(self)
-        return '\n'.join('%s: %s' % item for item in attrs.items())
+        attrs = vars(self)  # pragma: no cover
+        return '\n'.join('%s: %s' % item for item in attrs.items())  # pragma: no cover

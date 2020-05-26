@@ -28,5 +28,5 @@ class Goal(models.Model):
         default=date.today)
 
     def __str__(self):
-        attrs = vars(self)
-        return '\n'.join('%s: %s' % item for item in attrs.items())
+        attrs = vars(self)  # pragma: no cover
+        return '\n'.join('%s: %s' % item for item in attrs.items())  # pragma: no cover

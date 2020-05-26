@@ -9,7 +9,7 @@ class ActionItem(models.Model):
         default=uuid.uuid4,
         editable=False)
     client = models.ForeignKey(
-        to=Client, 
+        to=Client,
         on_delete=models.CASCADE)
     description = models.CharField(
         "Description",
@@ -18,5 +18,5 @@ class ActionItem(models.Model):
         "Completed")
 
     def __str__(self):
-        attrs = vars(self)
-        return '\n'.join('%s: %s' % item for item in attrs.items())
+        attrs = vars(self)  # pragma: no cover
+        return '\n'.join('%s: %s' % item for item in attrs.items())  # pragma: no cover
