@@ -8,7 +8,7 @@
 - Check the version by `docker --version`
 - Make sure Docker desktop is running 
 - `cd` into `/backend`. This is the project root.
-- Create an `.env.dev` file to store the environment variables which can be copied over (Check Slack) 
+- Create an `.env.dev` file to store the environment variables which can be copied over (Check the Docker Setup for Development section in the Release Notes) 
 
 # Build and Test Workflow
 ## Build and Run the Docker container
